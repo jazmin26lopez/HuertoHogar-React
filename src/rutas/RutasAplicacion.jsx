@@ -1,16 +1,19 @@
 
 import { Route, Routes } from 'react-router-dom'
 
-// Componentes compartidos
+// Componente compartido
 import PaginaPendiente from '../componentes/compartidos/PaginaPendiente'
 
-// Páginas de tienda - Jazmín
+// Tienda - Jazmín
+import Inicio from '../paginas/tienda/Inicio'
 import Productos from '../paginas/tienda/Productos'
 import DetalleProducto from '../paginas/tienda/DetalleProducto'
 import Categorias from '../paginas/tienda/Categorias'
 
 // Administración de productos - Jazmín
+import Dashboard from '../paginas/administracion-productos/Dashboard'
 import AdministrarProductos from '../paginas/administracion-productos/AdministrarProductos'
+import ReportesInventario from '../paginas/administracion-productos/ReportesInventario'
 
 // Compras - Bryam
 import Carrito from '../paginas/compras/Carrito'
@@ -28,41 +31,36 @@ import AdministrarUsuarios from '../paginas/administracion-usuarios/AdministrarU
 import EditorUsuario from '../paginas/administracion-usuarios/EditorUsuario'
 import RutaAdministrador from '../componentes/usuarios/RutaAdministrador'
 
-// Rutas provisionales
-// Se reemplazarán cuando las páginas estén desarrolladas
+// Rutas reservadas para módulos pendientes
 const paginasPendientes = [
-  { ruta: '/', titulo: 'Inicio' },
   { ruta: '/nosotros', titulo: 'Nosotros' },
   { ruta: '/blogs', titulo: 'Blogs' },
   { ruta: '/contacto', titulo: 'Contacto' },
-  { ruta: '/admin', titulo: 'Administración' }
+  { ruta: '/admin/pedidos', titulo: 'Administrar pedidos' }
 ]
 
 export default function RutasAplicacion() {
   return (
     <Routes>
-      {/* TIENDA - JAZMÍN */}
+      {/* INICIO */}
+      <Route path="/" element={<Inicio />} />
 
-      <Route
-        path="/productos"
-        element={<Productos />}
-      />
+      {/* TIENDA */}
+      <Route path="/productos" element={<Productos />} />
+      <Route path="/productos/:id" element={<DetalleProducto />} />
+      <Route path="/categorias" element={<Categorias />} />
 
-      <Route
-        path="/productos/:id"
-        element={<DetalleProducto />}
-      />
-
-      <Route
-        path="/categorias"
-        element={<Categorias />}
-      />
-
-      {/* ADMINISTRACIÓN DE PRODUCTOS - JAZMÍN */}
+      {/* ADMINISTRACIÓN */}
+      <Route path="/admin" element={<Dashboard />} />
 
       <Route
         path="/admin/productos"
         element={<AdministrarProductos />}
+      />
+
+      <Route
+        path="/admin/reportes"
+        element={<ReportesInventario />}
       />
 
       {/* COMPRAS - BRYAM */}
@@ -107,20 +105,16 @@ export default function RutasAplicacion() {
         }
       />
 
-      {/* PÁGINAS PENDIENTES */}
-
+      {/* MÓDULOS PENDIENTES */}
       {paginasPendientes.map(({ ruta, titulo }) => (
         <Route
           key={ruta}
           path={ruta}
-          element={
-            <PaginaPendiente titulo={titulo} />
-          }
+          element={<PaginaPendiente titulo={titulo} />}
         />
       ))}
 
-      {/* PÁGINAS NO ENCONTRADAS */}
-
+      {/* RUTA DESCONOCIDA */}
       <Route
         path="*"
         element={

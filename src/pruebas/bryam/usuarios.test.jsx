@@ -172,7 +172,7 @@ describe('iniciar sesión', () => {
     await usuario.type(screen.getByLabelText('Contraseña'), 'cliente12')
     await usuario.click(screen.getByRole('button', { name: 'Iniciar sesión' }))
 
-    expect(screen.getByRole('heading', { name: 'Inicio' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Frescura directamente del campo' })).toBeInTheDocument()
     expect(obtenerUsuarioActual().correo).toBe('cliente@gmail.com')
     expect(obtenerUsuarioActual()).not.toHaveProperty('contrasena')
   })
@@ -208,7 +208,7 @@ describe('registro', () => {
     await usuario.type(screen.getByLabelText('Confirmar contraseña'), 'clave123')
     await usuario.click(screen.getByRole('button', { name: 'Crear cuenta' }))
 
-    expect(screen.getByRole('heading', { name: 'Inicio' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Frescura directamente del campo' })).toBeInTheDocument()
     expect(obtenerUsuarioActual().nombre).toBe('Marta')
     expect(obtenerUsuarioPorRun('222222222')).toMatchObject({ rol: 'Cliente', correo: 'marta@gmail.com' })
   })
