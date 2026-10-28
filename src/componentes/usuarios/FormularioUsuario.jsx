@@ -81,7 +81,7 @@ export default function FormularioUsuario({
         valor={editando ? formatearRun(datos.run) : datos.run}
         alCambiar={cambiar}
         error={errores.run}
-        placeholder="Ej: 19011022K (sin puntos ni guion)"
+        placeholder="Ej: 12345678-5"
         disabled={editando}
         ayuda={editando ? 'El RUN identifica al usuario y no se puede cambiar.' : ''}
         maxLength={12}
