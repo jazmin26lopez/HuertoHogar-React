@@ -194,3 +194,340 @@ footer {
   }
 }
 
+
+
+
+
+/* ==========================================
+   INICIO HUERTOHOGAR - DISEÑO ENTREGA 1
+   ========================================== */
+
+.inicio-huertohogar {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.inicio-huertohogar h1,
+.inicio-huertohogar h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* BANNER */
+
+.inicio-huertohogar .hero-nosotros {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 0 0 25px 25px;
+}
+
+.inicio-huertohogar .hero-nosotros > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.inicio-huertohogar .hero-nosotros::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.30);
+  z-index: 1;
+}
+
+.inicio-huertohogar .hero-contenido {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+  margin-left: 8%;
+}
+
+.inicio-huertohogar .hero-subtitulo {
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+
+.inicio-huertohogar .hero-contenido h1 {
+  color: white;
+  font-size: 4.5rem;
+  line-height: 1.1;
+  margin: 0 0 20px;
+}
+
+.inicio-huertohogar .hero-contenido > p:not(.hero-subtitulo) {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+/* BOTONES ORIGINALES */
+
+.inicio-huertohogar .btn-historia {
+  display: inline-block;
+  background-color: #2E8B57;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.inicio-huertohogar .btn-historia:hover {
+  background-color: #256b45;
+  color: white;
+}
+
+/* SECCIONES */
+
+.inicio-huertohogar .compromiso {
+  background-color: #EEF5EE;
+  padding: 80px 20px;
+}
+
+.inicio-huertohogar .titulo-seccion {
+  max-width: 750px;
+  margin: 0 auto 50px;
+  text-align: center;
+}
+
+.inicio-huertohogar .etiqueta {
+  color: #8B4513;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.inicio-huertohogar .titulo-seccion h2 {
+  color: #8B4513;
+  font-size: 2.5rem;
+  margin: 15px 0;
+}
+
+.inicio-huertohogar .titulo-seccion p {
+  color: #555555;
+  line-height: 1.7;
+}
+
+/* PRODUCTOS */
+
+.inicio-huertohogar .grid-compromiso {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+}
+
+.inicio-huertohogar .card-compromiso {
+  background-color: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.inicio-huertohogar .card-compromiso:hover {
+  transform: translateY(-8px);
+}
+
+.inicio-huertohogar .card-compromiso img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.inicio-huertohogar .contenido-card {
+  padding: 25px;
+}
+
+.inicio-huertohogar .contenido-card span {
+  font-size: 2rem;
+}
+
+.inicio-huertohogar .contenido-card h3 {
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #333333;
+  margin: 15px 0 10px;
+  font-size: 1.2rem;
+}
+
+.inicio-huertohogar .contenido-card p {
+  color: #555555;
+  line-height: 1.7;
+}
+
+.inicio-huertohogar .inicio-accion-centrada {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* HISTORIA */
+
+.inicio-huertohogar .seccion-historia {
+  max-width: 1100px;
+  margin: 80px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.inicio-huertohogar .historia-imagen img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.inicio-huertohogar .historia-texto h2 {
+  color: #8B4513;
+  font-size: 2.4rem;
+  margin: 15px 0 25px;
+}
+
+.inicio-huertohogar .historia-texto p {
+  color: #555555;
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+/* NOTICIAS */
+
+.inicio-huertohogar .presencia {
+  background-color: white;
+  padding: 80px 20px;
+}
+
+.inicio-huertohogar .lista-blogs {
+  max-width: 1100px;
+  margin: 25px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.inicio-huertohogar .card-blog {
+  display: flex;
+  gap: 25px;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.inicio-huertohogar .card-blog img {
+  width: 35%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.inicio-huertohogar .info-blog {
+  padding: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+.inicio-huertohogar .info-blog h2 {
+  color: #8B4513;
+  margin-top: 0;
+}
+
+.inicio-huertohogar .info-blog p {
+  color: #555555;
+  line-height: 1.6;
+}
+
+.inicio-huertohogar .boton-ver-caso {
+  display: inline-block;
+  background-color: #2E8B57;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.inicio-huertohogar .boton-ver-caso:hover {
+  background-color: #256b45;
+  color: white;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .inicio-huertohogar .hero-nosotros {
+    min-height: 550px;
+  }
+
+  .inicio-huertohogar .hero-contenido {
+    margin: 0 30px;
+  }
+
+  .inicio-huertohogar .hero-contenido h1 {
+    font-size: 3rem;
+  }
+
+  .inicio-huertohogar .grid-compromiso {
+    grid-template-columns: 1fr;
+  }
+
+  .inicio-huertohogar .seccion-historia {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin: 50px auto;
+  }
+
+  .inicio-huertohogar .historia-imagen img {
+    height: 350px;
+  }
+
+  .inicio-huertohogar .titulo-seccion h2 {
+    font-size: 2rem;
+  }
+
+  .inicio-huertohogar .card-blog {
+    flex-direction: column;
+  }
+
+  .inicio-huertohogar .card-blog img {
+    width: 100%;
+    height: 280px;
+  }
+}
+
+@media (max-width: 500px) {
+  .inicio-huertohogar .hero-nosotros {
+    min-height: 500px;
+  }
+
+  .inicio-huertohogar .hero-contenido {
+    margin: 0 20px;
+  }
+
+  .inicio-huertohogar .hero-contenido h1 {
+    font-size: 2.5rem;
+  }
+
+  .inicio-huertohogar .hero-contenido > p:not(.hero-subtitulo) {
+    font-size: 1rem;
+  }
+}

@@ -1,21 +1,22 @@
 
 import { Route, Routes } from 'react-router-dom'
 
-// Componentes compartidos
+// Componente compartido
 import PaginaPendiente from '../componentes/compartidos/PaginaPendiente'
 
-// Páginas de tienda - Jazmín
+// Tienda - Jazmín
+import Inicio from '../paginas/tienda/Inicio'
 import Productos from '../paginas/tienda/Productos'
 import DetalleProducto from '../paginas/tienda/DetalleProducto'
 import Categorias from '../paginas/tienda/Categorias'
 
 // Administración de productos - Jazmín
+import Dashboard from '../paginas/administracion-productos/Dashboard'
 import AdministrarProductos from '../paginas/administracion-productos/AdministrarProductos'
+import ReportesInventario from '../paginas/administracion-productos/ReportesInventario'
 
-// Rutas provisionales
-// Se reemplazarán cuando las páginas estén desarrolladas
+// Rutas reservadas para módulos pendientes
 const paginasPendientes = [
-  { ruta: '/', titulo: 'Inicio' },
   { ruta: '/carrito', titulo: 'Carrito de compras' },
   { ruta: '/checkout', titulo: 'Finalizar compra' },
   { ruta: '/compra-exitosa', titulo: 'Compra exitosa' },
@@ -26,51 +27,44 @@ const paginasPendientes = [
   { ruta: '/nosotros', titulo: 'Nosotros' },
   { ruta: '/blogs', titulo: 'Blogs' },
   { ruta: '/contacto', titulo: 'Contacto' },
-  { ruta: '/admin', titulo: 'Administración' },
-  { ruta: '/admin/usuarios', titulo: 'Administrar usuarios' }
+  { ruta: '/admin/usuarios', titulo: 'Administrar usuarios' },
+  { ruta: '/admin/pedidos', titulo: 'Administrar pedidos' }
 ]
 
 export default function RutasAplicacion() {
   return (
     <Routes>
-      {/* TIENDA - JAZMÍN */}
+      {/* INICIO */}
+      <Route path="/" element={<Inicio />} />
 
-      <Route
-        path="/productos"
-        element={<Productos />}
-      />
+      {/* TIENDA */}
+      <Route path="/productos" element={<Productos />} />
+      <Route path="/productos/:id" element={<DetalleProducto />} />
+      <Route path="/categorias" element={<Categorias />} />
 
-      <Route
-        path="/productos/:id"
-        element={<DetalleProducto />}
-      />
-
-      <Route
-        path="/categorias"
-        element={<Categorias />}
-      />
-
-      {/* ADMINISTRACIÓN DE PRODUCTOS - JAZMÍN */}
+      {/* ADMINISTRACIÓN */}
+      <Route path="/admin" element={<Dashboard />} />
 
       <Route
         path="/admin/productos"
         element={<AdministrarProductos />}
       />
 
-      {/* PÁGINAS PENDIENTES */}
+      <Route
+        path="/admin/reportes"
+        element={<ReportesInventario />}
+      />
 
+      {/* MÓDULOS PENDIENTES */}
       {paginasPendientes.map(({ ruta, titulo }) => (
         <Route
           key={ruta}
           path={ruta}
-          element={
-            <PaginaPendiente titulo={titulo} />
-          }
+          element={<PaginaPendiente titulo={titulo} />}
         />
       ))}
 
-      {/* PÁGINAS NO ENCONTRADAS */}
-
+      {/* RUTA DESCONOCIDA */}
       <Route
         path="*"
         element={
