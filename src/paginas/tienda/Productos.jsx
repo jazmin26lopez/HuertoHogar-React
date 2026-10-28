@@ -1,22 +1,39 @@
 
-import { useState } from 'react'
-import { productosIniciales } from '../../datos/productos'
+import { useEffect, useState } from 'react'
+import {
+  obtenerProductos,
+  suscribirseAProductos
+} from '../../servicios/productosServicio'
 import TarjetaProducto from '../../componentes/tienda/TarjetaProducto'
 
 export default function Productos() {
+  const [productos, setProductos] = useState(obtenerProductos)
   const [busqueda, setBusqueda] = useState('')
   const [categoria, setCategoria] = useState('Todas')
   const [mensaje, setMensaje] = useState('')
 
+  // Actualizar el catálogo cuando cambian los productos
+  useEffect(() => {
+    const actualizarProductos = () => {
+      setProductos(obtenerProductos())
+    }
+
+    actualizarProductos()
+
+    return suscribirseAProductos(actualizarProductos)
+  }, [])
+
+  // Obtener las categorías disponibles
   const categorias = [
     'Todas',
-    ...new Set(productosIniciales.map(p => p.categoria))
+    ...new Set(productos.map((producto) => producto.categoria))
   ]
 
-  const productosFiltrados = productosIniciales.filter(producto => {
+  // Filtrar productos por nombre y categoría
+  const productosFiltrados = productos.filter((producto) => {
     const coincideNombre = producto.nombre
       .toLocaleLowerCase('es-CL')
-      .includes(busqueda.toLocaleLowerCase('es-CL'))
+      .includes(busqueda.toLocaleLowerCase('es-CL').trim())
 
     const coincideCategoria =
       categoria === 'Todas' ||
@@ -25,9 +42,10 @@ export default function Productos() {
     return coincideNombre && coincideCategoria
   })
 
+  // Aviso temporal hasta integrar el carrito de Bryam
   function agregarAlCarrito(producto) {
     setMensaje(
-      `${producto.nombre} seleccionado para el carrito`
+      `${producto.nombre}: la función de compra estará disponible al integrar el carrito.`
     )
   }
 
@@ -41,6 +59,7 @@ export default function Productos() {
         orgánicos y lácteos.
       </p>
 
+      {/* Búsqueda y categorías */}
       <div className="row g-3 my-3">
         <div className="col-12 col-md-6">
           <input
@@ -49,7 +68,9 @@ export default function Productos() {
             placeholder="Buscar productos..."
             aria-label="Buscar productos"
             value={busqueda}
-            onChange={e => setBusqueda(e.target.value)}
+            onChange={(evento) =>
+              setBusqueda(evento.target.value)
+            }
           />
         </div>
 
@@ -58,9 +79,11 @@ export default function Productos() {
             className="form-select"
             value={categoria}
             aria-label="Filtrar por categoría"
-            onChange={e => setCategoria(e.target.value)}
+            onChange={(evento) =>
+              setCategoria(evento.target.value)
+            }
           >
-            {categorias.map(nombre => (
+            {categorias.map((nombre) => (
               <option key={nombre} value={nombre}>
                 {nombre}
               </option>
@@ -69,14 +92,24 @@ export default function Productos() {
         </div>
       </div>
 
+      {/* Aviso de integración del carrito */}
       {mensaje && (
-        <div className="alert alert-info" role="status">
+        <div
+          className="alert alert-info"
+          role="status"
+        >
           {mensaje}
         </div>
       )}
 
+      {/* Cantidad de productos encontrados */}
+      <p className="text-muted">
+        Productos encontrados: {productosFiltrados.length}
+      </p>
+
+      {/* Catálogo de productos */}
       <div className="grid-productos">
-        {productosFiltrados.map(producto => (
+        {productosFiltrados.map((producto) => (
           <TarjetaProducto
             key={producto.id}
             producto={producto}
@@ -85,8 +118,11 @@ export default function Productos() {
         ))}
       </div>
 
+      {/* Sin resultados */}
       {productosFiltrados.length === 0 && (
-        <p>No se encontraron productos.</p>
+        <p className="text-muted mt-4">
+          No se encontraron productos con los filtros seleccionados.
+        </p>
       )}
     </main>
   )
