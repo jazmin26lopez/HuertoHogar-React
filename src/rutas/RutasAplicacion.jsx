@@ -1,13 +1,21 @@
 
 import { Route, Routes } from 'react-router-dom'
+
+// Componentes compartidos
 import PaginaPendiente from '../componentes/compartidos/PaginaPendiente'
+
+// Páginas de tienda - Jazmín
 import Productos from '../paginas/tienda/Productos'
 import DetalleProducto from '../paginas/tienda/DetalleProducto'
+import Categorias from '../paginas/tienda/Categorias'
+
+// Administración de productos - Jazmín
 import AdministrarProductos from '../paginas/administracion-productos/AdministrarProductos'
 
+// Rutas provisionales
+// Se reemplazarán cuando las páginas estén desarrolladas
 const paginasPendientes = [
   { ruta: '/', titulo: 'Inicio' },
-  { ruta: '/categorias', titulo: 'Categorías' },
   { ruta: '/carrito', titulo: 'Carrito de compras' },
   { ruta: '/checkout', titulo: 'Finalizar compra' },
   { ruta: '/compra-exitosa', titulo: 'Compra exitosa' },
@@ -25,25 +33,49 @@ const paginasPendientes = [
 export default function RutasAplicacion() {
   return (
     <Routes>
-      <Route path="/productos" element={<Productos />} />
-      <Route path="/productos/:id" element={<DetalleProducto />} />
+      {/* TIENDA - JAZMÍN */}
+
+      <Route
+        path="/productos"
+        element={<Productos />}
+      />
+
+      <Route
+        path="/productos/:id"
+        element={<DetalleProducto />}
+      />
+
+      <Route
+        path="/categorias"
+        element={<Categorias />}
+      />
+
+      {/* ADMINISTRACIÓN DE PRODUCTOS - JAZMÍN */}
 
       <Route
         path="/admin/productos"
         element={<AdministrarProductos />}
       />
 
+      {/* PÁGINAS PENDIENTES */}
+
       {paginasPendientes.map(({ ruta, titulo }) => (
         <Route
           key={ruta}
           path={ruta}
-          element={<PaginaPendiente titulo={titulo} />}
+          element={
+            <PaginaPendiente titulo={titulo} />
+          }
         />
       ))}
 
+      {/* PÁGINAS NO ENCONTRADAS */}
+
       <Route
         path="*"
-        element={<PaginaPendiente titulo="Página no encontrada" />}
+        element={
+          <PaginaPendiente titulo="Página no encontrada" />
+        }
       />
     </Routes>
   )

@@ -1,10 +1,15 @@
 
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+
 import {
   obtenerProductoPorId,
   suscribirseAProductos
 } from '../../servicios/productosServicio'
+
+import {
+  obtenerEstadoStock
+} from '../../funciones/estadoStock'
 
 export default function DetalleProducto() {
   const { id } = useParams()
@@ -12,8 +17,10 @@ export default function DetalleProducto() {
   const [producto, setProducto] = useState(
     () => obtenerProductoPorId(id)
   )
+
   const [cantidad, setCantidad] = useState(1)
 
+  // Mantener la información sincronizada con administración
   useEffect(() => {
     const actualizarProducto = () => {
       setProducto(obtenerProductoPorId(id))
@@ -28,7 +35,10 @@ export default function DetalleProducto() {
     return (
       <main className="container py-5 flex-grow-1">
         <h1>Producto no encontrado</h1>
-        <p>El producto solicitado no existe en nuestro catálogo.</p>
+
+        <p>
+          El producto solicitado no existe en nuestro catálogo.
+        </p>
 
         <Link to="/productos" className="btn btn-success">
           Volver al catálogo
@@ -38,15 +48,14 @@ export default function DetalleProducto() {
   }
 
   const precio = Number(producto.precio)
+  const estadoStock = obtenerEstadoStock(producto.stock)
 
   const stock =
-    producto.stock === undefined ||
-    producto.stock === null ||
-    producto.stock === ''
+    estadoStock.nivel === 'sin-definir'
       ? null
-      : Math.max(0, Math.floor(Number(producto.stock)))
+      : Number(producto.stock)
 
-  const sinStock = stock === 0
+  const sinStock = estadoStock.nivel === 'agotado'
 
   const cantidadAplicada =
     stock === null
@@ -56,7 +65,7 @@ export default function DetalleProducto() {
         : Math.min(cantidad, stock)
 
   const precioFormateado = (valor) =>
-    '$' + valor.toLocaleString('es-CL')
+    '$' + Number(valor).toLocaleString('es-CL')
 
   function cambiarCantidad(evento) {
     const valor = Number(evento.target.value)
@@ -66,11 +75,11 @@ export default function DetalleProducto() {
       return
     }
 
-    setCantidad(
-      stock === null
-        ? valor
-        : Math.min(valor, Math.max(1, stock))
-    )
+    if (stock !== null) {
+      setCantidad(Math.min(valor, Math.max(1, stock)))
+    } else {
+      setCantidad(valor)
+    }
   }
 
   return (
@@ -83,6 +92,7 @@ export default function DetalleProducto() {
       </Link>
 
       <div className="row g-4 align-items-start">
+        {/* IMAGEN */}
         <div className="col-12 col-md-6">
           <img
             src={producto.imagen}
@@ -95,8 +105,11 @@ export default function DetalleProducto() {
           />
         </div>
 
+        {/* INFORMACIÓN */}
         <div className="col-12 col-md-6">
-          <h1 className="mb-3">{producto.nombre}</h1>
+          <h1 className="mb-3">
+            {producto.nombre}
+          </h1>
 
           <p className="text-muted">
             Categoría: {producto.categoria}
@@ -114,15 +127,44 @@ export default function DetalleProducto() {
               'Producto fresco y de calidad de HuertoHogar.'}
           </p>
 
+          {/* ESTADO DEL INVENTARIO */}
+          <div className="mb-3">
+            <strong>Estado del producto: </strong>
+
+            <span
+              className={`badge ${estadoStock.clase}`}
+            >
+              {estadoStock.nombre}
+            </span>
+          </div>
+
           <p>
             <strong>Stock disponible: </strong>
+
             {stock === null
               ? 'No informado'
-              : sinStock
-                ? 'Agotado'
-                : `${stock} unidades`}
+              : `${stock} unidades`}
           </p>
 
+          {estadoStock.nivel === 'critico' && (
+            <div
+              className="alert alert-warning"
+              role="status"
+            >
+              Quedan pocas unidades disponibles.
+            </div>
+          )}
+
+          {sinStock && (
+            <div
+              className="alert alert-danger"
+              role="status"
+            >
+              Este producto se encuentra agotado.
+            </div>
+          )}
+
+          {/* CANTIDAD */}
           <div
             className="mb-3"
             style={{ maxWidth: '160px' }}
@@ -145,17 +187,26 @@ export default function DetalleProducto() {
               }
               step="1"
               className="form-control"
-              value={sinStock ? 0 : cantidadAplicada}
+              value={
+                sinStock
+                  ? 0
+                  : cantidadAplicada
+              }
               onChange={cambiarCantidad}
               disabled={sinStock}
             />
           </div>
 
+          {/* SUBTOTAL */}
           <p>
             <strong>Subtotal: </strong>
-            {precioFormateado(precio * cantidadAplicada)}
+
+            {precioFormateado(
+              precio * cantidadAplicada
+            )}
           </p>
 
+          {/* INTEGRACIÓN FUTURA CON BRYAM */}
           <button
             type="button"
             className="btn btn-warning"

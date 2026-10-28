@@ -1,113 +1,85 @@
 
 import { useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+
 import {
   obtenerProductos,
   suscribirseAProductos
 } from '../../servicios/productosServicio'
+
 import TarjetaProducto from '../../componentes/tienda/TarjetaProducto'
 
 export default function Productos() {
+  const [parametros] = useSearchParams()
+  const categoria = parametros.get('categoria')
+
   const [productos, setProductos] = useState(obtenerProductos)
-  const [busqueda, setBusqueda] = useState('')
-  const [categoria, setCategoria] = useState('Todas')
   const [mensaje, setMensaje] = useState('')
 
-  // Actualizar el catálogo cuando cambian los productos
   useEffect(() => {
-    const actualizarProductos = () => {
+    const actualizar = () => {
       setProductos(obtenerProductos())
     }
 
-    actualizarProductos()
-
-    return suscribirseAProductos(actualizarProductos)
+    actualizar()
+    return suscribirseAProductos(actualizar)
   }, [])
 
-  // Obtener las categorías disponibles
-  const categorias = [
-    'Todas',
-    ...new Set(productos.map((producto) => producto.categoria))
-  ]
+  const productosFiltrados = productos.filter(
+    (producto) =>
+      !categoria || producto.categoria === categoria
+  )
 
-  // Filtrar productos por nombre y categoría
-  const productosFiltrados = productos.filter((producto) => {
-    const coincideNombre = producto.nombre
-      .toLocaleLowerCase('es-CL')
-      .includes(busqueda.toLocaleLowerCase('es-CL').trim())
-
-    const coincideCategoria =
-      categoria === 'Todas' ||
-      producto.categoria === categoria
-
-    return coincideNombre && coincideCategoria
-  })
-
-  // Aviso temporal hasta integrar el carrito de Bryam
   function agregarAlCarrito(producto) {
     setMensaje(
-      `${producto.nombre}: la función de compra estará disponible al integrar el carrito.`
+      `${producto.nombre}: la compra se habilitará al integrar el carrito.`
     )
   }
 
   return (
     <main className="container py-4 flex-grow-1">
-      <h1>Nuestros Productos</h1>
+      <h1 style={{ color: '#244D36' }}>
+        {categoria || 'Nuestros Productos'}
+      </h1>
 
-      <p>
-        Frescura del campo directo a tu hogar.
-        Encuentra frutas, verduras, productos
-        orgánicos y lácteos.
+      <p className="text-muted">
+        {categoria
+          ? 'Explora los productos disponibles en esta categoría.'
+          : 'Frescura del campo directo a tu hogar.'}
       </p>
 
-      {/* Búsqueda y categorías */}
-      <div className="row g-3 my-3">
-        <div className="col-12 col-md-6">
-          <input
-            type="search"
-            className="form-control"
-            placeholder="Buscar productos..."
-            aria-label="Buscar productos"
-            value={busqueda}
-            onChange={(evento) =>
-              setBusqueda(evento.target.value)
-            }
-          />
-        </div>
+      <div className="d-flex gap-2 flex-wrap my-4">
+        <Link
+          to="/categorias"
+          className="btn btn-outline-success"
+        >
+          ← Volver a categorías
+        </Link>
 
-        <div className="col-12 col-md-6">
-          <select
-            className="form-select"
-            value={categoria}
-            aria-label="Filtrar por categoría"
-            onChange={(evento) =>
-              setCategoria(evento.target.value)
-            }
+        {categoria && (
+          <Link
+            to="/productos"
+            className="btn btn-success"
           >
-            {categorias.map((nombre) => (
-              <option key={nombre} value={nombre}>
-                {nombre}
-              </option>
-            ))}
-          </select>
-        </div>
+            Ver todos los productos
+          </Link>
+        )}
       </div>
 
-      {/* Aviso de integración del carrito */}
       {mensaje && (
-        <div
-          className="alert alert-info"
-          role="status"
-        >
+        <div className="alert alert-info" role="status">
           {mensaje}
         </div>
       )}
 
-      {/* Cantidad de productos encontrados */}
       <p className="text-muted">
-        Productos encontrados: {productosFiltrados.length}
+        {productosFiltrados.length}
+        {' '}
+        {productosFiltrados.length === 1
+          ? 'producto disponible'
+          : 'productos disponibles'}
       </p>
 
-      {/* Catálogo de productos */}
       <div className="grid-productos">
         {productosFiltrados.map((producto) => (
           <TarjetaProducto
@@ -118,10 +90,9 @@ export default function Productos() {
         ))}
       </div>
 
-      {/* Sin resultados */}
       {productosFiltrados.length === 0 && (
         <p className="text-muted mt-4">
-          No se encontraron productos con los filtros seleccionados.
+          No hay productos registrados en esta categoría.
         </p>
       )}
     </main>
