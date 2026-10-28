@@ -9,8 +9,10 @@ import { formatearPrecio } from '../../funciones/formato'
 import { esOferta, precioConOferta } from '../../funciones/ofertas'
 import { obtenerProductos, suscribirseAProductos } from '../../servicios/productosServicio'
 
-// Vista del carrito según la Figura 5 del anexo:
-// a la izquierda la lista de productos para añadir, a la derecha el carrito de compras.
+// Vista del carrito: la tabla del carrito ocupa todo el ancho de la página y,
+// debajo, se sugieren otros productos para añadir ("También podrías agregar esto").
+const MAX_SUGERENCIAS = 6
+
 export default function Carrito() {
   const { items, subtotal, agregar, cambiarCantidad, quitar, vaciar } = useCarrito()
   const navigate = useNavigate()
@@ -24,6 +26,11 @@ export default function Carrito() {
     return suscribirseAProductos(actualizar)
   }, [])
 
+  // Se sugieren los productos que todavía no están en el carrito
+  const sugerencias = productos
+    .filter((producto) => !items.some((item) => item.id === producto.id))
+    .slice(0, MAX_SUGERENCIAS)
+
   function anadir(producto) {
     const agregado = agregar(producto)
 
@@ -35,7 +42,7 @@ export default function Carrito() {
   }
 
   return (
-    <main className="container py-4 flex-grow-1 text-start">
+    <main className="container-fluid px-3 px-lg-5 py-4 flex-grow-1 text-start">
       <h1 className="visually-hidden">Carrito de compras</h1>
 
       {mensaje && (
@@ -44,20 +51,142 @@ export default function Carrito() {
         </div>
       )}
 
-      <div className="row g-4">
-        {/* ---------- LISTA DE PRODUCTOS ---------- */}
-        <section className="col-lg-6" aria-labelledby="titulo-lista">
-          <h2 id="titulo-lista" className="h3 mb-3">Lista de productos</h2>
+      {/* ---------- CARRITO DE COMPRAS ---------- */}
+      <section aria-labelledby="titulo-carrito">
+        <h2 id="titulo-carrito" className="h3 mb-3">Carrito de Compras</h2>
 
-          <div className="row row-cols-2 row-cols-md-3 g-3">
-            {productos.map((producto) => (
+        {items.length === 0 ? (
+          <div className="alert alert-secondary" role="status">
+            Tu carrito está vacío. Mira las sugerencias de abajo para empezar.
+          </div>
+        ) : (
+          <>
+            <div className="table-responsive">
+              <table className="table table-striped align-middle bg-white">
+                <caption className="visually-hidden">Productos en tu carrito</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {items.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        <ImagenProducto producto={item} tamano={40} />
+                      </td>
+
+                      <td>
+                        {item.nombre}
+                        {item.precio < item.precioNormal && (
+                          <span className="badge bg-danger ms-1">Oferta</span>
+                        )}
+                      </td>
+
+                      <td>{formatearPrecio(item.precio)}</td>
+
+                      <td>
+                        <div className="d-flex align-items-center gap-1">
+                          <button
+                            type="button"
+                            className="btn btn-outline-secondary btn-sm"
+                            aria-label={`Disminuir cantidad de ${item.nombre}`}
+                            disabled={item.cantidad <= 1}
+                            onClick={() => cambiarCantidad(item.id, item.cantidad - 1)}
+                          >
+                            −
+                          </button>
+
+                          <input
+                            type="number"
+                            min="1"
+                            max={Number.isFinite(item.stock) ? item.stock : undefined}
+                            className="form-control form-control-sm text-center"
+                            style={{ width: '58px' }}
+                            aria-label={`Cantidad de ${item.nombre}`}
+                            value={item.cantidad}
+                            onChange={(evento) => cambiarCantidad(item.id, evento.target.value)}
+                          />
+
+                          <button
+                            type="button"
+                            className="btn btn-outline-secondary btn-sm"
+                            aria-label={`Aumentar cantidad de ${item.nombre}`}
+                            disabled={item.cantidad >= (item.stock ?? Infinity)}
+                            onClick={() => cambiarCantidad(item.id, item.cantidad + 1)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+
+                      <td>{formatearPrecio(calcularSubtotalItem(item))}</td>
+
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          onClick={() => quitar(item.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+
+                <tfoot>
+                  <tr>
+                    <th scope="row" colSpan="4" className="text-end">Total</th>
+                    <td colSpan="2" className="fw-bold" data-testid="total-carrito">
+                      {formatearPrecio(subtotal)}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <div className="d-flex justify-content-end gap-2 flex-wrap">
+              <button type="button" className="btn btn-secondary" onClick={vaciar}>
+                Limpiar
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-success btn-lg"
+                onClick={() => navigate('/checkout')}
+              >
+                Comprar ahora
+              </button>
+            </div>
+          </>
+        )}
+
+        <Link to="/productos" className="btn btn-outline-success mt-3">
+          ← Seguir comprando
+        </Link>
+      </section>
+
+      {/* ---------- TAMBIÉN PODRÍAS AGREGAR ESTO ---------- */}
+      {sugerencias.length > 0 && (
+        <section className="mt-5" aria-labelledby="titulo-sugerencias">
+          <h2 id="titulo-sugerencias" className="h3 mb-3">También podrías agregar esto</h2>
+
+          <div className="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+            {sugerencias.map((producto) => (
               <div className="col" key={producto.id}>
                 <article className="card h-100 shadow-sm">
                   <img
                     src={producto.imagen}
                     alt={producto.nombre}
                     className="card-img-top"
-                    style={{ height: '90px', objectFit: 'cover' }}
+                    style={{ height: '120px', objectFit: 'cover' }}
                   />
 
                   <div className="card-body p-2 d-flex flex-column">
@@ -89,129 +218,7 @@ export default function Carrito() {
             ))}
           </div>
         </section>
-
-        {/* ---------- CARRITO DE COMPRAS ---------- */}
-        <section className="col-lg-6" aria-labelledby="titulo-carrito">
-          <h2 id="titulo-carrito" className="h3 mb-3">Carrito de Compras</h2>
-
-          {items.length === 0 ? (
-            <div className="alert alert-secondary" role="status">
-              Tu carrito está vacío. Agrega productos desde la lista.
-            </div>
-          ) : (
-            <>
-              <div className="table-responsive">
-                <table className="table table-striped align-middle bg-white">
-                  <caption className="visually-hidden">Productos en tu carrito</caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Imagen</th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Precio</th>
-                      <th scope="col">Cantidad</th>
-                      <th scope="col">Subtotal</th>
-                      <th scope="col">Acciones</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {items.map((item) => (
-                      <tr key={item.id}>
-                        <td>
-                          <ImagenProducto producto={item} tamano={40} />
-                        </td>
-
-                        <td>
-                          {item.nombre}
-                          {item.precio < item.precioNormal && (
-                            <span className="badge bg-danger ms-1">Oferta</span>
-                          )}
-                        </td>
-
-                        <td>{formatearPrecio(item.precio)}</td>
-
-                        <td>
-                          <div className="d-flex align-items-center gap-1">
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary btn-sm"
-                              aria-label={`Disminuir cantidad de ${item.nombre}`}
-                              disabled={item.cantidad <= 1}
-                              onClick={() => cambiarCantidad(item.id, item.cantidad - 1)}
-                            >
-                              −
-                            </button>
-
-                            <input
-                              type="number"
-                              min="1"
-                              max={Number.isFinite(item.stock) ? item.stock : undefined}
-                              className="form-control form-control-sm text-center"
-                              style={{ width: '58px' }}
-                              aria-label={`Cantidad de ${item.nombre}`}
-                              value={item.cantidad}
-                              onChange={(evento) => cambiarCantidad(item.id, evento.target.value)}
-                            />
-
-                            <button
-                              type="button"
-                              className="btn btn-outline-secondary btn-sm"
-                              aria-label={`Aumentar cantidad de ${item.nombre}`}
-                              disabled={item.cantidad >= (item.stock ?? Infinity)}
-                              onClick={() => cambiarCantidad(item.id, item.cantidad + 1)}
-                            >
-                              +
-                            </button>
-                          </div>
-                        </td>
-
-                        <td>{formatearPrecio(calcularSubtotalItem(item))}</td>
-
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-danger btn-sm"
-                            onClick={() => quitar(item.id)}
-                          >
-                            Eliminar
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-
-                  <tfoot>
-                    <tr>
-                      <th scope="row" colSpan="4" className="text-end">Total</th>
-                      <td colSpan="2" className="fw-bold" data-testid="total-carrito">
-                        {formatearPrecio(subtotal)}
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-
-              <div className="d-flex justify-content-end gap-2 flex-wrap">
-                <button type="button" className="btn btn-secondary" onClick={vaciar}>
-                  Limpiar
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-success btn-lg"
-                  onClick={() => navigate('/checkout')}
-                >
-                  Comprar ahora
-                </button>
-              </div>
-            </>
-          )}
-
-          <Link to="/productos" className="btn btn-outline-success mt-3">
-            ← Seguir comprando
-          </Link>
-        </section>
-      </div>
+      )}
     </main>
   )
 }

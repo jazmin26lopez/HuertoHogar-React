@@ -2,6 +2,9 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+import EnlaceCarrito from '../compras/EnlaceCarrito'
+import MenuSesion from '../usuarios/MenuSesion'
+
 export default function Encabezado() {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const ubicacion = useLocation()
@@ -13,9 +16,7 @@ export default function Encabezado() {
     { ruta: '/ofertas', texto: 'Ofertas' },
     { ruta: '/nosotros', texto: 'Nosotros' },
     { ruta: '/blogs', texto: 'Blogs' },
-    { ruta: '/contacto', texto: 'Contacto' },
-    { ruta: '/carrito', texto: 'Carrito' },
-    { ruta: '/iniciar-sesion', texto: 'Iniciar sesión' }
+    { ruta: '/contacto', texto: 'Contacto' }
   ]
 
   return (
@@ -23,7 +24,7 @@ export default function Encabezado() {
       className="navbar navbar-expand-lg navbar-dark"
       style={{ backgroundColor: '#2E8B57' }}
     >
-      <div className="container">
+      <div className="container-fluid px-3 px-lg-4">
         <Link
           className="navbar-brand fw-bold"
           to="/"
@@ -49,7 +50,7 @@ export default function Encabezado() {
             menuAbierto ? 'show' : ''
           }`}
         >
-          <ul className="navbar-nav ms-auto gap-lg-2">
+          <ul className="navbar-nav ms-auto align-items-lg-center flex-lg-wrap justify-content-lg-end">
             {enlaces.map(({ ruta, texto }) => (
               <li className="nav-item" key={ruta}>
                 <Link
@@ -63,6 +64,9 @@ export default function Encabezado() {
                 </Link>
               </li>
             ))}
+
+            <EnlaceCarrito alNavegar={() => setMenuAbierto(false)} />
+            <MenuSesion alNavegar={() => setMenuAbierto(false)} />
           </ul>
         </nav>
       </div>

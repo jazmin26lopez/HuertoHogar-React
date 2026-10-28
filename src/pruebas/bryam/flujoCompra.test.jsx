@@ -44,7 +44,7 @@ describe('flujo de compra completo', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
 
     expect(screen.getByRole('heading', { name: 'Carrito de compras' })).toBeInTheDocument()
     expect(screen.getByTestId('total-carrito').textContent.replace(/\s/g, '')).toBe('$960')
@@ -90,7 +90,7 @@ describe('flujo de compra completo', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Eliminar' }))
 
     expect(screen.getByText(/Tu carrito está vacío/)).toBeInTheDocument()
@@ -101,7 +101,7 @@ describe('flujo de compra completo', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Limpiar' }))
 
     expect(screen.getByText(/Tu carrito está vacío/)).toBeInTheDocument()
@@ -111,7 +111,7 @@ describe('flujo de compra completo', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Comprar ahora' }))
     await completarCheckout(usuario)
     await usuario.click(screen.getByRole('button', { name: /Pagar ahora/ }))
@@ -132,7 +132,7 @@ describe('flujo de compra completo', () => {
     const imprimir = vi.spyOn(window, 'print').mockImplementation(() => {})
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Comprar ahora' }))
     await completarCheckout(usuario, { pago: 'transferencia' })
     await usuario.click(screen.getByRole('button', { name: /Pagar ahora/ }))
@@ -148,7 +148,7 @@ describe('flujo de compra completo', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Comprar ahora' }))
     await completarCheckout(usuario, { pago: 'tarjeta-rechazada' })
     await usuario.click(screen.getByRole('button', { name: /Pagar ahora/ }))
@@ -178,7 +178,7 @@ describe('checkout', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Comprar ahora' }))
     await usuario.click(screen.getByRole('button', { name: /Pagar ahora/ }))
 
@@ -192,7 +192,7 @@ describe('checkout', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Comprar ahora' }))
 
     // Por defecto: despacho a domicilio ($3.000)
@@ -207,7 +207,7 @@ describe('checkout', () => {
     const usuario = userEvent.setup()
 
     await agregarPrimeraOferta(usuario)
-    await usuario.click(screen.getByRole('link', { name: 'Carrito' }))
+    await usuario.click(screen.getByRole('link', { name: /Carrito \$/ }))
     await usuario.click(screen.getByRole('button', { name: 'Comprar ahora' }))
 
     const comuna = screen.getByLabelText('Comuna')

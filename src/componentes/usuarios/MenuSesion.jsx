@@ -43,7 +43,7 @@ export default function MenuSesion({ alNavegar }) {
     <>
       {usuario.rol === 'Administrador' && enlace('/admin/usuarios', 'Administración')}
 
-      <li className="nav-item d-flex align-items-center gap-2">
+      <li className="nav-item d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
         <span className="navbar-text text-white">Hola, {usuario.nombre}</span>
 
         <button type="button" className="btn btn-outline-light btn-sm" onClick={salir}>

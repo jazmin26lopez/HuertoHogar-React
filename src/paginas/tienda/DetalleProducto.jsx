@@ -11,6 +11,8 @@ import {
   obtenerEstadoStock
 } from '../../funciones/estadoStock'
 
+import useCarrito from '../../contextos/useCarrito'
+
 export default function DetalleProducto() {
   const { id } = useParams()
 
@@ -19,6 +21,8 @@ export default function DetalleProducto() {
   )
 
   const [cantidad, setCantidad] = useState(1)
+  const [mensaje, setMensaje] = useState('')
+  const { agregar } = useCarrito()
 
   // Mantener la información sincronizada con administración
   useEffect(() => {
@@ -66,6 +70,16 @@ export default function DetalleProducto() {
 
   const precioFormateado = (valor) =>
     '$' + Number(valor).toLocaleString('es-CL')
+
+  function agregarAlCarrito() {
+    const agregado = agregar(producto, cantidadAplicada)
+
+    setMensaje(
+      agregado
+        ? `${producto.nombre} se agregó al carrito.`
+        : `No hay más stock disponible de ${producto.nombre}.`
+    )
+  }
 
   function cambiarCantidad(evento) {
     const valor = Number(evento.target.value)
@@ -206,22 +220,23 @@ export default function DetalleProducto() {
             )}
           </p>
 
-          {/* INTEGRACIÓN FUTURA CON BRYAM */}
+          {/* AGREGAR AL CARRITO */}
           <button
             type="button"
             className="btn btn-warning"
-            disabled
-            title="Se habilitará al integrar el módulo de compras"
+            disabled={sinStock}
+            onClick={agregarAlCarrito}
           >
             {sinStock
               ? 'Producto agotado'
-              : 'Agregar al carrito (próximamente)'}
+              : 'Agregar al carrito'}
           </button>
 
-          <p className="text-muted small mt-2">
-            La compra se habilitará al integrar el carrito
-            desarrollado por Bryam.
-          </p>
+          {mensaje && (
+            <div className="alert alert-info mt-3" role="status">
+              {mensaje}
+            </div>
+          )}
         </div>
       </div>
     </main>

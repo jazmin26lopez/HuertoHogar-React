@@ -8,10 +8,12 @@ import {
 } from '../../servicios/productosServicio'
 
 import TarjetaProducto from '../../componentes/tienda/TarjetaProducto'
+import useCarrito from '../../contextos/useCarrito'
 
 export default function Productos() {
   const [parametros] = useSearchParams()
   const categoria = parametros.get('categoria')
+  const { agregar } = useCarrito()
 
   const [productos, setProductos] = useState(obtenerProductos)
   const [mensaje, setMensaje] = useState('')
@@ -31,8 +33,12 @@ export default function Productos() {
   )
 
   function agregarAlCarrito(producto) {
+    const agregado = agregar(producto)
+
     setMensaje(
-      `${producto.nombre}: la compra se habilitará al integrar el carrito.`
+      agregado
+        ? `${producto.nombre} se agregó al carrito.`
+        : `No hay más stock disponible de ${producto.nombre}.`
     )
   }
 
