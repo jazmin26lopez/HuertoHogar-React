@@ -184,3 +184,26 @@ export function validarInicioSesion(correo, contrasena) {
     contrasena: validarContrasena(contrasena)
   })
 }
+
+// Formulario de contacto: cualquier visitante puede escribir, por eso el correo
+// solo se revisa por formato (no por dominio como en el registro).
+export function validarContacto(datos) {
+  const correo = String(datos.correo ?? '').trim()
+
+  let errorCorreo = ''
+
+  if (correo === '') {
+    errorCorreo = 'Ingresa tu correo electrónico.'
+  } else if (correo.length > 100) {
+    errorCorreo = 'El correo no puede superar los 100 caracteres.'
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+    errorCorreo = 'El correo no tiene un formato válido.'
+  }
+
+  return soloConError({
+    nombre: validarTextoObligatorio(datos.nombre, 'tu nombre', 100),
+    correo: errorCorreo,
+    asunto: validarTextoObligatorio(datos.asunto, 'el asunto', 100),
+    mensaje: validarTextoObligatorio(datos.mensaje, 'tu mensaje', 500)
+  })
+}

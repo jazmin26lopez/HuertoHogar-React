@@ -31,11 +31,14 @@ import AdministrarUsuarios from '../paginas/administracion-usuarios/AdministrarU
 import EditorUsuario from '../paginas/administracion-usuarios/EditorUsuario'
 import RutaAdministrador from '../componentes/usuarios/RutaAdministrador'
 
+// Páginas informativas - Bryam
+import Nosotros from '../paginas/institucional/Nosotros'
+import Blogs from '../paginas/institucional/Blogs'
+import DetalleBlog from '../paginas/institucional/DetalleBlog'
+import Contacto from '../paginas/institucional/Contacto'
+
 // Rutas reservadas para módulos pendientes
 const paginasPendientes = [
-  { ruta: '/nosotros', titulo: 'Nosotros' },
-  { ruta: '/blogs', titulo: 'Blogs' },
-  { ruta: '/contacto', titulo: 'Contacto' },
   { ruta: '/admin/pedidos', titulo: 'Administrar pedidos' }
 ]
 
@@ -70,6 +73,13 @@ export default function RutasAplicacion() {
       <Route path="/compra-exitosa" element={<CompraExitosa />} />
       <Route path="/compra-fallida" element={<CompraFallida />} />
       <Route path="/ofertas" element={<Ofertas />} />
+
+      {/* PÁGINAS INFORMATIVAS - BRYAM */}
+
+      <Route path="/nosotros" element={<Nosotros />} />
+      <Route path="/blogs" element={<Blogs />} />
+      <Route path="/blogs/:id" element={<DetalleBlog />} />
+      <Route path="/contacto" element={<Contacto />} />
 
       {/* USUARIOS Y SESIÓN - BRYAM */}
 
