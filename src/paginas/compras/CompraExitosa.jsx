@@ -12,57 +12,107 @@ export default function CompraExitosa() {
 
   if (!orden || orden.estado !== 'pagada') {
     return (
-      <main className="container py-5 flex-grow-1">
-        <h1>No encontramos esa compra</h1>
+      <main className="pagina-compra-exitosa flex-grow-1">
+        <div className="compra-exitosa-contenedor">
+          <div className="compra-exitosa-vacio">
+            <h1>No encontramos esa compra</h1>
 
-        <p>La compra que buscas no existe o no fue pagada.</p>
+            <p>
+              La compra que buscas no existe o no fue pagada.
+            </p>
 
-        <Link to="/" className="btn btn-success">
-          Volver al inicio
-        </Link>
+            <Link to="/" className="compra-exitosa-boton">
+              Volver al inicio
+            </Link>
+          </div>
+        </div>
       </main>
     )
   }
 
   return (
-    <main className="container py-4 flex-grow-1">
-      <div className="card shadow-sm text-start">
-        <div className="card-body p-4">
-          <p className="text-end text-muted small mb-1">Código orden: {orden.codigo}</p>
+    <main className="pagina-compra-exitosa flex-grow-1">
+      <div className="compra-exitosa-contenedor">
 
-          <h1 className="h3 text-success">
-            <span aria-hidden="true">✅ </span>
-            Se ha realizado la compra. nro #{orden.id}
-          </h1>
+        {/* ENCABEZADO */}
+        <header className="compra-exitosa-encabezado">
+          <p className="compra-exitosa-etiqueta">
+            HUERTOHOGAR
+          </p>
 
-          <p className="text-muted">Completa la siguiente información: datos de tu compra.</p>
+          <h1>¡Compra realizada exitosamente!</h1>
 
-          <DetalleOrden orden={orden} />
+          <p>
+            Tu pedido fue registrado correctamente.
+            Aquí puedes revisar los detalles de tu compra.
+          </p>
+        </header>
 
+        {/* COMPROBANTE */}
+        <article className="compra-exitosa-tarjeta">
+          <div className="compra-exitosa-cabecera">
+            <div>
+              <p className="compra-exitosa-estado">
+                <span aria-hidden="true">✓ </span>
+                Compra confirmada
+              </p>
+
+              <h2>Resumen de tu compra</h2>
+            </div>
+
+            <p className="compra-exitosa-codigo">
+              Código de orden:
+              <strong>{orden.codigo}</strong>
+            </p>
+          </div>
+
+          <p className="compra-exitosa-numero">
+            Número de compra: #{orden.id}
+          </p>
+
+          {/* DETALLE ORIGINAL DE BRYAM */}
+          <div className="compra-exitosa-detalle">
+            <DetalleOrden orden={orden} />
+          </div>
+
+          {/* MENSAJE DE ENVÍO */}
           {mensaje && (
             <div className="alert alert-success" role="status">
               {mensaje}
             </div>
           )}
 
-          <div className="d-flex gap-2 flex-wrap justify-content-center">
-            <button type="button" className="btn btn-danger" onClick={() => window.print()}>
+          {/* ACCIONES */}
+          <div className="compra-exitosa-acciones">
+            <button
+              type="button"
+              className="compra-exitosa-boton"
+              onClick={() => window.print()}
+            >
               Imprimir boleta en PDF
             </button>
 
             <button
               type="button"
-              className="btn btn-success"
-              onClick={() => setMensaje(`Boleta enviada a ${orden.cliente.correo} (simulado).`)}
+              className="compra-exitosa-boton-secundario"
+              onClick={() =>
+                setMensaje(
+                  `Boleta enviada a ${orden.cliente.correo} (simulado).`
+                )
+              }
             >
               Enviar boleta por email
             </button>
 
-            <Link to="/productos" className="btn btn-outline-success">
+            <Link
+              to="/productos"
+              className="compra-exitosa-boton-contorno"
+            >
               Seguir comprando
             </Link>
           </div>
-        </div>
+        </article>
+
       </div>
     </main>
   )

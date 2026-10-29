@@ -5,43 +5,61 @@ import { BLOGS } from '../../datos/blogs'
 
 export default function Blogs() {
   return (
-    <main className="container py-4 flex-grow-1 text-start">
-      <h1 style={{ color: '#244D36' }}>Noticias importantes</h1>
+    <main className="pagina-blogs flex-grow-1">
+      <div className="blogs-contenedor">
 
-      <p className="text-muted mb-4">
-        Consejos y novedades de HuertoHogar sobre alimentación, agricultura y productos de
-        temporada.
-      </p>
+        {/* ENCABEZADO */}
+        <header className="blogs-encabezado">
+          <p className="blogs-etiqueta">
+            HUERTOHOGAR
+          </p>
 
-      <div className="row g-4">
-        {BLOGS.map((blog) => (
-          <div className="col-12 col-md-6" key={blog.id}>
-            <article className="card h-100 shadow-sm">
+          <h1>Noticias importantes</h1>
+
+          <p className="blogs-descripcion">
+            Consejos y novedades de HuertoHogar sobre
+            alimentación, agricultura y productos de temporada.
+          </p>
+        </header>
+
+        {/* ARTÍCULOS DEL BLOG */}
+        <section
+          className="blogs-lista"
+          aria-label="Artículos de HuertoHogar"
+        >
+          {BLOGS.map((blog) => (
+            <article className="blog-tarjeta" key={blog.id}>
+
               <img
                 src={blog.imagen}
                 alt={blog.titulo}
-                className="card-img-top"
-                style={{ height: '220px', objectFit: 'cover' }}
+                className="blog-imagen"
               />
 
-              <div className="card-body d-flex flex-column">
-                <h2 className="h4" style={{ color: '#244D36' }}>
-                  {blog.titulo}
-                </h2>
+              <div className="blog-contenido">
+                <h2>{blog.titulo}</h2>
 
                 <p>{blog.resumen}</p>
 
                 <Link
                   to={`/blogs/${blog.id}`}
-                  className="btn btn-success mt-auto align-self-start"
+                  className="blog-boton"
                   aria-label={`Ver caso: ${blog.titulo}`}
                 >
                   Ver caso
                 </Link>
               </div>
+
             </article>
+          ))}
+        </section>
+
+        {BLOGS.length === 0 && (
+          <div className="blogs-vacio">
+            <p>Por ahora no hay noticias disponibles.</p>
           </div>
-        ))}
+        )}
+
       </div>
     </main>
   )

@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import {
   obtenerProductos,
   suscribirseAProductos
@@ -17,7 +18,10 @@ export default function Categorias() {
   const [productos, setProductos] = useState(obtenerProductos)
 
   useEffect(() => {
-    const actualizar = () => setProductos(obtenerProductos())
+    const actualizar = () => {
+      setProductos(obtenerProductos())
+    }
+
     actualizar()
     return suscribirseAProductos(actualizar)
   }, [])
@@ -35,57 +39,70 @@ export default function Categorias() {
   }))
 
   return (
-    <main className="container py-4 flex-grow-1">
-      <h1>Categorías de productos</h1>
+    <main className="pagina-categorias flex-grow-1">
+      <div className="categorias-contenedor">
 
-      <p className="text-muted mb-4">
-        Explora nuestros productos frescos y selecciona
-        la categoría que prefieras.
-      </p>
+        {/* ENCABEZADO */}
+        <header className="categorias-encabezado">
+          <p className="categorias-etiqueta">
+            HUERTOHOGAR
+          </p>
 
-      <div className="row g-4">
-        {categorias.map((categoria) => (
-          <div
-            className="col-12 col-sm-6 col-lg-3"
-            key={categoria.nombre}
-          >
-            <article className="card h-100 shadow-sm">
-              <img
-                src={categoria.imagen}
-                alt={categoria.nombre}
-                className="card-img-top"
-                style={{
-                  height: '180px',
-                  objectFit: 'cover'
-                }}
-              />
+          <h1>Categorías de productos</h1>
 
-              <div className="card-body d-flex flex-column">
-                <h2 className="h5">
-                  {categoria.nombre}
-                </h2>
+          <p className="categorias-descripcion">
+            Explora nuestros productos frescos y selecciona
+            la categoría que prefieras.
+          </p>
+        </header>
 
-                <p className="text-muted">
-                  {categoria.cantidad} productos
-                </p>
+        {/* TARJETAS */}
+        {categorias.length > 0 ? (
+          <div className="categorias-grid">
+            {categorias.map((categoria) => (
+              <article
+                className="categoria-tarjeta"
+                key={categoria.nombre}
+              >
+                <img
+                  src={categoria.imagen}
+                  alt={categoria.nombre}
+                  className="categoria-imagen"
+                />
 
-                <Link
-                  to={`/productos?categoria=${encodeURIComponent(
-                    categoria.nombre
-                  )}`}
-                  className="btn btn-success mt-auto"
-                >
-                  Ver productos
-                </Link>
-              </div>
-            </article>
+                <div className="categoria-contenido">
+                  <h2>{categoria.nombre}</h2>
+
+                  <p>
+                    {categoria.cantidad}{' '}
+                    {categoria.cantidad === 1
+                      ? 'producto disponible'
+                      : 'productos disponibles'}
+                  </p>
+
+                  <Link
+                    to={`/productos?categoria=${encodeURIComponent(
+                      categoria.nombre
+                    )}`}
+                    className="categoria-boton"
+                  >
+                    Ver productos
+                  </Link>
+                </div>
+              </article>
+            ))}
           </div>
-        ))}
-      </div>
+        ) : (
+          <div className="categorias-vacio">
+            <h2>No hay categorías disponibles</h2>
+            <p>
+              Actualmente no hay categorías registradas
+              en el catálogo.
+            </p>
+          </div>
+        )}
 
-      {categorias.length === 0 && (
-        <p>No hay categorías disponibles.</p>
-      )}
+      </div>
     </main>
   )
 }

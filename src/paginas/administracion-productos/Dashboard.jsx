@@ -24,6 +24,7 @@ export default function Dashboard() {
     return suscribirseAProductos(actualizar)
   }, [])
 
+  // RESUMEN DE INVENTARIO
   const resumen = {
     total: productos.length,
     disponibles: 0,
@@ -41,34 +42,38 @@ export default function Dashboard() {
     if (nivel === 'sin-definir') resumen.sinDefinir++
   })
 
+  // PRODUCTOS CON ALERTAS
   const alertas = productos.filter((producto) => {
     const nivel = obtenerEstadoStock(producto.stock).nivel
+
     return nivel === 'critico' || nivel === 'agotado'
   })
 
+  // INDICADORES
   const indicadores = [
     {
       titulo: 'Productos',
       cantidad: resumen.total,
-      color: '#244D36'
+      clase: 'total'
     },
     {
       titulo: 'Disponibles',
       cantidad: resumen.disponibles,
-      color: '#2E8B57'
+      clase: 'disponibles'
     },
     {
       titulo: 'Stock crítico',
       cantidad: resumen.criticos,
-      color: '#C58B00'
+      clase: 'criticos'
     },
     {
       titulo: 'Agotados',
       cantidad: resumen.agotados,
-      color: '#B42318'
+      clase: 'agotados'
     }
   ]
 
+  // MÓDULOS ADMINISTRATIVOS
   const modulos = [
     {
       titulo: 'Productos',
@@ -101,164 +106,162 @@ export default function Dashboard() {
   ]
 
   return (
-    <main className="container py-3 flex-grow-1">
-      {/* ENCABEZADO COMPACTO */}
-      <div className="mb-3">
-        <h1
-          className="h3 mb-1"
-          style={{ color: '#8B4513' }}
+    <main className="pagina-dashboard flex-grow-1">
+      <div className="dashboard-contenedor">
+
+        {/* ENCABEZADO */}
+        <header className="dashboard-encabezado">
+          <p className="dashboard-etiqueta">
+            ADMINISTRACIÓN HUERTOHOGAR
+          </p>
+
+          <h1>Panel de administración</h1>
+
+          <p>
+            Resumen de productos e inventario de HuertoHogar.
+          </p>
+        </header>
+
+        {/* INDICADORES */}
+        <section
+          className="dashboard-seccion"
+          aria-label="Resumen de inventario"
         >
-          Panel de administración
-        </h1>
+          <div className="dashboard-indicadores">
+            {indicadores.map((indicador) => (
+              <article
+                key={indicador.titulo}
+                className={`dashboard-indicador dashboard-indicador-${indicador.clase}`}
+              >
+                <p>{indicador.titulo}</p>
 
-        <p className="text-muted small mb-0">
-          Resumen de productos e inventario de HuertoHogar.
-        </p>
-      </div>
-
-      {/* INDICADORES COMPACTOS */}
-      <section className="mb-3">
-        <div className="row g-2">
-          {indicadores.map((indicador) => (
-            <div
-              key={indicador.titulo}
-              className="col-6 col-lg-3"
-            >
-              <article className="card shadow-sm h-100">
-                <div className="card-body text-center py-2 px-2">
-                  <p className="small mb-1">
-                    {indicador.titulo}
-                  </p>
-
-                  <strong
-                    className="fs-3"
-                    style={{ color: indicador.color }}
-                  >
-                    {indicador.cantidad}
-                  </strong>
-                </div>
+                <strong>{indicador.cantidad}</strong>
               </article>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* MÓDULOS ADMINISTRATIVOS */}
-      <section className="mb-3">
-        <h2 className="h5 mb-2" style={{ color: '#8B4513' }}>
-          Módulos administrativos
-        </h2>
-
-        <div className="row g-2">
-          {modulos.map((modulo) => (
-            <div
-              key={modulo.titulo}
-              className="col-6 col-lg-3"
-            >
-              <article className="card shadow-sm h-100">
-                <div className="card-body p-3">
-                  <div
-                    className="mb-1"
-                    style={{ fontSize: '1.5rem' }}
-                    aria-hidden="true"
-                  >
-                    {modulo.icono}
-                  </div>
-
-                  <h3 className="h6 mb-1">
-                    {modulo.titulo}
-                  </h3>
-
-                  <p className="text-muted small mb-2">
-                    {modulo.descripcion}
-                  </p>
-
-                  {modulo.disponible ? (
-                    <Link
-                      to={modulo.ruta}
-                      className="btn btn-success btn-sm"
-                    >
-                      Abrir
-                    </Link>
-                  ) : (
-                    <button
-                      type="button"
-                      className="btn btn-outline-secondary btn-sm"
-                      disabled
-                    >
-                      Próximamente
-                    </button>
-                  )}
-                </div>
-              </article>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ALERTAS DE INVENTARIO */}
-      <section className="mb-3">
-        <h2 className="h5 mb-2" style={{ color: '#8B4513' }}>
-          Alertas de inventario
-        </h2>
-
-        {alertas.length === 0 ? (
-          <div className="alert alert-success py-2 mb-0">
-            No hay productos con stock crítico o agotado.
+            ))}
           </div>
-        ) : (
-          <div className="table-responsive">
-            <table className="table table-sm table-striped align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Stock</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
+        </section>
 
-              <tbody>
-                {alertas.slice(0, 5).map((producto) => {
-                  const estado = obtenerEstadoStock(producto.stock)
+        {/* MÓDULOS ADMINISTRATIVOS */}
+        <section className="dashboard-seccion">
+          <h2>Módulos administrativos</h2>
 
-                  return (
-                    <tr key={producto.id}>
-                      <td>{producto.nombre}</td>
-                      <td>{producto.stock}</td>
-                      <td>
-                        <span className={`badge ${estado.clase}`}>
-                          {estado.nombre}
-                        </span>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+          <div className="dashboard-modulos">
+            {modulos.map((modulo) => (
+              <article
+                key={modulo.titulo}
+                className="dashboard-modulo"
+              >
+                <span
+                  className="dashboard-modulo-icono"
+                  aria-hidden="true"
+                >
+                  {modulo.icono}
+                </span>
 
-            {alertas.length > 5 && (
-              <p className="small text-muted mt-2 mb-0">
-                Se muestran 5 de {alertas.length} alertas.
+                <h3>{modulo.titulo}</h3>
+
+                <p>{modulo.descripcion}</p>
+
+                {modulo.disponible ? (
+                  <Link
+                    to={modulo.ruta}
+                    className="dashboard-boton"
+                  >
+                    Abrir módulo
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    className="dashboard-boton-inactivo"
+                    disabled
+                  >
+                    Próximamente
+                  </button>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* ALERTAS DE INVENTARIO */}
+        <section className="dashboard-seccion">
+          <div className="dashboard-alertas-encabezado">
+            <h2>Alertas de inventario</h2>
+
+            <Link
+              to="/admin/reportes"
+              className="dashboard-boton-contorno"
+            >
+              Ver reporte completo
+            </Link>
+          </div>
+
+          <div className="dashboard-alertas-tarjeta">
+            {alertas.length === 0 ? (
+              <div
+                className="dashboard-sin-alertas"
+                role="status"
+              >
+                No hay productos con stock crítico o agotado.
+              </div>
+            ) : (
+              <>
+                <div className="table-responsive">
+                  <table className="table table-hover align-middle dashboard-tabla">
+                    <thead>
+                      <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Estado</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {alertas.slice(0, 5).map((producto) => {
+                        const estado = obtenerEstadoStock(
+                          producto.stock
+                        )
+
+                        return (
+                          <tr key={producto.id}>
+                            <td className="dashboard-producto-nombre">
+                              {producto.nombre}
+                            </td>
+
+                            <td>{producto.stock}</td>
+
+                            <td>
+                              <span
+                                className={`badge ${estado.clase}`}
+                              >
+                                {estado.nombre}
+                              </span>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {alertas.length > 5 && (
+                  <p className="dashboard-alertas-nota">
+                    Se muestran 5 de {alertas.length} alertas.
+                  </p>
+                )}
+              </>
+            )}
+
+            {resumen.sinDefinir > 0 && (
+              <p className="dashboard-stock-indefinido">
+                Productos sin stock definido:{' '}
+                <strong>{resumen.sinDefinir}</strong>
               </p>
             )}
           </div>
-        )}
+        </section>
 
-        <div className="mt-2">
-          <Link
-            to="/admin/reportes"
-            className="btn btn-outline-success btn-sm"
-          >
-            Ver reporte completo
-          </Link>
-        </div>
-
-        {resumen.sinDefinir > 0 && (
-          <p className="text-muted small mt-2 mb-0">
-            Productos sin stock definido: {resumen.sinDefinir}
-          </p>
-        )}
-      </section>
+      </div>
     </main>
   )
 }

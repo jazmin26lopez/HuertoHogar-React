@@ -43,64 +43,88 @@ export default function Productos() {
   }
 
   return (
-    <main className="container py-4 flex-grow-1">
-      <h1 style={{ color: '#244D36' }}>
-        {categoria || 'Nuestros Productos'}
-      </h1>
+    <main className="pagina-productos flex-grow-1">
+      <div className="productos-contenedor">
 
-      <p className="text-muted">
-        {categoria
-          ? 'Explora los productos disponibles en esta categoría.'
-          : 'Frescura del campo directo a tu hogar.'}
-      </p>
+        {/* ENCABEZADO */}
+        <header className="productos-encabezado">
+          <p className="productos-etiqueta">
+            {categoria ? 'CATEGORÍA SELECCIONADA' : 'HUERTOHOGAR'}
+          </p>
 
-      <div className="d-flex gap-2 flex-wrap my-4">
-        <Link
-          to="/categorias"
-          className="btn btn-outline-success"
-        >
-          ← Volver a categorías
-        </Link>
+          <h1>
+            {categoria || 'Nuestros productos'}
+          </h1>
 
-        {categoria && (
+          <p className="productos-descripcion">
+            {categoria
+              ? 'Explora los productos disponibles en esta categoría.'
+              : 'Frescura del campo directo a tu hogar.'}
+          </p>
+        </header>
+
+        {/* NAVEGACIÓN */}
+        <div className="productos-acciones">
           <Link
-            to="/productos"
-            className="btn btn-success"
+            to="/categorias"
+            className="productos-boton productos-boton-secundario"
           >
-            Ver todos los productos
+            ← Volver a categorías
           </Link>
-        )}
-      </div>
 
-      {mensaje && (
-        <div className="alert alert-info" role="status">
-          {mensaje}
+          {categoria && (
+            <Link
+              to="/productos"
+              className="productos-boton productos-boton-principal"
+            >
+              Ver todos los productos
+            </Link>
+          )}
         </div>
-      )}
 
-      <p className="text-muted">
-        {productosFiltrados.length}
-        {' '}
-        {productosFiltrados.length === 1
-          ? 'producto disponible'
-          : 'productos disponibles'}
-      </p>
+        {/* MENSAJE DEL CARRITO */}
+        {mensaje && (
+          <div className="alert alert-info" role="status">
+            {mensaje}
+          </div>
+        )}
 
-      <div className="grid-productos">
-        {productosFiltrados.map((producto) => (
-          <TarjetaProducto
-            key={producto.id}
-            producto={producto}
-            alAgregar={agregarAlCarrito}
-          />
-        ))}
-      </div>
-
-      {productosFiltrados.length === 0 && (
-        <p className="text-muted mt-4">
-          No hay productos registrados en esta categoría.
+        {/* CANTIDAD DE PRODUCTOS */}
+        <p className="productos-cantidad">
+          {productosFiltrados.length}{' '}
+          {productosFiltrados.length === 1
+            ? 'producto disponible'
+            : 'productos disponibles'}
         </p>
-      )}
+
+        {/* CATÁLOGO */}
+        {productosFiltrados.length > 0 ? (
+          <div className="grid-productos">
+            {productosFiltrados.map((producto) => (
+              <TarjetaProducto
+                key={producto.id}
+                producto={producto}
+                alAgregar={agregarAlCarrito}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="productos-vacio">
+            <h2>No hay productos disponibles</h2>
+            <p>
+              Actualmente no hay productos registrados en
+              esta categoría.
+            </p>
+            <Link
+              to="/productos"
+              className="productos-boton productos-boton-principal"
+            >
+              Ver catálogo completo
+            </Link>
+          </div>
+        )}
+
+      </div>
     </main>
   )
 }

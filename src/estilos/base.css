@@ -1,138 +1,90 @@
 
-/* PIE DE PÁGINA HUERTOHOGAR */
+/* ==========================================
+   HUERTOHOGAR - ESTILOS BASE
+   ========================================== */
+
+/* ==========================================
+   1. PIE DE PÁGINA
+   ========================================== */
 
 footer {
-  background-color: #244D36;
-  color: #D9E5DC;
-  padding: 40px 20px 15px;
+  background-color: #244d36;
+  color: #ffffff;
+  padding: 32px 24px 16px;
+  font-family: 'Montserrat', Arial, sans-serif;
 }
 
-.footer-contenido {
-  max-width: 1200px;
+footer .footer-contenido {
+  width: 100%;
+  max-width: 1250px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 40px;
-}
-
-.footer-marca h2 {
-  color: #FFFFFF;
-  font-size: 24px;
-}
-
-.footer-marca p {
-  color: #D9E5DC;
-}
-
-.footer-seccion h3 {
-  color: #F4C542;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.footer-seccion a {
-  display: block;
-  color: #D9E5DC;
-  text-decoration: none;
-  margin-bottom: 10px;
-}
-
-.footer-seccion a:hover {
-  color: #F4C542;
-}
-
-.footer-inferior p {
-  margin: 0;
-  font-size: 13px;
-  color: #B9CBBD;
-}
-
-@media (max-width: 768px) {
-  .footer-contenido {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    text-align: center;
-  }
-
-  footer {
-    padding: 20px 15px 10px ;
-  }
-}
-
-
-
-/* FOOTER COMPACTO HUERTOHOGAR */
-
-footer {
-  padding: 12px 20px 6px;
-  font-size: 12px;
-}
-
-.footer-contenido {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 1.5fr 0.7fr 1.4fr 0.9fr;
+  gap: 28px;
   align-items: start;
 }
 
-.footer-marca h2 {
-  font-size: 17px;
-  margin-bottom: 4px;
+footer .footer-marca,
+footer .footer-seccion {
+  text-align: left;
+  min-width: 0;
 }
 
-.footer-marca p {
-  font-size: 12px;
-  line-height: 1.3;
+footer .footer-marca h2 {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+footer .footer-marca p {
+  color: #f2f2f2;
+  font-size: 16px;
+  line-height: 1.6;
   margin: 0;
+  max-width: 330px;
 }
 
-.footer-seccion h3 {
+footer .footer-seccion h3 {
+  color: #f4c542;
+  font-size: 19px;
+  font-weight: 700;
+  margin: 4px 0 14px;
+}
+
+footer .footer-seccion a,
+footer .footer-seccion p {
+  display: block;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 9px;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+footer .footer-seccion a:hover {
+  color: #f4c542;
+  text-decoration: underline;
+}
+
+footer .footer-inferior {
+  margin: 24px auto 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+footer .footer-inferior p {
+  margin: 0;
   font-size: 14px;
-  margin-bottom: 5px;
+  color: #eeeeee;
 }
 
-.footer-seccion a {
-  font-size: 12px;
-  margin-bottom: 3px;
-  line-height: 1.3;
-}
-
-.footer-inferior {
-  margin-top: 8px;
-  padding-top: 6px;
-}
-
-.footer-inferior p {
-  font-size: 11px;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  footer {
-    padding: 12px;
-  }
-
-  .footer-contenido {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    text-align: left;
-  }
-
-  .footer-marca {
-    grid-column: 1 / -1;
-  }
-
-  .footer-seccion a {
-    margin-bottom: 4px;
-  }
-}
-
-
-
-
-/* CATÁLOGO RESPONSIVO HUERTOHOGAR */
+/* ==========================================
+   2. CATÁLOGO DE PRODUCTOS
+   ========================================== */
 
 .grid-productos {
   display: grid;
@@ -143,7 +95,7 @@ footer {
 
 .card-producto {
   min-width: 0;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -169,37 +121,14 @@ footer {
 }
 
 .card-producto .precio {
-  color: #2E8B57;
+  color: #2e8b57;
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 12px;
 }
 
-/* TABLET */
-@media (max-width: 991px) {
-  .grid-productos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* CELULAR */
-@media (max-width: 575px) {
-  .grid-productos {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .card-producto img {
-    height: 200px;
-  }
-}
-
-
-
-
-
 /* ==========================================
-   INICIO HUERTOHOGAR - DISEÑO ENTREGA 1
+   3. INICIO - DISEÑO ENTREGA 1
    ========================================== */
 
 .inicio-huertohogar {
@@ -240,7 +169,7 @@ footer {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.30);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 
@@ -280,7 +209,7 @@ footer {
 
 .inicio-huertohogar .btn-historia {
   display: inline-block;
-  background-color: #2E8B57;
+  background-color: #2e8b57;
   color: white;
   padding: 15px 25px;
   border-radius: 10px;
@@ -296,7 +225,7 @@ footer {
 /* SECCIONES */
 
 .inicio-huertohogar .compromiso {
-  background-color: #EEF5EE;
+  background-color: #eef5ee;
   padding: 80px 20px;
 }
 
@@ -307,14 +236,14 @@ footer {
 }
 
 .inicio-huertohogar .etiqueta {
-  color: #8B4513;
+  color: #8b4513;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 2px;
 }
 
 .inicio-huertohogar .titulo-seccion h2 {
-  color: #8B4513;
+  color: #8b4513;
   font-size: 2.5rem;
   margin: 15px 0;
 }
@@ -377,7 +306,7 @@ footer {
   margin-top: 40px;
 }
 
-/* HISTORIA */
+/* HISTORIA DEL INICIO */
 
 .inicio-huertohogar .seccion-historia {
   max-width: 1100px;
@@ -398,7 +327,7 @@ footer {
 }
 
 .inicio-huertohogar .historia-texto h2 {
-  color: #8B4513;
+  color: #8b4513;
   font-size: 2.4rem;
   margin: 15px 0 25px;
 }
@@ -412,8 +341,10 @@ footer {
 /* NOTICIAS */
 
 .inicio-huertohogar .presencia {
-  background-color: white;
-  padding: 80px 20px;
+  background-color: #f5f8f4;
+  color: #333333;
+  text-align: center;
+  padding: 56px 24px;
 }
 
 .inicio-huertohogar .lista-blogs {
@@ -446,7 +377,7 @@ footer {
 }
 
 .inicio-huertohogar .info-blog h2 {
-  color: #8B4513;
+  color: #8b4513;
   margin-top: 0;
 }
 
@@ -457,7 +388,7 @@ footer {
 
 .inicio-huertohogar .boton-ver-caso {
   display: inline-block;
-  background-color: #2E8B57;
+  background-color: #2e8b57;
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
@@ -471,7 +402,257 @@ footer {
   color: white;
 }
 
-/* RESPONSIVE */
+/* ==========================================
+   4. NOSOTROS - NUESTRA HISTORIA
+   ========================================== */
+
+.pagina-nosotros {
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+.pagina-nosotros .nosotros-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.pagina-nosotros .nosotros-seccion {
+  padding: 64px 24px;
+}
+
+.pagina-nosotros .nosotros-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-nosotros h1,
+.pagina-nosotros h2,
+.pagina-nosotros h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  color: #8b4513;
+  line-height: 1.25;
+}
+
+.pagina-nosotros h1 {
+  font-size: clamp(34px, 5vw, 48px);
+}
+
+.pagina-nosotros h2 {
+  font-size: clamp(26px, 3vw, 34px);
+  margin-bottom: 22px;
+}
+
+.pagina-nosotros h3 {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.pagina-nosotros p {
+  line-height: 1.75;
+}
+
+/* PORTADA */
+
+.pagina-nosotros .nosotros-portada {
+  min-height: 340px;
+  background:
+    linear-gradient(
+      rgba(20, 48, 32, 0.66),
+      rgba(20, 48, 32, 0.66)
+    ),
+    url('/imagenes/fondo.png') center / cover no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 55px 24px;
+  text-align: center;
+}
+
+.pagina-nosotros .nosotros-portada-contenido {
+  max-width: 800px;
+}
+
+.pagina-nosotros .nosotros-portada h1 {
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.pagina-nosotros .nosotros-portada p {
+  color: #ffffff;
+  font-size: 19px;
+}
+
+.pagina-nosotros .nosotros-portada .nosotros-etiqueta {
+  color: #f4c542;
+}
+
+/* HISTORIA */
+
+.pagina-nosotros .nosotros-historia {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 52px;
+}
+
+.pagina-nosotros .nosotros-historia-imagen img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.pagina-nosotros .nosotros-historia-texto p {
+  margin-bottom: 15px;
+}
+
+/* COMPROMISOS */
+
+.pagina-nosotros .nosotros-fondo {
+  background-color: #f5f8f4;
+}
+
+.pagina-nosotros .nosotros-encabezado {
+  max-width: 850px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+.pagina-nosotros .nosotros-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.pagina-nosotros .nosotros-tarjeta {
+  background: #ffffff;
+  border: 1px solid #e6eae5;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+.pagina-nosotros .nosotros-tarjeta img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+}
+
+.pagina-nosotros .nosotros-tarjeta-contenido {
+  padding: 24px;
+}
+
+.pagina-nosotros .nosotros-tarjeta p {
+  margin: 0;
+}
+
+/* MISIÓN Y VISIÓN */
+
+.pagina-nosotros .nosotros-proposito {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.pagina-nosotros .nosotros-proposito-item {
+  background: #f8faf7;
+  border: 1px solid #e7ece5;
+  border-top: 4px solid #2e8b57;
+  border-radius: 10px;
+  padding: 32px;
+}
+
+.pagina-nosotros .nosotros-proposito-item p:last-child {
+  margin-bottom: 0;
+}
+
+/* PRESENCIA EN CHILE - FONDO CLARO */
+
+.pagina-nosotros .nosotros-presencia {
+  background-color: #f5f8f4;
+  color: #333333;
+  text-align: center;
+  padding: 56px 24px;
+}
+
+.pagina-nosotros .nosotros-presencia h2 {
+  color: #8b4513;
+  font-weight: 700;
+}
+
+.pagina-nosotros .nosotros-presencia > div > p {
+  color: #444444;
+}
+
+.pagina-nosotros .nosotros-presencia .nosotros-etiqueta {
+  color: #8b4513;
+}
+
+.pagina-nosotros .nosotros-ciudades {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding: 0;
+  margin: 30px 0;
+}
+
+.pagina-nosotros .nosotros-ciudades li {
+  padding: 9px 16px;
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #b8d4c1;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.pagina-nosotros .nosotros-boton {
+  display: inline-block;
+  background: #2e8b57;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 28px;
+  text-decoration: none;
+  border-radius: 7px;
+  transition: background 0.2s ease;
+}
+
+.pagina-nosotros .nosotros-boton:hover {
+  background: #256b45;
+  color: #ffffff;
+}
+
+/* ==========================================
+   5. DISEÑO RESPONSIVO
+   ========================================== */
+
+@media (max-width: 992px) {
+  footer .footer-contenido {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+  }
+}
+
+@media (max-width: 991px) {
+  .grid-productos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
 @media (max-width: 768px) {
   .inicio-huertohogar .hero-nosotros {
@@ -512,6 +693,61 @@ footer {
     width: 100%;
     height: 280px;
   }
+
+  .pagina-nosotros .nosotros-seccion {
+    padding: 45px 18px;
+  }
+
+  .pagina-nosotros .nosotros-historia,
+  .pagina-nosotros .nosotros-proposito {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-nosotros .nosotros-historia {
+    gap: 24px;
+  }
+
+  .pagina-nosotros .nosotros-historia-imagen img {
+    height: 270px;
+  }
+
+  .pagina-nosotros .nosotros-tarjetas {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-nosotros .nosotros-portada {
+    min-height: 260px;
+  }
+
+  .pagina-nosotros .nosotros-portada p {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 576px) {
+  footer {
+    padding: 28px 18px 16px;
+  }
+
+  footer .footer-contenido {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  footer .footer-marca h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 575px) {
+  .grid-productos {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card-producto img {
+    height: 200px;
+  }
 }
 
 @media (max-width: 500px) {
@@ -529,5 +765,3729 @@ footer {
 
   .inicio-huertohogar .hero-contenido > p:not(.hero-subtitulo) {
     font-size: 1rem;
+  }
+}
+
+
+
+
+/* ==========================================
+   PRODUCTOS - DISEÑO HUERTOHOGAR
+   ========================================== */
+
+.pagina-productos {
+  width: 100%;
+  background-color: #f8faf7;
+  font-family: 'Montserrat', Arial, sans-serif;
+  padding: 50px 20px 70px;
+}
+
+.pagina-productos .productos-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-productos .productos-encabezado {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 30px;
+}
+
+.pagina-productos .productos-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-productos .productos-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-productos .productos-descripcion {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* BOTONES */
+
+.pagina-productos .productos-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.pagina-productos .productos-boton {
+  display: inline-block;
+  padding: 11px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-productos .productos-boton-principal {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-productos .productos-boton-principal:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+.pagina-productos .productos-boton-secundario {
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-productos .productos-boton-secundario:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+/* CANTIDAD */
+
+.pagina-productos .productos-cantidad {
+  color: #666666;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+/* TARJETAS DEL CATÁLOGO */
+
+.pagina-productos .grid-productos {
+  margin-top: 0;
+}
+
+/* SIN PRODUCTOS */
+
+.pagina-productos .productos-vacio {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px 24px;
+  text-align: center;
+  border: 1px solid #e2e8e2;
+}
+
+.pagina-productos .productos-vacio h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  color: #8b4513;
+}
+
+.pagina-productos .productos-vacio p {
+  color: #555555;
+  margin: 15px 0 24px;
+}
+
+/* CELULARES */
+
+@media (max-width: 576px) {
+  .pagina-productos {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-productos .productos-encabezado h1 {
+    font-size: 30px;
+  }
+
+  .pagina-productos .productos-acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pagina-productos .productos-boton {
+    text-align: center;
+  }
+}
+
+
+/* ==========================================
+   CATEGORÍAS - DISEÑO HUERTOHOGAR
+   ========================================== */
+
+.pagina-categorias {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 50px 20px 70px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-categorias .categorias-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-categorias .categorias-encabezado {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 42px;
+}
+
+.pagina-categorias .categorias-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-categorias .categorias-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-categorias .categorias-descripcion {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* TARJETAS */
+
+.pagina-categorias .categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.pagina-categorias .categoria-tarjeta {
+  min-width: 0;
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pagina-categorias .categoria-tarjeta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.pagina-categorias .categoria-imagen {
+  display: block;
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+}
+
+.pagina-categorias .categoria-contenido {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pagina-categorias .categoria-contenido h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.pagina-categorias .categoria-contenido p {
+  color: #666666;
+  font-size: 15px;
+  margin-bottom: 22px;
+}
+
+.pagina-categorias .categoria-boton {
+  display: block;
+  margin-top: auto;
+  padding: 12px 20px;
+  background-color: #2e8b57;
+  color: #ffffff;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-categorias .categoria-boton:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+/* SIN CATEGORÍAS */
+
+.pagina-categorias .categorias-vacio {
+  background: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 12px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.pagina-categorias .categorias-vacio h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+}
+
+.pagina-categorias .categorias-vacio p {
+  color: #555555;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 992px) {
+  .pagina-categorias .categorias-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .pagina-categorias {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-categorias .categorias-encabezado h1 {
+    font-size: 30px;
+  }
+
+  .pagina-categorias .categorias-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .pagina-categorias .categoria-imagen {
+    height: 200px;
+  }
+}
+
+
+
+/* ==========================================
+   OFERTAS - DISEÑO HUERTOHOGAR
+   ========================================== */
+
+.pagina-ofertas {
+  width: 100%;
+  background-color: #f8faf7;
+  font-family: 'Montserrat', Arial, sans-serif;
+  padding: 50px 20px 70px;
+}
+
+.pagina-ofertas .ofertas-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-ofertas .ofertas-encabezado {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.pagina-ofertas .ofertas-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-ofertas .ofertas-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-ofertas .ofertas-descripcion {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* PRODUCTOS EN OFERTA */
+
+.pagina-ofertas .grid-productos {
+  margin-top: 0;
+}
+
+/* SIN OFERTAS */
+
+.pagina-ofertas .ofertas-vacio {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 45px 30px;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+}
+
+.pagina-ofertas .ofertas-vacio h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 27px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.pagina-ofertas .ofertas-vacio p {
+  color: #555555;
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 576px) {
+  .pagina-ofertas {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-ofertas .ofertas-encabezado h1 {
+    font-size: 30px;
+  }
+
+  .pagina-ofertas .ofertas-vacio {
+    padding: 30px 20px;
+  }
+}
+
+
+/* ==========================================
+   BLOGS - DISEÑO ORIGINAL HUERTOHOGAR
+   ========================================== */
+
+.pagina-blogs {
+  width: 100%;
+  background-color: #f8faf7;
+  font-family: 'Montserrat', Arial, sans-serif;
+  padding: 50px 20px 70px;
+}
+
+.pagina-blogs .blogs-contenedor {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-blogs .blogs-encabezado {
+  max-width: 800px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.pagina-blogs .blogs-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-blogs .blogs-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-blogs .blogs-descripcion {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* LISTADO DE ARTÍCULOS */
+
+.pagina-blogs .blogs-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* TARJETAS HORIZONTALES */
+
+.pagina-blogs .blog-tarjeta {
+  display: flex;
+  align-items: stretch;
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.pagina-blogs .blog-tarjeta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.11);
+}
+
+.pagina-blogs .blog-imagen {
+  display: block;
+  width: 36%;
+  min-height: 250px;
+  object-fit: cover;
+}
+
+.pagina-blogs .blog-contenido {
+  flex: 1;
+  min-width: 0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.pagina-blogs .blog-contenido h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 16px;
+}
+
+.pagina-blogs .blog-contenido p {
+  color: #555555;
+  font-size: 16px;
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+/* BOTÓN */
+
+.pagina-blogs .blog-boton {
+  display: inline-block;
+  margin-top: auto;
+  padding: 11px 24px;
+  background-color: #2e8b57;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-blogs .blog-boton:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+.pagina-blogs .blog-boton:focus-visible {
+  outline: 3px solid #f4c542;
+  outline-offset: 3px;
+}
+
+/* SIN NOTICIAS */
+
+.pagina-blogs .blogs-vacio {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 12px;
+  padding: 35px;
+  text-align: center;
+}
+
+.pagina-blogs .blogs-vacio p {
+  color: #555555;
+  margin: 0;
+}
+
+/* TABLET Y CELULAR */
+
+@media (max-width: 768px) {
+  .pagina-blogs {
+    padding: 35px 16px 50px;
+  }
+
+  .pagina-blogs .blog-tarjeta {
+    flex-direction: column;
+  }
+
+  .pagina-blogs .blog-imagen {
+    width: 100%;
+    height: 250px;
+    min-height: 0;
+  }
+
+  .pagina-blogs .blog-contenido {
+    padding: 24px;
+  }
+
+  .pagina-blogs .blog-contenido h2 {
+    font-size: 23px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-blogs .blog-imagen {
+    height: 210px;
+  }
+
+  .pagina-blogs .blog-contenido {
+    padding: 20px;
+  }
+}
+
+/* ==========================================
+   DETALLE BLOG - HUERTOHOGAR
+   ========================================== */
+
+.pagina-detalle-blog {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 45px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-detalle-blog .detalle-blog-contenedor {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* NAVEGACIÓN */
+
+.pagina-detalle-blog .detalle-blog-navegacion {
+  margin-bottom: 30px;
+}
+
+.pagina-detalle-blog .detalle-blog-volver {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-detalle-blog .detalle-blog-volver:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+/* ARTÍCULO */
+
+.pagina-detalle-blog .detalle-blog-articulo {
+  max-width: 850px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* ENCABEZADO */
+
+.pagina-detalle-blog .detalle-blog-encabezado {
+  padding: 42px 42px 28px;
+  text-align: center;
+}
+
+.pagina-detalle-blog .detalle-blog-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.pagina-detalle-blog .detalle-blog-encabezado h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: #8b4513;
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 24px;
+}
+
+.pagina-detalle-blog .detalle-blog-introduccion {
+  color: #555555;
+  font-size: 18px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* IMAGEN */
+
+.pagina-detalle-blog .detalle-blog-imagen {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+/* CONTENIDO */
+
+.pagina-detalle-blog .detalle-blog-contenido {
+  padding: 40px 48px 20px;
+}
+
+.pagina-detalle-blog .detalle-blog-seccion {
+  margin-bottom: 34px;
+}
+
+.pagina-detalle-blog .detalle-blog-seccion h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: #8b4513;
+  font-size: 27px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.pagina-detalle-blog .detalle-blog-seccion p {
+  color: #444444;
+  font-size: 16px;
+  line-height: 1.9;
+  margin: 0;
+}
+
+/* BOTÓN FINAL */
+
+.pagina-detalle-blog .detalle-blog-final {
+  text-align: center;
+  padding: 5px 30px 42px;
+}
+
+.pagina-detalle-blog .detalle-blog-boton {
+  display: inline-block;
+  background-color: #2e8b57;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-detalle-blog .detalle-blog-boton:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+/* ARTÍCULO NO ENCONTRADO */
+
+.pagina-detalle-blog .detalle-blog-vacio {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 45px 25px;
+  background-color: #ffffff;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.pagina-detalle-blog .detalle-blog-vacio h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: #8b4513;
+  font-size: 32px;
+}
+
+.pagina-detalle-blog .detalle-blog-vacio p {
+  color: #555555;
+  margin: 18px 0 25px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  .pagina-detalle-blog {
+    padding: 30px 15px 50px;
+  }
+
+  .pagina-detalle-blog .detalle-blog-encabezado {
+    padding: 30px 22px 25px;
+  }
+
+  .pagina-detalle-blog .detalle-blog-imagen {
+    height: 260px;
+  }
+
+  .pagina-detalle-blog .detalle-blog-contenido {
+    padding: 30px 24px 15px;
+  }
+
+  .pagina-detalle-blog .detalle-blog-seccion h2 {
+    font-size: 23px;
+  }
+
+  .pagina-detalle-blog .detalle-blog-introduccion {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-detalle-blog .detalle-blog-imagen {
+    height: 210px;
+  }
+
+  .pagina-detalle-blog .detalle-blog-contenido {
+    padding: 25px 20px 10px;
+  }
+}
+
+
+/* ==========================================
+   CONTACTO - DISEÑO HUERTOHOGAR
+   ========================================== */
+
+.pagina-contacto {
+  width: 100%;
+  background-color: #f8faf7;
+  font-family: 'Montserrat', Arial, sans-serif;
+  padding: 50px 20px 75px;
+}
+
+.pagina-contacto .contacto-contenedor {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-contacto .contacto-encabezado {
+  max-width: 750px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.pagina-contacto .contacto-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-contacto .contacto-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-contacto .contacto-descripcion {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* FORMULARIO */
+
+.pagina-contacto .contacto-formulario {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  padding: 38px 42px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+/* ETIQUETAS */
+
+.pagina-contacto .contacto-formulario label {
+  display: block;
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* CAMPOS */
+
+.pagina-contacto .contacto-formulario input,
+.pagina-contacto .contacto-formulario select,
+.pagina-contacto .contacto-formulario textarea {
+  width: 100%;
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 15px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background-color: #ffffff;
+  color: #333333;
+  transition: border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.pagina-contacto .contacto-formulario textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.pagina-contacto .contacto-formulario input:focus,
+.pagina-contacto .contacto-formulario select:focus,
+.pagina-contacto .contacto-formulario textarea:focus {
+  border-color: #2e8b57;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+}
+
+/* MANTENER VISIBLES LOS ERRORES DE VALIDACIÓN */
+
+.pagina-contacto .contacto-formulario .is-invalid {
+  border-color: #dc3545;
+}
+
+.pagina-contacto .contacto-formulario .invalid-feedback {
+  color: #b42332;
+  font-size: 13px;
+}
+
+/* BOTÓN */
+
+.pagina-contacto .contacto-acciones {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.pagina-contacto .contacto-boton {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: none;
+  padding: 13px 34px;
+  border-radius: 8px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-contacto .contacto-boton:hover {
+  background-color: #256b45;
+}
+
+.pagina-contacto .contacto-boton:focus-visible {
+  outline: 3px solid #f4c542;
+  outline-offset: 3px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 576px) {
+  .pagina-contacto {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-contacto .contacto-formulario {
+    padding: 25px 20px;
+  }
+
+  .pagina-contacto .contacto-encabezado h1 {
+    font-size: 30px;
+  }
+
+  .pagina-contacto .contacto-boton {
+    width: 100%;
+  }
+}
+
+
+
+/* ==========================================
+   CARRITO DE COMPRAS - HUERTOHOGAR
+   ========================================== */
+
+.pagina-carrito {
+  background-color: #f8faf7;
+  padding: 45px 20px 70px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-carrito .carrito-contenedor {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-carrito .carrito-encabezado {
+  text-align: center;
+  margin-bottom: 38px;
+}
+
+.pagina-carrito .carrito-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-carrito .carrito-encabezado h1,
+.pagina-carrito .carrito-sugerencias h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: #8b4513;
+  font-weight: 700;
+}
+
+.pagina-carrito .carrito-encabezado h1 {
+  font-size: clamp(32px, 4vw, 42px);
+  margin-bottom: 14px;
+}
+
+.pagina-carrito .carrito-encabezado > p:last-child {
+  color: #555555;
+  font-size: 17px;
+}
+
+/* TABLA */
+
+.pagina-carrito .carrito-tabla-contenedor {
+  background: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+  overflow-x: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-carrito .carrito-tabla {
+  width: 100%;
+  min-width: 780px;
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+.pagina-carrito .carrito-tabla thead th {
+  background-color: #eaf3eb;
+  color: #244d36;
+  padding: 16px;
+  font-weight: 700;
+}
+
+.pagina-carrito .carrito-tabla tbody td,
+.pagina-carrito .carrito-tabla tfoot td,
+.pagina-carrito .carrito-tabla tfoot th {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.pagina-carrito .carrito-nombre {
+  font-weight: 600;
+  color: #333333;
+}
+
+.pagina-carrito .carrito-subtotal,
+.pagina-carrito .carrito-total {
+  color: #2e8b57;
+  font-weight: 700;
+}
+
+.pagina-carrito .carrito-total {
+  font-size: 20px;
+}
+
+/* CANTIDAD */
+
+.pagina-carrito .carrito-cantidad {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.pagina-carrito .carrito-cantidad button {
+  background: #edf4ee;
+  color: #244d36;
+  border: none;
+  padding: 7px 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.pagina-carrito .carrito-cantidad button:hover:not(:disabled) {
+  background: #d8e9da;
+}
+
+.pagina-carrito .carrito-cantidad button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagina-carrito .carrito-cantidad input {
+  width: 55px;
+  border: none;
+  text-align: center;
+  font-size: 15px;
+  background: #ffffff;
+}
+
+/* BOTONES */
+
+.pagina-carrito .carrito-acciones {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.pagina-carrito .carrito-boton-principal,
+.pagina-carrito .carrito-boton-agregar {
+  display: inline-block;
+  background: #2e8b57;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pagina-carrito .carrito-boton-principal:hover,
+.pagina-carrito .carrito-boton-agregar:hover {
+  background: #256b45;
+  color: #ffffff;
+}
+
+.pagina-carrito .carrito-boton-limpiar {
+  background: #ffffff;
+  border: 1px solid #b8c8ba;
+  color: #244d36;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagina-carrito .carrito-boton-limpiar:hover {
+  background: #edf4ee;
+}
+
+.pagina-carrito .carrito-boton-eliminar {
+  background: #b42332;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.pagina-carrito .carrito-boton-eliminar:hover {
+  background: #8d1c28;
+}
+
+.pagina-carrito .carrito-seguir {
+  display: inline-block;
+  margin-top: 22px;
+  color: #244d36;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-carrito .carrito-seguir:hover {
+  text-decoration: underline;
+}
+
+/* CARRITO VACÍO */
+
+.pagina-carrito .carrito-vacio {
+  background: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+  padding: 45px 25px;
+  text-align: center;
+}
+
+.pagina-carrito .carrito-vacio h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 15px;
+}
+
+.pagina-carrito .carrito-vacio p {
+  color: #555555;
+  margin-bottom: 25px;
+}
+
+/* SUGERENCIAS */
+
+.pagina-carrito .carrito-sugerencias {
+  margin-top: 65px;
+}
+
+.pagina-carrito .carrito-sugerencias h2 {
+  font-size: clamp(25px, 3vw, 32px);
+  margin-bottom: 28px;
+}
+
+.pagina-carrito .carrito-grid-sugerencias {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.pagina-carrito .carrito-tarjeta-sugerencia {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-carrito .carrito-tarjeta-sugerencia img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.pagina-carrito .carrito-sugerencia-contenido {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pagina-carrito .carrito-sugerencia-contenido h3 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.pagina-carrito .carrito-sugerencia-categoria {
+  color: #777777;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.pagina-carrito .carrito-precio-anterior {
+  color: #888888;
+  font-size: 14px;
+}
+
+.pagina-carrito .carrito-sugerencia-precio {
+  color: #2e8b57;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.pagina-carrito .carrito-boton-agregar {
+  width: 100%;
+  margin-top: auto;
+  text-align: center;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  .pagina-carrito {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-carrito .carrito-grid-sugerencias {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .pagina-carrito .carrito-sugerencias {
+    margin-top: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-carrito .carrito-grid-sugerencias {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-carrito .carrito-acciones {
+    flex-direction: column;
+  }
+
+  .pagina-carrito .carrito-acciones button {
+    width: 100%;
+  }
+}
+
+
+/* ==========================================
+   CHECKOUT - FINALIZAR COMPRA
+   ========================================== */
+
+.pagina-checkout {
+  width: 100%;
+  background: #f8faf7;
+  font-family: 'Montserrat', Arial, sans-serif;
+  padding: 45px 20px 75px;
+}
+
+.pagina-checkout .checkout-contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-checkout .checkout-encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pagina-checkout .checkout-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-checkout .checkout-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-checkout .checkout-encabezado > p:last-child {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* FORMULARIO */
+
+.pagina-checkout .checkout-formulario {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  padding: 35px 42px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-checkout .checkout-seccion {
+  padding: 0 0 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #e2e8e2;
+}
+
+.pagina-checkout .checkout-seccion h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.pagina-checkout .checkout-texto-ayuda {
+  color: #666666;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+/* RESUMEN Y TOTAL */
+
+.pagina-checkout .checkout-resumen-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.pagina-checkout .checkout-resumen-encabezado p {
+  color: #666666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.pagina-checkout .checkout-total-destacado {
+  display: flex;
+  flex-direction: column;
+  background-color: #eaf3eb;
+  border: 1px solid #c5dac8;
+  border-radius: 10px;
+  padding: 12px 22px;
+  color: #244d36;
+  text-align: right;
+}
+
+.pagina-checkout .checkout-total-destacado span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pagina-checkout .checkout-total-destacado strong {
+  color: #2e8b57;
+  font-size: 24px;
+}
+
+/* TABLA DE PRODUCTOS */
+
+.pagina-checkout .checkout-tabla-contenedor {
+  border: 1px solid #e2e8e2;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.pagina-checkout .checkout-tabla {
+  min-width: 620px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.pagina-checkout .checkout-tabla th {
+  background-color: #eaf3eb;
+  color: #244d36;
+  padding: 13px;
+}
+
+.pagina-checkout .checkout-tabla td {
+  padding: 13px;
+}
+
+/* CAMPOS DEL FORMULARIO */
+
+.pagina-checkout .checkout-formulario label {
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pagina-checkout .checkout-formulario input:not([type="radio"]),
+.pagina-checkout .checkout-formulario select,
+.pagina-checkout .checkout-formulario textarea {
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 15px;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+.pagina-checkout .checkout-formulario input:focus,
+.pagina-checkout .checkout-formulario select:focus,
+.pagina-checkout .checkout-formulario textarea:focus {
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+}
+
+.pagina-checkout .checkout-formulario .is-invalid {
+  border-color: #dc3545;
+}
+
+.pagina-checkout .checkout-formulario .invalid-feedback {
+  color: #b42332;
+}
+
+/* OPCIONES DE ENTREGA */
+
+.pagina-checkout .checkout-opciones-entrega {
+  margin-bottom: 24px;
+}
+
+.pagina-checkout .checkout-opciones-entrega legend {
+  color: #244d36;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.pagina-checkout .checkout-opciones-entrega .form-check {
+  margin-bottom: 12px;
+}
+
+.pagina-checkout .checkout-opciones-entrega .form-check-input:checked {
+  background-color: #2e8b57;
+  border-color: #2e8b57;
+}
+
+/* BOTONES Y CONFIRMACIÓN */
+
+.pagina-checkout .checkout-acciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.pagina-checkout .checkout-boton-volver {
+  display: inline-block;
+  padding: 12px 20px;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-checkout .checkout-boton-volver:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+.pagina-checkout .checkout-confirmacion {
+  text-align: right;
+}
+
+.pagina-checkout .checkout-confirmacion p {
+  color: #666666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.pagina-checkout .checkout-boton-principal {
+  display: inline-block;
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 25px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagina-checkout .checkout-boton-principal:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+.pagina-checkout .checkout-boton-principal:focus-visible {
+  outline: 3px solid #f4c542;
+  outline-offset: 3px;
+}
+
+/* CARRITO VACÍO */
+
+.pagina-checkout .checkout-vacio {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 45px 30px;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+}
+
+.pagina-checkout .checkout-vacio h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: #8b4513;
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.pagina-checkout .checkout-vacio p {
+  color: #555555;
+  margin-bottom: 25px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  .pagina-checkout {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-checkout .checkout-formulario {
+    padding: 25px 20px;
+  }
+
+  .pagina-checkout .checkout-resumen-encabezado {
+    align-items: flex-start;
+  }
+
+  .pagina-checkout .checkout-total-destacado {
+    width: 100%;
+    text-align: left;
+  }
+
+  .pagina-checkout .checkout-acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pagina-checkout .checkout-confirmacion {
+    text-align: center;
+  }
+
+  .pagina-checkout .checkout-boton-volver,
+  .pagina-checkout .checkout-boton-principal {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+/* ==========================================
+   COMPRA EXITOSA - HUERTOHOGAR
+   ========================================== */
+
+.pagina-compra-exitosa {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 45px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-compra-exitosa .compra-exitosa-contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-compra-exitosa .compra-exitosa-encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-encabezado > p:last-child {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* TARJETA */
+
+.pagina-compra-exitosa .compra-exitosa-tarjeta {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  padding: 38px 42px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-compra-exitosa .compra-exitosa-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-estado {
+  color: #2e8b57;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-cabecera h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.pagina-compra-exitosa .compra-exitosa-codigo {
+  color: #555555;
+  font-size: 14px;
+  margin: 0;
+}
+
+.pagina-compra-exitosa .compra-exitosa-codigo strong {
+  display: block;
+  color: #244d36;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.pagina-compra-exitosa .compra-exitosa-numero {
+  color: #666666;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-detalle {
+  border-top: 1px solid #e2e8e2;
+  padding-top: 25px;
+}
+
+/* ACCIONES */
+
+.pagina-compra-exitosa .compra-exitosa-acciones {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 35px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-boton,
+.pagina-compra-exitosa .compra-exitosa-boton-secundario,
+.pagina-compra-exitosa .compra-exitosa-boton-contorno {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-compra-exitosa .compra-exitosa-boton {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-compra-exitosa .compra-exitosa-boton:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+.pagina-compra-exitosa .compra-exitosa-boton-secundario {
+  background-color: #244d36;
+  color: #ffffff;
+  border: 1px solid #244d36;
+}
+
+.pagina-compra-exitosa .compra-exitosa-boton-secundario:hover {
+  background-color: #193d2a;
+}
+
+.pagina-compra-exitosa .compra-exitosa-boton-contorno {
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-compra-exitosa .compra-exitosa-boton-contorno:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+/* COMPRA NO ENCONTRADA */
+
+.pagina-compra-exitosa .compra-exitosa-vacio {
+  max-width: 700px;
+  margin: 30px auto;
+  background: #ffffff;
+  padding: 45px 25px;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.pagina-compra-exitosa .compra-exitosa-vacio h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+}
+
+.pagina-compra-exitosa .compra-exitosa-vacio p {
+  margin: 18px 0 25px;
+  color: #555555;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  .pagina-compra-exitosa {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-compra-exitosa .compra-exitosa-tarjeta {
+    padding: 25px 20px;
+  }
+
+  .pagina-compra-exitosa .compra-exitosa-cabecera {
+    flex-direction: column;
+  }
+
+  .pagina-compra-exitosa .compra-exitosa-acciones {
+    flex-direction: column;
+  }
+
+  .pagina-compra-exitosa .compra-exitosa-acciones > * {
+    width: 100%;
+  }
+}
+
+/* IMPRESIÓN DEL COMPROBANTE */
+
+@media print {
+  .pagina-compra-exitosa {
+    background-color: #ffffff;
+    padding: 0;
+  }
+
+  .pagina-compra-exitosa .compra-exitosa-tarjeta {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .pagina-compra-exitosa .compra-exitosa-acciones {
+    display: none;
+  }
+}
+
+
+
+/* ==========================================
+   COMPRA FALLIDA - HUERTOHOGAR
+   ========================================== */
+
+.pagina-compra-fallida {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 45px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-compra-fallida .compra-fallida-contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-compra-fallida .compra-fallida-encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pagina-compra-fallida .compra-fallida-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-compra-fallida .compra-fallida-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.pagina-compra-fallida .compra-fallida-encabezado > p:last-child {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* TARJETA PRINCIPAL */
+
+.pagina-compra-fallida .compra-fallida-tarjeta {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  padding: 38px 42px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-compra-fallida .compra-fallida-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.pagina-compra-fallida .compra-fallida-estado {
+  color: #b42332;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.pagina-compra-fallida .compra-fallida-cabecera h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 27px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.pagina-compra-fallida .compra-fallida-numero {
+  color: #666666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.pagina-compra-fallida .compra-fallida-numero strong {
+  display: block;
+  color: #244d36;
+  font-size: 18px;
+}
+
+/* AVISO DE PAGO FALLIDO */
+
+.pagina-compra-fallida .compra-fallida-aviso {
+  background-color: #fff5f5;
+  border: 1px solid #f0cccc;
+  border-left: 4px solid #b42332;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 30px;
+}
+
+.pagina-compra-fallida .compra-fallida-aviso strong {
+  display: block;
+  color: #a61b2b;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.pagina-compra-fallida .compra-fallida-aviso p {
+  color: #555555;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* DETALLE DEL PEDIDO */
+
+.pagina-compra-fallida .compra-fallida-detalle {
+  border-top: 1px solid #e2e8e2;
+  padding-top: 25px;
+}
+
+/* BOTONES */
+
+.pagina-compra-fallida .compra-fallida-acciones {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 35px;
+}
+
+.pagina-compra-fallida .compra-fallida-boton,
+.pagina-compra-fallida .compra-fallida-boton-secundario {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-compra-fallida .compra-fallida-boton {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-compra-fallida .compra-fallida-boton:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+.pagina-compra-fallida .compra-fallida-boton-secundario {
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-compra-fallida .compra-fallida-boton-secundario:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+/* PAGO NO ENCONTRADO */
+
+.pagina-compra-fallida .compra-fallida-vacio {
+  max-width: 700px;
+  margin: 30px auto;
+  background-color: #ffffff;
+  padding: 45px 25px;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.pagina-compra-fallida .compra-fallida-vacio h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+}
+
+.pagina-compra-fallida .compra-fallida-vacio p {
+  color: #555555;
+  margin: 18px 0 25px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  .pagina-compra-fallida {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-compra-fallida .compra-fallida-tarjeta {
+    padding: 25px 20px;
+  }
+
+  .pagina-compra-fallida .compra-fallida-cabecera {
+    flex-direction: column;
+  }
+
+  .pagina-compra-fallida .compra-fallida-acciones {
+    flex-direction: column;
+  }
+
+  .pagina-compra-fallida .compra-fallida-acciones > * {
+    width: 100%;
+  }
+}
+
+
+
+/* ==========================================
+   INICIAR SESIÓN - HUERTOHOGAR
+   ========================================== */
+
+.pagina-iniciar-sesion {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 55px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-contenedor {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-iniciar-sesion .inicio-sesion-encabezado {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-encabezado > p:last-child {
+  color: #555555;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* FORMULARIO */
+
+.pagina-iniciar-sesion .inicio-sesion-formulario {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  padding: 35px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+  text-align: left;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-formulario label {
+  display: block;
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-formulario input {
+  width: 100%;
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-formulario input:focus {
+  outline: none;
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+}
+
+/* VALIDACIONES */
+
+.pagina-iniciar-sesion .inicio-sesion-formulario .is-invalid {
+  border-color: #dc3545;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-formulario .invalid-feedback {
+  color: #b42332;
+  font-size: 13px;
+}
+
+/* BOTÓN */
+
+.pagina-iniciar-sesion .inicio-sesion-boton {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px 20px;
+  background-color: #2e8b57;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-boton:hover {
+  background-color: #256b45;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-boton:focus-visible {
+  outline: 3px solid #f4c542;
+  outline-offset: 3px;
+}
+
+/* ENLACE REGISTRARSE */
+
+.pagina-iniciar-sesion .inicio-sesion-registro {
+  text-align: center;
+  color: #555555;
+  font-size: 15px;
+  margin-top: 24px;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-registro a {
+  color: #2e8b57;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-iniciar-sesion .inicio-sesion-registro a:hover {
+  color: #244d36;
+  text-decoration: underline;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 576px) {
+  .pagina-iniciar-sesion {
+    padding: 35px 15px 55px;
+  }
+
+  .pagina-iniciar-sesion .inicio-sesion-formulario {
+    padding: 25px 20px;
+  }
+
+  .pagina-iniciar-sesion .inicio-sesion-encabezado h1 {
+    font-size: 30px;
+  }
+}
+
+
+/* ==========================================
+   REGISTRO DE USUARIOS - HUERTOHOGAR
+   ========================================== */
+
+.pagina-registro {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 50px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-registro .registro-contenedor {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-registro .registro-encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pagina-registro .registro-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-registro .registro-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.pagina-registro .registro-encabezado > p:last-child {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* CONTENEDOR DEL FORMULARIO */
+
+.pagina-registro .registro-formulario {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  padding: 35px 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+  text-align: left;
+}
+
+/* CAMPOS */
+
+.pagina-registro .registro-formulario label {
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pagina-registro .registro-formulario input:not([type="radio"]):not([type="checkbox"]),
+.pagina-registro .registro-formulario select,
+.pagina-registro .registro-formulario textarea {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: #333333;
+  font-size: 15px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-registro .registro-formulario input:focus,
+.pagina-registro .registro-formulario select:focus,
+.pagina-registro .registro-formulario textarea:focus {
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+  outline: none;
+}
+
+/* VALIDACIONES */
+
+.pagina-registro .registro-formulario .is-invalid {
+  border-color: #dc3545;
+}
+
+.pagina-registro .registro-formulario .invalid-feedback {
+  color: #b42332;
+  font-size: 13px;
+}
+
+/* BOTÓN CREAR CUENTA */
+
+.pagina-registro .registro-formulario button[type="submit"] {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.pagina-registro .registro-formulario button[type="submit"]:hover {
+  background-color: #256b45;
+  border-color: #256b45;
+}
+
+/* ENLACE INICIAR SESIÓN */
+
+.pagina-registro .registro-iniciar-sesion {
+  text-align: center;
+  color: #555555;
+  font-size: 15px;
+  margin-top: 25px;
+}
+
+.pagina-registro .registro-iniciar-sesion a {
+  color: #2e8b57;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-registro .registro-iniciar-sesion a:hover {
+  color: #244d36;
+  text-decoration: underline;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 576px) {
+  .pagina-registro {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-registro .registro-formulario {
+    padding: 25px 20px;
+  }
+
+  .pagina-registro .registro-encabezado h1 {
+    font-size: 30px;
+  }
+}
+
+
+
+/* ==========================================
+   ADMINISTRACIÓN DE USUARIOS - HUERTOHOGAR
+   ========================================== */
+
+.pagina-admin-usuarios {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 45px 20px 70px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-admin-usuarios .admin-usuarios-contenedor {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-admin-usuarios .admin-usuarios-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.pagina-admin-usuarios .admin-usuarios-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-admin-usuarios .admin-usuarios-titulo h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.pagina-admin-usuarios .admin-usuarios-titulo > p:last-child {
+  color: #666666;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* BOTÓN NUEVO USUARIO */
+
+.pagina-admin-usuarios .admin-usuarios-boton-principal {
+  display: inline-block;
+  padding: 12px 22px;
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-principal:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+/* TABLA */
+
+.pagina-admin-usuarios .admin-usuarios-tabla-contenedor {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+  overflow-x: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-admin-usuarios .admin-usuarios-tabla {
+  min-width: 830px;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.pagina-admin-usuarios .admin-usuarios-tabla thead th {
+  background-color: #eaf3eb;
+  color: #244d36;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 16px;
+}
+
+.pagina-admin-usuarios .admin-usuarios-tabla tbody td {
+  padding: 15px;
+  color: #444444;
+  vertical-align: middle;
+}
+
+.pagina-admin-usuarios .admin-usuarios-nombre {
+  font-weight: 600;
+}
+
+/* ROLES */
+
+.pagina-admin-usuarios .admin-usuarios-rol {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pagina-admin-usuarios .admin-usuarios-rol-admin {
+  background-color: #e8e5f0;
+  color: #4d376b;
+}
+
+.pagina-admin-usuarios .admin-usuarios-rol-cliente {
+  background-color: #e2f2e6;
+  color: #256b45;
+}
+
+/* BOTONES DE LA TABLA */
+
+.pagina-admin-usuarios .admin-usuarios-acciones {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-editar,
+.pagina-admin-usuarios .admin-usuarios-boton-eliminar,
+.pagina-admin-usuarios .admin-usuarios-boton-cancelar {
+  display: inline-block;
+  padding: 8px 13px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-editar {
+  color: #244d36;
+  background-color: #ffffff;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-editar:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-eliminar {
+  background-color: #b42332;
+  color: #ffffff;
+  border: 1px solid #b42332;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-eliminar:hover:not(:disabled) {
+  background-color: #8d1c28;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-eliminar:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pagina-admin-usuarios .admin-usuarios-boton-cancelar {
+  background-color: #ffffff;
+  color: #444444;
+  border: 1px solid #c5cec6;
+}
+
+/* CONFIRMACIÓN DE ELIMINACIÓN */
+
+.pagina-admin-usuarios .admin-usuarios-confirmacion {
+  background-color: #fff8e8;
+  border: 1px solid #ecd5a2;
+  border-left: 4px solid #d99b27;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.pagina-admin-usuarios .admin-usuarios-confirmacion p {
+  color: #555555;
+  margin: 0;
+}
+
+.pagina-admin-usuarios .admin-usuarios-confirmacion-botones {
+  display: flex;
+  gap: 10px;
+}
+
+/* SIN USUARIOS */
+
+.pagina-admin-usuarios .admin-usuarios-sin-datos {
+  text-align: center;
+  color: #666666;
+  padding: 25px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  .pagina-admin-usuarios {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-admin-usuarios .admin-usuarios-encabezado {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pagina-admin-usuarios .admin-usuarios-confirmacion {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+
+/* ==========================================
+   EDITOR DE USUARIOS - HUERTOHOGAR
+   ========================================== */
+
+.pagina-editor-usuario {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 45px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-editor-usuario .editor-usuario-contenedor {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* NAVEGACIÓN */
+
+.pagina-editor-usuario .editor-usuario-navegacion {
+  margin-bottom: 28px;
+}
+
+.pagina-editor-usuario .editor-usuario-volver {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-editor-usuario .editor-usuario-volver:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+/* ENCABEZADO */
+
+.pagina-editor-usuario .editor-usuario-encabezado {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.pagina-editor-usuario .editor-usuario-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pagina-editor-usuario .editor-usuario-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.pagina-editor-usuario .editor-usuario-encabezado > p:last-child {
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* FORMULARIO */
+
+.pagina-editor-usuario .editor-usuario-formulario {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  padding: 35px 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+  text-align: left;
+}
+
+.pagina-editor-usuario .editor-usuario-formulario label {
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pagina-editor-usuario .editor-usuario-formulario input:not([type="radio"]):not([type="checkbox"]),
+.pagina-editor-usuario .editor-usuario-formulario select,
+.pagina-editor-usuario .editor-usuario-formulario textarea {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: #333333;
+  font-size: 15px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-editor-usuario .editor-usuario-formulario input:focus,
+.pagina-editor-usuario .editor-usuario-formulario select:focus,
+.pagina-editor-usuario .editor-usuario-formulario textarea:focus {
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+  outline: none;
+}
+
+/* VALIDACIONES */
+
+.pagina-editor-usuario .editor-usuario-formulario .is-invalid {
+  border-color: #dc3545;
+}
+
+.pagina-editor-usuario .editor-usuario-formulario .invalid-feedback {
+  color: #b42332;
+  font-size: 13px;
+}
+
+/* BOTONES DEL FORMULARIO */
+
+.pagina-editor-usuario .editor-usuario-formulario button[type="submit"] {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagina-editor-usuario .editor-usuario-formulario button[type="submit"]:hover {
+  background-color: #256b45;
+  border-color: #256b45;
+}
+
+.pagina-editor-usuario .editor-usuario-formulario button[type="button"] {
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
+}
+
+/* USUARIO NO ENCONTRADO */
+
+.pagina-editor-usuario .editor-usuario-vacio {
+  background-color: #ffffff;
+  border: 1px solid #e5eae4;
+  border-radius: 14px;
+  text-align: center;
+  padding: 45px 25px;
+  margin-top: 25px;
+}
+
+.pagina-editor-usuario .editor-usuario-vacio h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.pagina-editor-usuario .editor-usuario-vacio p {
+  color: #555555;
+  margin-bottom: 25px;
+}
+
+.pagina-editor-usuario .editor-usuario-boton {
+  display: inline-block;
+  padding: 12px 24px;
+  color: #ffffff;
+  background-color: #2e8b57;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-editor-usuario .editor-usuario-boton:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 576px) {
+  .pagina-editor-usuario {
+    padding: 35px 15px 50px;
+  }
+
+  .pagina-editor-usuario .editor-usuario-formulario {
+    padding: 25px 20px;
+  }
+
+  .pagina-editor-usuario .editor-usuario-encabezado h1 {
+    font-size: 30px;
+  }
+}
+
+
+
+/* ==========================================
+   DASHBOARD ADMINISTRATIVO - HUERTOHOGAR
+   ========================================== */
+
+.pagina-dashboard {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 38px 20px 65px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-dashboard .dashboard-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-dashboard .dashboard-encabezado {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.pagina-dashboard .dashboard-etiqueta {
+  color: #8b4513;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.pagina-dashboard .dashboard-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.pagina-dashboard .dashboard-encabezado > p:last-child {
+  color: #555555;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* SECCIONES */
+
+.pagina-dashboard .dashboard-seccion {
+  margin-bottom: 32px;
+}
+
+.pagina-dashboard .dashboard-seccion h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* INDICADORES */
+
+.pagina-dashboard .dashboard-indicadores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.pagina-dashboard .dashboard-indicador {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.pagina-dashboard .dashboard-indicador p {
+  color: #555555;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.pagina-dashboard .dashboard-indicador strong {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.pagina-dashboard .dashboard-indicador-total strong {
+  color: #244d36;
+}
+
+.pagina-dashboard .dashboard-indicador-disponibles strong {
+  color: #2e8b57;
+}
+
+.pagina-dashboard .dashboard-indicador-criticos strong {
+  color: #a87300;
+}
+
+.pagina-dashboard .dashboard-indicador-agotados strong {
+  color: #b42318;
+}
+
+/* MÓDULOS */
+
+.pagina-dashboard .dashboard-modulos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.pagina-dashboard .dashboard-modulo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 12px;
+  padding: 22px;
+  min-width: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.pagina-dashboard .dashboard-modulo-icono {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.pagina-dashboard .dashboard-modulo h3 {
+  color: #244d36;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pagina-dashboard .dashboard-modulo p {
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+/* BOTONES */
+
+.pagina-dashboard .dashboard-boton,
+.pagina-dashboard .dashboard-boton-inactivo,
+.pagina-dashboard .dashboard-boton-contorno {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 10px 17px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pagina-dashboard .dashboard-boton {
+  background-color: #2e8b57;
+  border: 1px solid #2e8b57;
+  color: #ffffff;
+  margin-top: auto;
+}
+
+.pagina-dashboard .dashboard-boton:hover {
+  background-color: #256b45;
+  color: #ffffff;
+}
+
+.pagina-dashboard .dashboard-boton-inactivo {
+  background-color: #eef0ee;
+  border: 1px solid #d3d8d3;
+  color: #777777;
+  margin-top: auto;
+  cursor: not-allowed;
+}
+
+.pagina-dashboard .dashboard-boton-contorno {
+  background-color: #ffffff;
+  border: 1px solid #2e8b57;
+  color: #244d36;
+}
+
+.pagina-dashboard .dashboard-boton-contorno:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+/* ALERTAS */
+
+.pagina-dashboard .dashboard-alertas-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.pagina-dashboard .dashboard-alertas-encabezado h2 {
+  margin: 0;
+}
+
+.pagina-dashboard .dashboard-alertas-tarjeta {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.pagina-dashboard .dashboard-tabla {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.pagina-dashboard .dashboard-tabla thead th {
+  background-color: #eaf3eb;
+  color: #244d36;
+  font-weight: 700;
+  padding: 13px 15px;
+}
+
+.pagina-dashboard .dashboard-tabla tbody td {
+  color: #444444;
+  padding: 12px 15px;
+}
+
+.pagina-dashboard .dashboard-producto-nombre {
+  font-weight: 600;
+}
+
+.pagina-dashboard .dashboard-sin-alertas {
+  background-color: #eef8ef;
+  border: 1px solid #d5e9d7;
+  border-radius: 8px;
+  padding: 15px;
+  color: #256b45;
+  font-size: 14px;
+}
+
+.pagina-dashboard .dashboard-alertas-nota {
+  color: #666666;
+  font-size: 13px;
+  margin: 15px 0 0;
+}
+
+.pagina-dashboard .dashboard-stock-indefinido {
+  color: #666666;
+  font-size: 14px;
+  margin: 15px 0 0;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 992px) {
+  .pagina-dashboard .dashboard-indicadores,
+  .pagina-dashboard .dashboard-modulos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .pagina-dashboard {
+    padding: 30px 15px 45px;
+  }
+
+  .pagina-dashboard .dashboard-indicadores {
+    gap: 10px;
+  }
+
+  .pagina-dashboard .dashboard-indicador {
+    padding: 16px 10px;
+  }
+
+  .pagina-dashboard .dashboard-indicador strong {
+    font-size: 27px;
+  }
+
+  .pagina-dashboard .dashboard-modulos {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-dashboard .dashboard-alertas-encabezado {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pagina-dashboard .dashboard-alertas-tarjeta {
+    padding: 12px;
+  }
+}
+
+
+/* ==========================================
+   ADMINISTRACIÓN DE PRODUCTOS - HUERTOHOGAR
+   ========================================== */
+
+.pagina-admin-productos {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 45px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-admin-productos .admin-productos-contenedor {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* ENCABEZADO */
+
+.pagina-admin-productos .admin-productos-encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pagina-admin-productos .admin-productos-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-admin-productos .admin-productos-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.pagina-admin-productos .admin-productos-encabezado > p:last-child {
+  color: #555555;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* SECCIONES */
+
+.pagina-admin-productos .admin-productos-seccion {
+  margin-bottom: 35px;
+}
+
+.pagina-admin-productos .admin-productos-seccion h2,
+.pagina-admin-productos .admin-productos-formulario-tarjeta h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* INDICADORES */
+
+.pagina-admin-productos .admin-productos-indicadores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.pagina-admin-productos .admin-productos-indicador {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.pagina-admin-productos .admin-productos-indicador p {
+  color: #555555;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pagina-admin-productos .admin-productos-indicador strong {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.pagina-admin-productos .admin-productos-disponibles strong {
+  color: #2e8b57;
+}
+
+.pagina-admin-productos .admin-productos-criticos strong {
+  color: #a87300;
+}
+
+.pagina-admin-productos .admin-productos-agotados strong {
+  color: #b42318;
+}
+
+.pagina-admin-productos .admin-productos-sin-definir strong {
+  color: #777777;
+}
+
+.pagina-admin-productos .admin-productos-nota {
+  color: #666666;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+/* FORMULARIO */
+
+.pagina-admin-productos .admin-productos-formulario-tarjeta {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+  padding: 35px 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+  text-align: left;
+}
+
+.pagina-admin-productos .admin-productos-formulario-tarjeta label {
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pagina-admin-productos .admin-productos-formulario-tarjeta input,
+.pagina-admin-productos .admin-productos-formulario-tarjeta select,
+.pagina-admin-productos .admin-productos-formulario-tarjeta textarea {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 15px;
+}
+
+.pagina-admin-productos .admin-productos-formulario-tarjeta input:focus,
+.pagina-admin-productos .admin-productos-formulario-tarjeta select:focus,
+.pagina-admin-productos .admin-productos-formulario-tarjeta textarea:focus {
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+  outline: none;
+}
+
+/* BOTONES DEL FORMULARIO */
+
+.pagina-admin-productos .admin-productos-formulario-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.pagina-admin-productos .admin-productos-boton-principal {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagina-admin-productos .admin-productos-boton-principal:hover {
+  background-color: #256b45;
+}
+
+.pagina-admin-productos .admin-productos-boton-secundario {
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #b9c9bd;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagina-admin-productos .admin-productos-boton-secundario:hover {
+  background-color: #e8f2e9;
+}
+
+/* LISTADO */
+
+.pagina-admin-productos .admin-productos-listado-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.pagina-admin-productos .admin-productos-listado-encabezado h2 {
+  margin-bottom: 0;
+}
+
+.pagina-admin-productos .admin-productos-total {
+  background-color: #e2f2e6;
+  color: #256b45;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pagina-admin-productos .admin-productos-filtros {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.pagina-admin-productos .admin-productos-filtros input,
+.pagina-admin-productos .admin-productos-filtros select {
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 15px;
+}
+
+/* TABLA */
+
+.pagina-admin-productos .admin-productos-tabla-contenedor {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+  overflow-x: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-admin-productos .admin-productos-tabla {
+  min-width: 1000px;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.pagina-admin-productos .admin-productos-tabla thead th {
+  background-color: #eaf3eb;
+  color: #244d36;
+  font-weight: 700;
+  padding: 15px;
+}
+
+.pagina-admin-productos .admin-productos-tabla tbody td {
+  color: #444444;
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+
+.pagina-admin-productos .admin-productos-imagen {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.pagina-admin-productos .admin-productos-nombre {
+  font-weight: 600;
+}
+
+.pagina-admin-productos .admin-productos-acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.pagina-admin-productos .admin-productos-boton-editar,
+.pagina-admin-productos .admin-productos-boton-eliminar {
+  padding: 8px 13px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagina-admin-productos .admin-productos-boton-editar {
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #2e8b57;
+}
+
+.pagina-admin-productos .admin-productos-boton-editar:hover {
+  background-color: #e8f2e9;
+}
+
+.pagina-admin-productos .admin-productos-boton-eliminar {
+  background-color: #ffffff;
+  color: #b42332;
+  border: 1px solid #b42332;
+}
+
+.pagina-admin-productos .admin-productos-boton-eliminar:hover {
+  background-color: #fff0f0;
+}
+
+/* SIN RESULTADOS */
+
+.pagina-admin-productos .admin-productos-sin-resultados {
+  text-align: center;
+  padding: 25px;
+  color: #666666;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 992px) {
+  .pagina-admin-productos .admin-productos-indicadores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .pagina-admin-productos {
+    padding: 35px 15px 55px;
+  }
+
+  .pagina-admin-productos .admin-productos-formulario-tarjeta {
+    padding: 25px 20px;
+  }
+
+  .pagina-admin-productos .admin-productos-indicadores {
+    gap: 10px;
+  }
+
+  .pagina-admin-productos .admin-productos-filtros {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-admin-productos .admin-productos-encabezado h1 {
+    font-size: 30px;
+  }
+}
+
+
+/* ==========================================
+   REPORTES DE INVENTARIO - HUERTOHOGAR
+   ========================================== */
+
+.pagina-reportes-inventario {
+  width: 100%;
+  background-color: #f8faf7;
+  padding: 45px 20px 75px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.pagina-reportes-inventario .reportes-inventario-contenedor {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* NAVEGACIÓN */
+
+.pagina-reportes-inventario .reportes-inventario-navegacion {
+  margin-bottom: 28px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-volver {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #ffffff;
+  color: #244d36;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pagina-reportes-inventario .reportes-inventario-volver:hover {
+  background-color: #e8f2e9;
+  color: #244d36;
+}
+
+/* ENCABEZADO */
+
+.pagina-reportes-inventario .reportes-inventario-encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-etiqueta {
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-encabezado h1 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-encabezado > p:last-child {
+  color: #555555;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* SECCIONES */
+
+.pagina-reportes-inventario .reportes-inventario-seccion {
+  margin-bottom: 35px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-seccion h2,
+.pagina-reportes-inventario .reportes-inventario-filtros-tarjeta h2 {
+  color: #8b4513;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* INDICADORES */
+
+.pagina-reportes-inventario .reportes-inventario-indicadores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-indicador {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.pagina-reportes-inventario .reportes-inventario-indicador p {
+  color: #555555;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-indicador strong {
+  display: block;
+  font-size: 30px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.pagina-reportes-inventario .reportes-inventario-total strong {
+  color: #244d36;
+}
+
+.pagina-reportes-inventario .reportes-inventario-criticos strong {
+  color: #a87300;
+}
+
+.pagina-reportes-inventario .reportes-inventario-agotados strong {
+  color: #b42318;
+}
+
+.pagina-reportes-inventario .reportes-inventario-valor strong {
+  color: #2e8b57;
+  font-size: clamp(21px, 2.5vw, 28px);
+}
+
+/* AVISO */
+
+.pagina-reportes-inventario .reportes-inventario-aviso {
+  background-color: #eef5fc;
+  border: 1px solid #cbddec;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+  color: #375a76;
+  font-size: 14px;
+}
+
+/* FILTROS */
+
+.pagina-reportes-inventario .reportes-inventario-filtros-tarjeta {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-reportes-inventario .reportes-inventario-controles {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 18px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-campo label {
+  display: block;
+  color: #244d36;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-campo select {
+  border: 1px solid #ccd8cf;
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #333333;
+  font-size: 15px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-campo select:focus {
+  border-color: #2e8b57;
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+}
+
+.pagina-reportes-inventario .reportes-inventario-boton {
+  background-color: #2e8b57;
+  color: #ffffff;
+  border: 1px solid #2e8b57;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pagina-reportes-inventario .reportes-inventario-boton:hover {
+  background-color: #256b45;
+}
+
+/* NOTA */
+
+.pagina-reportes-inventario .reportes-inventario-nota {
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 18px 0 0;
+}
+
+/* TABLA */
+
+.pagina-reportes-inventario .reportes-inventario-listado-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-listado-encabezado h2 {
+  margin-bottom: 0;
+}
+
+.pagina-reportes-inventario .reportes-inventario-total {
+  display: inline-block;
+  background-color: #e2f2e6;
+  color: #256b45;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pagina-reportes-inventario .reportes-inventario-tabla-contenedor {
+  background-color: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 14px;
+  overflow-x: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.pagina-reportes-inventario .reportes-inventario-tabla {
+  min-width: 800px;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-tabla thead th {
+  background-color: #eaf3eb;
+  color: #244d36;
+  font-weight: 700;
+  padding: 15px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-tabla tbody td {
+  color: #444444;
+  padding: 13px 15px;
+}
+
+.pagina-reportes-inventario .reportes-inventario-nombre {
+  font-weight: 600;
+}
+
+.pagina-reportes-inventario .reportes-inventario-sin-resultados {
+  color: #666666;
+  text-align: center;
+  padding: 25px;
+  margin: 0;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 992px) {
+  .pagina-reportes-inventario .reportes-inventario-indicadores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .pagina-reportes-inventario {
+    padding: 35px 15px 55px;
+  }
+
+  .pagina-reportes-inventario .reportes-inventario-filtros-tarjeta {
+    padding: 23px 20px;
+  }
+
+  .pagina-reportes-inventario .reportes-inventario-controles {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-reportes-inventario .reportes-inventario-boton {
+    width: 100%;
+  }
+
+  .pagina-reportes-inventario .reportes-inventario-indicadores {
+    gap: 10px;
+  }
+
+  .pagina-reportes-inventario .reportes-inventario-indicador {
+    padding: 16px 10px;
+  }
+
+  .pagina-reportes-inventario .reportes-inventario-encabezado h1 {
+    font-size: 30px;
   }
 }

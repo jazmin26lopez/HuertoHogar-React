@@ -6,22 +6,33 @@ import useSesion from '../../contextos/useSesion'
 import { validarContacto } from '../../funciones/validaciones'
 import { guardarMensaje } from '../../servicios/contactoServicio'
 
-const DATOS_VACIOS = { nombre: '', correo: '', asunto: '', mensaje: '' }
+const DATOS_VACIOS = {
+  nombre: '',
+  correo: '',
+  asunto: '',
+  mensaje: ''
+}
 
 export default function Contacto() {
   const { usuario } = useSesion()
 
-  // Si hay sesión iniciada, el nombre y el correo se completan solos
+  // Completar los datos si hay una sesión iniciada
   const [datos, setDatos] = useState(() => ({
     ...DATOS_VACIOS,
-    nombre: usuario ? `${usuario.nombre} ${usuario.apellidos}`.trim() : '',
+    nombre: usuario
+      ? `${usuario.nombre} ${usuario.apellidos}`.trim()
+      : '',
     correo: usuario?.correo ?? ''
   }))
+
   const [errores, setErrores] = useState({})
   const [resultado, setResultado] = useState(null)
 
   function cambiar(evento) {
-    setDatos({ ...datos, [evento.target.name]: evento.target.value })
+    setDatos({
+      ...datos,
+      [evento.target.name]: evento.target.value
+    })
   }
 
   function enviar(evento) {
@@ -29,7 +40,6 @@ export default function Contacto() {
     setResultado(null)
 
     const erroresEncontrados = validarContacto(datos)
-
     setErrores(erroresEncontrados)
 
     if (Object.keys(erroresEncontrados).length > 0) {
@@ -37,104 +47,114 @@ export default function Contacto() {
     }
 
     if (guardarMensaje(datos)) {
-      setResultado({ tipo: 'success', texto: '¡Gracias! Recibimos tu mensaje y te responderemos pronto.' })
-      setDatos({ ...datos, asunto: '', mensaje: '' })
+      setResultado({
+        tipo: 'success',
+        texto: '¡Gracias! Recibimos tu mensaje y te responderemos pronto.'
+      })
+
+      setDatos({
+        ...datos,
+        asunto: '',
+        mensaje: ''
+      })
     } else {
-      setResultado({ tipo: 'danger', texto: 'No pudimos guardar tu mensaje. Inténtalo de nuevo.' })
+      setResultado({
+        tipo: 'danger',
+        texto: 'No pudimos guardar tu mensaje. Inténtalo de nuevo.'
+      })
     }
   }
 
   return (
-    <main className="container py-4 flex-grow-1 text-start">
-      <div className="row g-4 justify-content-center">
-        <div className="col-12 col-lg-7">
-          <h1 style={{ color: '#244D36' }}>
-            <span aria-hidden="true">🌱 </span>¡Estamos para ayudarte!
-          </h1>
+    <main className="pagina-contacto flex-grow-1">
+      <div className="contacto-contenedor">
 
-          <p className="text-muted mb-4">
-            Escríbenos y nos pondremos en contacto contigo lo antes posible.
+        {/* ENCABEZADO */}
+        <header className="contacto-encabezado">
+          <p className="contacto-etiqueta">
+            HUERTOHOGAR
           </p>
 
-          <form onSubmit={enviar} noValidate className="card shadow-sm card-body">
-            <CampoFormulario
-              id="nombre"
-              etiqueta="Nombre completo"
-              valor={datos.nombre}
-              alCambiar={cambiar}
-              error={errores.nombre}
-              placeholder="Ingresa tu nombre"
-              autoComplete="name"
-              maxLength={100}
-            />
+          <h1>¡Estamos para ayudarte!</h1>
 
-            <CampoFormulario
-              id="correo"
-              etiqueta="Correo electrónico"
-              tipo="email"
-              valor={datos.correo}
-              alCambiar={cambiar}
-              error={errores.correo}
-              placeholder="ejemplo@correo.com"
-              autoComplete="email"
-              maxLength={100}
-            />
+          <p className="contacto-descripcion">
+            Escríbenos y nos pondremos en contacto
+            contigo lo antes posible.
+          </p>
+        </header>
 
-            <CampoFormulario
-              id="asunto"
-              etiqueta="Asunto"
-              valor={datos.asunto}
-              alCambiar={cambiar}
-              error={errores.asunto}
-              placeholder="¿En qué podemos ayudarte?"
-              maxLength={100}
-            />
+        {/* FORMULARIO */}
+        <form
+          onSubmit={enviar}
+          noValidate
+          className="contacto-formulario"
+        >
+          <CampoFormulario
+            id="nombre"
+            etiqueta="Nombre completo"
+            valor={datos.nombre}
+            alCambiar={cambiar}
+            error={errores.nombre}
+            placeholder="Ingresa tu nombre"
+            autoComplete="name"
+            maxLength={100}
+          />
 
-            <CampoFormulario
-              id="mensaje"
-              etiqueta="Mensaje"
-              tipo="textarea"
-              rows={5}
-              valor={datos.mensaje}
-              alCambiar={cambiar}
-              error={errores.mensaje}
-              placeholder="Escribe tu mensaje aquí..."
-              maxLength={500}
-            />
+          <CampoFormulario
+            id="correo"
+            etiqueta="Correo electrónico"
+            tipo="email"
+            valor={datos.correo}
+            alCambiar={cambiar}
+            error={errores.correo}
+            placeholder="ejemplo@correo.com"
+            autoComplete="email"
+            maxLength={100}
+          />
 
-            {resultado && (
-              <div className={`alert alert-${resultado.tipo}`} role="status">
-                {resultado.texto}
-              </div>
-            )}
+          <CampoFormulario
+            id="asunto"
+            etiqueta="Asunto"
+            valor={datos.asunto}
+            alCambiar={cambiar}
+            error={errores.asunto}
+            placeholder="¿En qué podemos ayudarte?"
+            maxLength={100}
+          />
 
-            <div>
-              <button type="submit" className="btn btn-success">
-                Enviar mensaje
-              </button>
+          <CampoFormulario
+            id="mensaje"
+            etiqueta="Mensaje"
+            tipo="textarea"
+            rows={5}
+            valor={datos.mensaje}
+            alCambiar={cambiar}
+            error={errores.mensaje}
+            placeholder="Escribe tu mensaje aquí..."
+            maxLength={500}
+          />
+
+          {/* MENSAJE DE RESULTADO */}
+          {resultado && (
+            <div
+              className={`alert alert-${resultado.tipo}`}
+              role="status"
+            >
+              {resultado.texto}
             </div>
-          </form>
-        </div>
+          )}
 
-        <aside className="col-12 col-lg-4" aria-label="Datos de contacto">
-          <div className="card shadow-sm card-body">
-            <h2 className="h5" style={{ color: '#244D36' }}>
-              Otras formas de contactarnos
-            </h2>
-
-            <ul className="list-unstyled mb-0">
-              <li className="mb-2">
-                <span aria-hidden="true">📧 </span>contacto@huertohogar.cl
-              </li>
-              <li className="mb-2">
-                <span aria-hidden="true">📍 </span>Chile
-              </li>
-              <li>
-                <span aria-hidden="true">📞 </span>+569 12345678
-              </li>
-            </ul>
+          {/* BOTÓN */}
+          <div className="contacto-acciones">
+            <button
+              type="submit"
+              className="contacto-boton"
+            >
+              Enviar mensaje
+            </button>
           </div>
-        </aside>
+        </form>
+
       </div>
     </main>
   )

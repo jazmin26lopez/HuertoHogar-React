@@ -1,5 +1,6 @@
 
 import { Link } from 'react-router-dom'
+import { DATOS_CONTACTO } from '../../datos/contacto'
 
 export default function PiePagina() {
   return (
@@ -23,6 +24,25 @@ export default function PiePagina() {
 
         <div className="footer-seccion">
           <h3>Contacto</h3>
+
+          <a href={`mailto:${DATOS_CONTACTO.correo}`}>
+            <span aria-hidden="true">📧 </span>
+            {DATOS_CONTACTO.correo}
+          </a>
+
+          <p>
+            <span aria-hidden="true">📍 </span>
+            {DATOS_CONTACTO.ubicacion}
+          </p>
+
+          <a href={`tel:${DATOS_CONTACTO.telefonoEnlace}`}>
+            <span aria-hidden="true">📞 </span>
+            {DATOS_CONTACTO.telefono}
+          </a>
+        </div>
+
+        <div className="footer-seccion">
+          <h3>Mi cuenta y ayuda</h3>
           <Link to="/contacto">Contacto</Link>
           <Link to="/iniciar-sesion">Iniciar sesión</Link>
           <Link to="/registro">Registrarse</Link>

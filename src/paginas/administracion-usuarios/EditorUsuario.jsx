@@ -8,27 +8,13 @@ import {
   obtenerUsuarioPorRun
 } from '../../servicios/usuariosServicio'
 
-// Sirve para dos rutas: /admin/usuarios/nuevo (sin :run) y /admin/usuarios/:run/editar.
+// Permite crear usuarios y editar usuarios existentes.
 export default function EditorUsuario() {
   const { run } = useParams()
   const navigate = useNavigate()
 
   const editando = Boolean(run)
   const existente = editando ? obtenerUsuarioPorRun(run) : null
-
-  if (editando && !existente) {
-    return (
-      <main className="container py-5 flex-grow-1">
-        <h1>Usuario no encontrado</h1>
-
-        <p>El usuario que intentas editar no existe.</p>
-
-        <Link to="/admin/usuarios" className="btn btn-success">
-          Volver al listado
-        </Link>
-      </main>
-    )
-  }
 
   function guardar(datos) {
     try {
@@ -44,24 +30,73 @@ export default function EditorUsuario() {
     }
   }
 
+  if (editando && !existente) {
+    return (
+      <main className="pagina-editor-usuario flex-grow-1">
+        <div className="editor-usuario-contenedor">
+          <div className="editor-usuario-vacio">
+            <h1>Usuario no encontrado</h1>
+
+            <p>
+              El usuario que intentas editar no existe.
+            </p>
+
+            <Link
+              to="/admin/usuarios"
+              className="editor-usuario-boton"
+            >
+              Volver al listado
+            </Link>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
   return (
-    <main className="container py-4 flex-grow-1 text-start">
-      <div className="mx-auto" style={{ maxWidth: '680px' }}>
-        <Link to="/admin/usuarios" className="btn btn-outline-success mb-3">
-          ← Volver al listado
-        </Link>
+    <main className="pagina-editor-usuario flex-grow-1">
+      <div className="editor-usuario-contenedor">
 
-        <h1 className="h3" style={{ color: '#244D36' }}>
-          {editando ? 'Editar usuario' : 'Nuevo usuario'}
-        </h1>
+        {/* NAVEGACIÓN */}
+        <nav className="editor-usuario-navegacion">
+          <Link
+            to="/admin/usuarios"
+            className="editor-usuario-volver"
+          >
+            ← Volver al listado
+          </Link>
+        </nav>
 
-        <FormularioUsuario
-          modo={editando ? 'editar' : 'crear'}
-          usuarioInicial={existente}
-          textoBoton={editando ? 'Guardar cambios' : 'Crear usuario'}
-          alGuardar={guardar}
-          alCancelar={() => navigate('/admin/usuarios')}
-        />
+        {/* ENCABEZADO */}
+        <header className="editor-usuario-encabezado">
+          <p className="editor-usuario-etiqueta">
+            ADMINISTRACIÓN HUERTOHOGAR
+          </p>
+
+          <h1>
+            {editando ? 'Editar usuario' : 'Nuevo usuario'}
+          </h1>
+
+          <p>
+            {editando
+              ? 'Actualiza la información del usuario seleccionado.'
+              : 'Completa los datos para registrar un nuevo usuario.'}
+          </p>
+        </header>
+
+        {/* FORMULARIO ORIGINAL DE BRYAM */}
+        <div className="editor-usuario-formulario">
+          <FormularioUsuario
+            modo={editando ? 'editar' : 'crear'}
+            usuarioInicial={existente}
+            textoBoton={
+              editando ? 'Guardar cambios' : 'Crear usuario'
+            }
+            alGuardar={guardar}
+            alCancelar={() => navigate('/admin/usuarios')}
+          />
+        </div>
+
       </div>
     </main>
   )
