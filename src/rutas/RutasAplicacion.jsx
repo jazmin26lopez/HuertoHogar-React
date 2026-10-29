@@ -53,17 +53,32 @@ export default function RutasAplicacion() {
       <Route path="/productos/:id" element={<DetalleProducto />} />
       <Route path="/categorias" element={<Categorias />} />
 
-      {/* ADMINISTRACIÓN */}
-      <Route path="/admin" element={<Dashboard />} />
+      {/* ADMINISTRACIÓN (solo administradores) */}
+      <Route
+        path="/admin"
+        element={
+          <RutaAdministrador>
+            <Dashboard />
+          </RutaAdministrador>
+        }
+      />
 
       <Route
         path="/admin/productos"
-        element={<AdministrarProductos />}
+        element={
+          <RutaAdministrador>
+            <AdministrarProductos />
+          </RutaAdministrador>
+        }
       />
 
       <Route
         path="/admin/reportes"
-        element={<ReportesInventario />}
+        element={
+          <RutaAdministrador>
+            <ReportesInventario />
+          </RutaAdministrador>
+        }
       />
 
       {/* COMPRAS - BRYAM */}
