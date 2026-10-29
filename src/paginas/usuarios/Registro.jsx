@@ -10,18 +10,20 @@ export default function Registro() {
   const { usuario, iniciarSesionConUsuario } = useSesion()
   const navigate = useNavigate()
 
-  // Solo se redirige si ya había sesión al llegar (ver IniciarSesion)
+  // Redirigir solamente si ya tenía una sesión al ingresar.
   const [teniaSesion] = useState(() => Boolean(usuario))
 
   if (teniaSesion) {
     return <Navigate to="/" replace />
   }
 
-  // Devuelve un texto de error si no se pudo crear (RUN o correo repetidos)
   function registrar(datos) {
     try {
-      // El registro público siempre crea clientes
-      const nuevo = crearUsuario({ ...datos, rol: 'Cliente' })
+      // El registro público siempre crea usuarios clientes.
+      const nuevo = crearUsuario({
+        ...datos,
+        rol: 'Cliente'
+      })
 
       iniciarSesionConUsuario(nuevo)
       navigate('/')
@@ -31,21 +33,40 @@ export default function Registro() {
   }
 
   return (
-    <main className="container py-5 flex-grow-1">
-      <div className="mx-auto" style={{ maxWidth: '640px' }}>
-        <div className="text-center mb-4">
-          <span className="badge bg-success mb-2">HUERTOHOGAR</span>
-          <h1 className="h3" style={{ color: '#244D36' }}>Crear una cuenta</h1>
-          <p className="text-muted">
-            Regístrate para disfrutar de nuestros productos frescos y naturales.
+    <main className="pagina-registro flex-grow-1">
+      <div className="registro-contenedor">
+
+        {/* ENCABEZADO */}
+        <header className="registro-encabezado">
+          <p className="registro-etiqueta">
+            HUERTOHOGAR
           </p>
+
+          <h1>Crear una cuenta</h1>
+
+          <p>
+            Regístrate para disfrutar de nuestros
+            productos frescos y naturales.
+          </p>
+        </header>
+
+        {/* FORMULARIO ORIGINAL DE BRYAM */}
+        <div className="registro-formulario">
+          <FormularioUsuario
+            modo="registro"
+            textoBoton="Crear cuenta"
+            alGuardar={registrar}
+          />
         </div>
 
-        <FormularioUsuario modo="registro" textoBoton="Crear cuenta" alGuardar={registrar} />
-
-        <p className="text-center mt-3">
-          ¿Ya tienes una cuenta? <Link to="/iniciar-sesion">Inicia sesión</Link>
+        {/* ENLACE A INICIAR SESIÓN */}
+        <p className="registro-iniciar-sesion">
+          ¿Ya tienes una cuenta?{' '}
+          <Link to="/iniciar-sesion">
+            Inicia sesión
+          </Link>
         </p>
+
       </div>
     </main>
   )

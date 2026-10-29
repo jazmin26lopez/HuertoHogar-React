@@ -10,13 +10,15 @@ export default function IniciarSesion() {
   const { usuario, iniciarSesion } = useSesion()
   const navigate = useNavigate()
 
-  const [datos, setDatos] = useState({ correo: '', contrasena: '' })
+  const [datos, setDatos] = useState({
+    correo: '',
+    contrasena: ''
+  })
+
   const [errores, setErrores] = useState({})
   const [mensajeError, setMensajeError] = useState('')
 
-  // Quien llega a esta página con la sesión ya iniciada no necesita ver el formulario.
-  // Se mira solo al llegar: si se mirara siempre, al iniciar sesión esta redirección
-  // se cruzaría con la navegación hacia el panel de administración.
+  // Mantener la redirección original de Bryam.
   const [teniaSesion] = useState(() => Boolean(usuario))
 
   if (teniaSesion) {
@@ -24,14 +26,20 @@ export default function IniciarSesion() {
   }
 
   function cambiar(evento) {
-    setDatos({ ...datos, [evento.target.name]: evento.target.value })
+    setDatos({
+      ...datos,
+      [evento.target.name]: evento.target.value
+    })
   }
 
   function enviar(evento) {
     evento.preventDefault()
     setMensajeError('')
 
-    const erroresEncontrados = validarInicioSesion(datos.correo, datos.contrasena)
+    const erroresEncontrados = validarInicioSesion(
+      datos.correo,
+      datos.contrasena
+    )
 
     setErrores(erroresEncontrados)
 
@@ -39,26 +47,47 @@ export default function IniciarSesion() {
       return
     }
 
-    const encontrado = iniciarSesion(datos.correo, datos.contrasena)
+    const encontrado = iniciarSesion(
+      datos.correo,
+      datos.contrasena
+    )
 
     if (!encontrado) {
       setMensajeError('Correo o contraseña incorrectos.')
       return
     }
 
-    navigate(encontrado.rol === 'Administrador' ? '/admin/usuarios' : '/')
+    navigate(
+      encontrado.rol === 'Administrador'
+        ? '/admin/usuarios'
+        : '/'
+    )
   }
 
   return (
-    <main className="container py-5 flex-grow-1">
-      <div className="mx-auto" style={{ maxWidth: '440px' }}>
-        <div className="text-center mb-4">
-          <span className="fs-1" aria-hidden="true">🌿</span>
-          <h1 className="h3" style={{ color: '#244D36' }}>¡Qué bueno verte de nuevo!</h1>
-          <p className="text-muted">Inicia sesión para continuar disfrutando de HuertoHogar.</p>
-        </div>
+    <main className="pagina-iniciar-sesion flex-grow-1">
+      <div className="inicio-sesion-contenedor">
 
-        <form onSubmit={enviar} noValidate className="card shadow-sm card-body text-start">
+        {/* ENCABEZADO */}
+        <header className="inicio-sesion-encabezado">
+          <p className="inicio-sesion-etiqueta">
+            HUERTOHOGAR
+          </p>
+
+          <h1>¡Qué bueno verte de nuevo!</h1>
+
+          <p>
+            Inicia sesión para continuar disfrutando
+            de HuertoHogar.
+          </p>
+        </header>
+
+        {/* FORMULARIO */}
+        <form
+          onSubmit={enviar}
+          noValidate
+          className="inicio-sesion-formulario"
+        >
           <CampoFormulario
             id="correo"
             etiqueta="Correo electrónico"
@@ -82,19 +111,30 @@ export default function IniciarSesion() {
           />
 
           {mensajeError && (
-            <div className="alert alert-danger" role="alert">
+            <div
+              className="alert alert-danger"
+              role="alert"
+            >
               {mensajeError}
             </div>
           )}
 
-          <button type="submit" className="btn btn-success">
+          <button
+            type="submit"
+            className="inicio-sesion-boton"
+          >
             Iniciar sesión
           </button>
         </form>
 
-        <p className="text-center mt-3">
-          ¿Aún no tienes cuenta? <Link to="/registro">Regístrate aquí</Link>
+        {/* ENLACE DE REGISTRO */}
+        <p className="inicio-sesion-registro">
+          ¿Aún no tienes cuenta?{' '}
+          <Link to="/registro">
+            Regístrate aquí
+          </Link>
         </p>
+
       </div>
     </main>
   )

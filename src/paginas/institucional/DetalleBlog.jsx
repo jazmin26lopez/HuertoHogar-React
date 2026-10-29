@@ -9,48 +9,81 @@ export default function DetalleBlog() {
 
   if (!blog) {
     return (
-      <main className="container py-5 flex-grow-1 text-start">
-        <h1>Artículo no encontrado</h1>
+      <main className="pagina-detalle-blog flex-grow-1">
+        <div className="detalle-blog-contenedor">
+          <div className="detalle-blog-vacio">
+            <h1>Artículo no encontrado</h1>
 
-        <p>El artículo solicitado no existe.</p>
+            <p>
+              El artículo solicitado no existe.
+            </p>
 
-        <Link to="/blogs" className="btn btn-success">
-          Volver a Blogs
-        </Link>
+            <Link to="/blogs" className="detalle-blog-boton">
+              Volver a Blogs
+            </Link>
+          </div>
+        </div>
       </main>
     )
   }
 
   return (
-    <main className="container py-4 flex-grow-1 text-start">
-      <Link to="/blogs" className="btn btn-outline-success mb-4">
-        ← Volver a Blogs
-      </Link>
+    <main className="pagina-detalle-blog flex-grow-1">
+      <div className="detalle-blog-contenedor">
 
-      <article className="mx-auto" style={{ maxWidth: '820px' }}>
-        <img
-          src={blog.imagenDetalle}
-          alt={blog.tituloArticulo}
-          className="img-fluid rounded shadow-sm w-100 mb-4"
-          style={{ maxHeight: '380px', objectFit: 'cover' }}
-        />
+        {/* NAVEGACIÓN */}
+        <nav className="detalle-blog-navegacion">
+          <Link to="/blogs" className="detalle-blog-volver">
+            ← Volver a Blogs
+          </Link>
+        </nav>
 
-        <h1 className="mb-3" style={{ color: '#244D36' }}>
-          {blog.tituloArticulo}
-        </h1>
+        {/* ARTÍCULO */}
+        <article className="detalle-blog-articulo">
 
-        <p className="lead">{blog.introduccion}</p>
+          {/* ENCABEZADO */}
+          <header className="detalle-blog-encabezado">
+            <p className="detalle-blog-etiqueta">
+              NOTICIAS HUERTOHOGAR
+            </p>
 
-        {blog.secciones.map((seccion) => (
-          <section key={seccion.titulo} className="mt-4">
-            <h2 className="h4" style={{ color: '#2E8B57' }}>
-              {seccion.titulo}
-            </h2>
+            <h1>{blog.tituloArticulo}</h1>
 
-            <p>{seccion.texto}</p>
-          </section>
-        ))}
-      </article>
+            <p className="detalle-blog-introduccion">
+              {blog.introduccion}
+            </p>
+          </header>
+
+          {/* IMAGEN DESTACADA */}
+          <img
+            src={blog.imagenDetalle}
+            alt={blog.tituloArticulo}
+            className="detalle-blog-imagen"
+          />
+
+          {/* CONTENIDO DEL ARTÍCULO */}
+          <div className="detalle-blog-contenido">
+            {blog.secciones.map((seccion) => (
+              <section
+                key={seccion.titulo}
+                className="detalle-blog-seccion"
+              >
+                <h2>{seccion.titulo}</h2>
+
+                <p>{seccion.texto}</p>
+              </section>
+            ))}
+          </div>
+
+          {/* VOLVER A NOTICIAS */}
+          <div className="detalle-blog-final">
+            <Link to="/blogs" className="detalle-blog-boton">
+              Ver más noticias
+            </Link>
+          </div>
+
+        </article>
+      </div>
     </main>
   )
 }

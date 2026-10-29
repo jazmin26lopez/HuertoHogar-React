@@ -12,11 +12,7 @@ import {
   LIMITE_STOCK_CRITICO
 } from '../../funciones/estadoStock'
 
-const formatoPrecio = new Intl.NumberFormat('es-CL', {
-  style: 'currency',
-  currency: 'CLP',
-  maximumFractionDigits: 0
-})
+import { formatearPrecio } from '../../funciones/formato'
 
 export default function ReportesInventario() {
   const [productos, setProductos] = useState(obtenerProductos)
@@ -32,11 +28,13 @@ export default function ReportesInventario() {
     return suscribirseAProductos(actualizar)
   }, [])
 
+  // INVENTARIO CON ESTADO DE STOCK
   const inventario = productos.map((producto) => ({
     ...producto,
     estado: obtenerEstadoStock(producto.stock)
   }))
 
+  // FILTRO DE PRODUCTOS
   const productosFiltrados = inventario.filter((producto) => {
     return (
       filtro === 'todos' ||
@@ -44,7 +42,8 @@ export default function ReportesInventario() {
     )
   })
 
-  // Solo se valorizan existencias con stock definido.
+  // VALORIZACIÓN DEL INVENTARIO
+  // Solo se consideran productos con stock definido.
   const valorInventario = inventario.reduce((total, producto) => {
     if (producto.estado.nivel === 'sin-definir') {
       return total
@@ -54,6 +53,7 @@ export default function ReportesInventario() {
       Number(producto.precio) * Number(producto.stock)
   }, 0)
 
+  // INDICADORES
   const productosCriticos = inventario.filter(
     (producto) => producto.estado.nivel === 'critico'
   ).length
@@ -66,6 +66,30 @@ export default function ReportesInventario() {
     (producto) => producto.estado.nivel === 'sin-definir'
   ).length
 
+  const indicadores = [
+    {
+      titulo: 'Productos',
+      cantidad: productos.length,
+      clase: 'total'
+    },
+    {
+      titulo: 'Stock crítico',
+      cantidad: productosCriticos,
+      clase: 'criticos'
+    },
+    {
+      titulo: 'Agotados',
+      cantidad: productosAgotados,
+      clase: 'agotados'
+    },
+    {
+      titulo: 'Valor del inventario',
+      cantidad: formatearPrecio(valorInventario),
+      clase: 'valor'
+    }
+  ]
+
+  // DESCARGA DE REPORTE CSV
   function descargarCSV() {
     const filas = [
       [
@@ -117,168 +141,187 @@ export default function ReportesInventario() {
   }
 
   return (
-    <main className="container py-4 flex-grow-1">
+    <main className="pagina-reportes-inventario flex-grow-1">
+      <div className="reportes-inventario-contenedor">
 
-      <Link
-        to="/admin"
-        className="btn btn-outline-success mb-4"
-      >
-        ← Volver al panel
-      </Link>
+        {/* NAVEGACIÓN */}
+        <nav className="reportes-inventario-navegacion">
+          <Link
+            to="/admin"
+            className="reportes-inventario-volver"
+          >
+            ← Volver al panel
+          </Link>
+        </nav>
 
-      <h1 style={{ color: '#8B4513' }}>
-        Reportes de inventario
-      </h1>
+        {/* ENCABEZADO */}
+        <header className="reportes-inventario-encabezado">
+          <p className="reportes-inventario-etiqueta">
+            ADMINISTRACIÓN HUERTOHOGAR
+          </p>
 
-      <p className="text-muted mb-4">
-        Consulta las existencias y los productos
-        que requieren reposición.
-      </p>
+          <h1>Reportes de inventario</h1>
 
-      {/* INDICADORES */}
-      <section className="row g-3 mb-4">
+          <p>
+            Consulta las existencias y los productos
+            que requieren reposición.
+          </p>
+        </header>
 
-        <div className="col-6 col-lg-3">
-          <article className="card shadow-sm h-100">
-            <div className="card-body text-center">
-              <h2 className="h6">Productos</h2>
-              <p className="fs-2 fw-bold mb-0">
-                {productos.length}
-              </p>
-            </div>
-          </article>
-        </div>
+        {/* INDICADORES */}
+        <section
+          className="reportes-inventario-seccion"
+          aria-label="Resumen del inventario"
+        >
+          <div className="reportes-inventario-indicadores">
+            {indicadores.map((indicador) => (
+              <article
+                key={indicador.titulo}
+                className={`reportes-inventario-indicador reportes-inventario-${indicador.clase}`}
+              >
+                <p>{indicador.titulo}</p>
 
-        <div className="col-6 col-lg-3">
-          <article className="card shadow-sm h-100">
-            <div className="card-body text-center">
-              <h2 className="h6">Stock crítico</h2>
-              <p className="fs-2 fw-bold text-warning mb-0">
-                {productosCriticos}
-              </p>
-            </div>
-          </article>
-        </div>
-
-        <div className="col-6 col-lg-3">
-          <article className="card shadow-sm h-100">
-            <div className="card-body text-center">
-              <h2 className="h6">Agotados</h2>
-              <p className="fs-2 fw-bold text-danger mb-0">
-                {productosAgotados}
-              </p>
-            </div>
-          </article>
-        </div>
-
-        <div className="col-6 col-lg-3">
-          <article className="card shadow-sm h-100">
-            <div className="card-body text-center">
-              <h2 className="h6">Valor del inventario</h2>
-              <p className="fs-5 fw-bold text-success mb-0">
-                {formatoPrecio.format(valorInventario)}
-              </p>
-            </div>
-          </article>
-        </div>
-
-      </section>
-
-      {productosSinDefinir > 0 && (
-        <div className="alert alert-info">
-          Hay {productosSinDefinir} productos sin stock
-          definido. No se incluyen en el valor calculado.
-        </div>
-      )}
-
-      {/* FILTROS */}
-      <section className="mb-3">
-        <div className="row g-3 align-items-end">
-
-          <div className="col-12 col-md-6">
-            <label
-              htmlFor="filtro-reporte"
-              className="form-label"
-            >
-              Filtrar inventario
-            </label>
-
-            <select
-              id="filtro-reporte"
-              className="form-select"
-              value={filtro}
-              onChange={(evento) => setFiltro(evento.target.value)}
-            >
-              <option value="todos">Todos los productos</option>
-              <option value="disponible">Disponibles</option>
-              <option value="critico">Stock crítico</option>
-              <option value="agotado">Agotados</option>
-              <option value="sin-definir">Sin definir</option>
-            </select>
+                <strong>{indicador.cantidad}</strong>
+              </article>
+            ))}
           </div>
+        </section>
 
-          <div className="col-12 col-md-6">
+        {/* PRODUCTOS SIN STOCK DEFINIDO */}
+        {productosSinDefinir > 0 && (
+          <div
+            className="reportes-inventario-aviso"
+            role="status"
+          >
+            Hay {productosSinDefinir} productos sin stock
+            definido. No se incluyen en el valor calculado.
+          </div>
+        )}
+
+        {/* FILTROS Y DESCARGA */}
+        <section className="reportes-inventario-filtros-tarjeta">
+          <h2>Consultar inventario</h2>
+
+          <div className="reportes-inventario-controles">
+            <div className="reportes-inventario-campo">
+              <label htmlFor="filtro-reporte">
+                Filtrar inventario
+              </label>
+
+              <select
+                id="filtro-reporte"
+                className="form-select"
+                value={filtro}
+                onChange={(evento) =>
+                  setFiltro(evento.target.value)
+                }
+              >
+                <option value="todos">
+                  Todos los productos
+                </option>
+
+                <option value="disponible">
+                  Disponibles
+                </option>
+
+                <option value="critico">
+                  Stock crítico
+                </option>
+
+                <option value="agotado">
+                  Agotados
+                </option>
+
+                <option value="sin-definir">
+                  Sin definir
+                </option>
+              </select>
+            </div>
+
             <button
               type="button"
-              className="btn btn-success"
+              className="reportes-inventario-boton"
               onClick={descargarCSV}
             >
               Descargar reporte CSV
             </button>
           </div>
 
-        </div>
-      </section>
-
-      <p className="text-muted small">
-        Umbral de stock crítico: {LIMITE_STOCK_CRITICO} unidades.
-        Se utiliza el precio de venta para calcular
-        el valor estimado del inventario.
-      </p>
-
-      {/* TABLA */}
-      <section className="table-responsive">
-        <table className="table table-striped table-hover align-middle">
-          <thead>
-            <tr>
-              <th>Código</th>
-              <th>Producto</th>
-              <th>Categoría</th>
-              <th>Precio</th>
-              <th>Stock</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {productosFiltrados.map((producto) => (
-              <tr key={producto.id}>
-                <td>{producto.id}</td>
-                <td>{producto.nombre}</td>
-                <td>{producto.categoria}</td>
-                <td>{formatoPrecio.format(producto.precio)}</td>
-                <td>
-                  {producto.estado.nivel === 'sin-definir'
-                    ? 'Sin definir'
-                    : producto.stock}
-                </td>
-                <td>
-                  <span className={`badge ${producto.estado.clase}`}>
-                    {producto.estado.nombre}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {productosFiltrados.length === 0 && (
-          <p className="text-muted">
-            No existen productos para el filtro seleccionado.
+          <p className="reportes-inventario-nota">
+            Umbral de stock crítico: {LIMITE_STOCK_CRITICO} unidades.
+            Se utiliza el precio de venta para calcular
+            el valor estimado del inventario.
           </p>
-        )}
-      </section>
+        </section>
 
+        {/* TABLA DEL INVENTARIO */}
+        <section className="reportes-inventario-seccion">
+          <div className="reportes-inventario-listado-encabezado">
+            <h2>Detalle de inventario</h2>
+
+            <span className="reportes-inventario-total">
+              {productosFiltrados.length}{' '}
+              {productosFiltrados.length === 1
+                ? 'producto'
+                : 'productos'}
+            </span>
+          </div>
+
+          <div className="reportes-inventario-tabla-contenedor table-responsive">
+            <table className="table table-hover align-middle reportes-inventario-tabla">
+              <thead>
+                <tr>
+                  <th scope="col">Código</th>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Categoría</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Stock</th>
+                  <th scope="col">Estado</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {productosFiltrados.map((producto) => (
+                  <tr key={producto.id}>
+                    <td>{producto.id}</td>
+
+                    <td className="reportes-inventario-nombre">
+                      {producto.nombre}
+                    </td>
+
+                    <td>{producto.categoria}</td>
+
+                    <td>
+                      {formatearPrecio(producto.precio)}
+                    </td>
+
+                    <td>
+                      {producto.estado.nivel === 'sin-definir'
+                        ? 'Sin definir'
+                        : producto.stock}
+                    </td>
+
+                    <td>
+                      <span
+                        className={`badge ${producto.estado.clase}`}
+                      >
+                        {producto.estado.nombre}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {productosFiltrados.length === 0 && (
+              <p className="reportes-inventario-sin-resultados">
+                No existen productos para el filtro seleccionado.
+              </p>
+            )}
+          </div>
+        </section>
+
+      </div>
     </main>
   )
 }

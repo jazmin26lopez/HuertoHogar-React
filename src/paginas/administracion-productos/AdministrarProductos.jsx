@@ -1,13 +1,17 @@
 
 import { useState } from 'react'
+
 import {
   obtenerProductos,
   guardarProductos as guardarProductosEnServicio
 } from '../../servicios/productosServicio'
+
 import {
   obtenerEstadoStock,
   LIMITE_STOCK_CRITICO
 } from '../../funciones/estadoStock'
+
+import { formatearPrecio } from '../../funciones/formato'
 
 const formularioVacio = {
   id: '',
@@ -28,6 +32,7 @@ export default function AdministrarProductos() {
   const [busqueda, setBusqueda] = useState('')
   const [filtroStock, setFiltroStock] = useState('todos')
 
+  // GUARDAR PRODUCTOS
   function guardarLista(lista) {
     const guardado = guardarProductosEnServicio(lista)
 
@@ -40,6 +45,7 @@ export default function AdministrarProductos() {
     return false
   }
 
+  // ACTUALIZAR CAMPOS
   function cambiarCampo(evento) {
     const { name, value } = evento.target
 
@@ -49,11 +55,13 @@ export default function AdministrarProductos() {
     }))
   }
 
+  // LIMPIAR FORMULARIO
   function limpiarFormulario() {
     setFormulario({ ...formularioVacio })
     setEditando(false)
   }
 
+  // AGREGAR O EDITAR PRODUCTO
   function guardarFormulario(evento) {
     evento.preventDefault()
 
@@ -116,16 +124,23 @@ export default function AdministrarProductos() {
     }
   }
 
+  // EDITAR PRODUCTO
   function editarProducto(producto) {
     setFormulario({
       ...formularioVacio,
       ...producto
     })
+
     setEditando(true)
     setMensaje('')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
   }
 
+  // ELIMINAR PRODUCTO
   function eliminarProducto(producto) {
     if (!window.confirm(`¿Eliminar "${producto.nombre}"?`)) {
       return
@@ -144,6 +159,7 @@ export default function AdministrarProductos() {
     }
   }
 
+  // RESUMEN DE STOCK
   const resumenStock = {
     disponibles: 0,
     criticos: 0,
@@ -154,12 +170,24 @@ export default function AdministrarProductos() {
   productos.forEach((producto) => {
     const nivel = obtenerEstadoStock(producto.stock).nivel
 
-    if (nivel === 'disponible') resumenStock.disponibles += 1
-    if (nivel === 'critico') resumenStock.criticos += 1
-    if (nivel === 'agotado') resumenStock.agotados += 1
-    if (nivel === 'sin-definir') resumenStock.sinDefinir += 1
+    if (nivel === 'disponible') {
+      resumenStock.disponibles += 1
+    }
+
+    if (nivel === 'critico') {
+      resumenStock.criticos += 1
+    }
+
+    if (nivel === 'agotado') {
+      resumenStock.agotados += 1
+    }
+
+    if (nivel === 'sin-definir') {
+      resumenStock.sinDefinir += 1
+    }
   })
 
+  // FILTROS
   const productosFiltrados = productos.filter((producto) => {
     const texto =
       `${producto.nombre} ${producto.id} ${producto.categoria}`
@@ -176,250 +204,296 @@ export default function AdministrarProductos() {
     return coincideBusqueda && coincideStock
   })
 
-  function formatearPrecio(valor) {
-    return '$' + Number(valor).toLocaleString('es-CL')
-  }
+  const indicadores = [
+    {
+      titulo: 'Disponibles',
+      cantidad: resumenStock.disponibles,
+      clase: 'disponibles'
+    },
+    {
+      titulo: 'Stock crítico',
+      cantidad: resumenStock.criticos,
+      clase: 'criticos'
+    },
+    {
+      titulo: 'Agotados',
+      cantidad: resumenStock.agotados,
+      clase: 'agotados'
+    },
+    {
+      titulo: 'Sin definir',
+      cantidad: resumenStock.sinDefinir,
+      clase: 'sin-definir'
+    }
+  ]
 
   return (
-    <main className="container py-4 flex-grow-1">
-      <h1 className="mb-2" style={{ color: '#244D36' }}>
-        Administración de productos
-      </h1>
+    <main className="pagina-admin-productos flex-grow-1">
+      <div className="admin-productos-contenedor">
 
-      <p className="text-muted">
-        Gestión de productos e inventario de HuertoHogar.
-      </p>
+        {/* ENCABEZADO */}
+        <header className="admin-productos-encabezado">
+          <p className="admin-productos-etiqueta">
+            ADMINISTRACIÓN HUERTOHOGAR
+          </p>
 
-      {/* RESUMEN DEL INVENTARIO */}
-      <section className="mb-4">
-        <h2 className="h4 mb-3">Resumen de inventario</h2>
+          <h1>Administración de productos</h1>
 
-        <div className="row g-3">
-          {[
-            {
-              titulo: 'Disponibles',
-              cantidad: resumenStock.disponibles,
-              color: 'success'
-            },
-            {
-              titulo: 'Stock crítico',
-              cantidad: resumenStock.criticos,
-              color: 'warning'
-            },
-            {
-              titulo: 'Agotados',
-              cantidad: resumenStock.agotados,
-              color: 'danger'
-            },
-            {
-              titulo: 'Sin definir',
-              cantidad: resumenStock.sinDefinir,
-              color: 'secondary'
-            }
-          ].map((indicador) => (
-            <div className="col-6 col-lg-3" key={indicador.titulo}>
-              <div className={`card h-100 border-${indicador.color} shadow-sm`}>
-                <div className="card-body text-center">
-                  <h3 className="h6">{indicador.titulo}</h3>
-                  <p className="display-6 fw-bold mb-0">
-                    {indicador.cantidad}
-                  </p>
-                </div>
+          <p>
+            Gestión de productos e inventario de HuertoHogar.
+          </p>
+        </header>
+
+        {/* RESUMEN DE INVENTARIO */}
+        <section className="admin-productos-seccion">
+          <h2>Resumen de inventario</h2>
+
+          <div className="admin-productos-indicadores">
+            {indicadores.map((indicador) => (
+              <article
+                key={indicador.titulo}
+                className={`admin-productos-indicador admin-productos-${indicador.clase}`}
+              >
+                <p>{indicador.titulo}</p>
+
+                <strong>{indicador.cantidad}</strong>
+              </article>
+            ))}
+          </div>
+
+          <p className="admin-productos-nota">
+            Stock crítico: entre 1 y {LIMITE_STOCK_CRITICO} unidades.
+            Stock agotado: 0 unidades.
+          </p>
+        </section>
+
+        {/* MENSAJES */}
+        {mensaje && (
+          <div className="alert alert-info" role="status">
+            {mensaje}
+          </div>
+        )}
+
+        {/* FORMULARIO */}
+        <section className="admin-productos-formulario-tarjeta">
+          <h2>
+            {editando ? 'Editar producto' : 'Agregar producto'}
+          </h2>
+
+          <form onSubmit={guardarFormulario}>
+            <div className="row g-3">
+
+              <div className="col-md-4">
+                <label
+                  htmlFor="producto-id"
+                  className="form-label"
+                >
+                  Código
+                </label>
+
+                <input
+                  id="producto-id"
+                  className="form-control"
+                  name="id"
+                  value={formulario.id}
+                  onChange={cambiarCampo}
+                  disabled={editando}
+                  required
+                />
+              </div>
+
+              <div className="col-md-8">
+                <label
+                  htmlFor="producto-nombre"
+                  className="form-label"
+                >
+                  Nombre
+                </label>
+
+                <input
+                  id="producto-nombre"
+                  className="form-control"
+                  name="nombre"
+                  value={formulario.nombre}
+                  onChange={cambiarCampo}
+                  required
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label
+                  htmlFor="producto-categoria"
+                  className="form-label"
+                >
+                  Categoría
+                </label>
+
+                <select
+                  id="producto-categoria"
+                  className="form-select"
+                  name="categoria"
+                  value={formulario.categoria}
+                  onChange={cambiarCampo}
+                >
+                  <option>Frutas Frescas</option>
+                  <option>Verduras Orgánicas</option>
+                  <option>Productos Orgánicos</option>
+                  <option>Productos Lácteos</option>
+                </select>
+              </div>
+
+              <div className="col-md-6">
+                <label
+                  htmlFor="producto-unidad"
+                  className="form-label"
+                >
+                  Unidad de venta
+                </label>
+
+                <input
+                  id="producto-unidad"
+                  className="form-control"
+                  name="unidad"
+                  value={formulario.unidad}
+                  onChange={cambiarCampo}
+                  required
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label
+                  htmlFor="producto-precio"
+                  className="form-label"
+                >
+                  Precio (CLP)
+                </label>
+
+                <input
+                  id="producto-precio"
+                  type="number"
+                  min="1"
+                  step="1"
+                  className="form-control"
+                  name="precio"
+                  value={formulario.precio}
+                  onChange={cambiarCampo}
+                  required
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label
+                  htmlFor="producto-stock"
+                  className="form-label"
+                >
+                  Stock
+                </label>
+
+                <input
+                  id="producto-stock"
+                  type="number"
+                  min="0"
+                  step="1"
+                  className="form-control"
+                  name="stock"
+                  value={formulario.stock}
+                  onChange={cambiarCampo}
+                  required
+                />
+              </div>
+
+              <div className="col-12">
+                <label
+                  htmlFor="producto-imagen"
+                  className="form-label"
+                >
+                  Ruta de imagen
+                </label>
+
+                <input
+                  id="producto-imagen"
+                  className="form-control"
+                  name="imagen"
+                  value={formulario.imagen}
+                  onChange={cambiarCampo}
+                  placeholder="/imagenes/manzanas.jpg"
+                />
+
+                <small className="text-muted">
+                  Las imágenes deben estar en public/imagenes.
+                </small>
+              </div>
+
+              <div className="col-12">
+                <label
+                  htmlFor="producto-descripcion"
+                  className="form-label"
+                >
+                  Descripción
+                </label>
+
+                <textarea
+                  id="producto-descripcion"
+                  className="form-control"
+                  name="descripcion"
+                  rows="3"
+                  value={formulario.descripcion}
+                  onChange={cambiarCampo}
+                />
               </div>
             </div>
-          ))}
-        </div>
 
-        <p className="text-muted small mt-2">
-          Stock crítico: entre 1 y {LIMITE_STOCK_CRITICO} unidades.
-          Stock agotado: 0 unidades.
-        </p>
-      </section>
-
-      {mensaje && (
-        <div className="alert alert-info" role="status">
-          {mensaje}
-        </div>
-      )}
-
-      {/* FORMULARIO */}
-      <section className="card p-4 mb-4 shadow-sm">
-        <h2 className="h4 mb-3">
-          {editando ? 'Editar producto' : 'Agregar producto'}
-        </h2>
-
-        <form onSubmit={guardarFormulario}>
-          <div className="row g-3">
-            <div className="col-md-4">
-              <label htmlFor="producto-id" className="form-label">
-                Código
-              </label>
-              <input
-                id="producto-id"
-                className="form-control"
-                name="id"
-                value={formulario.id}
-                onChange={cambiarCampo}
-                disabled={editando}
-                required
-              />
-            </div>
-
-            <div className="col-md-8">
-              <label htmlFor="producto-nombre" className="form-label">
-                Nombre
-              </label>
-              <input
-                id="producto-nombre"
-                className="form-control"
-                name="nombre"
-                value={formulario.nombre}
-                onChange={cambiarCampo}
-                required
-              />
-            </div>
-
-            <div className="col-md-6">
-              <label htmlFor="producto-categoria" className="form-label">
-                Categoría
-              </label>
-              <select
-                id="producto-categoria"
-                className="form-select"
-                name="categoria"
-                value={formulario.categoria}
-                onChange={cambiarCampo}
+            <div className="admin-productos-formulario-acciones">
+              <button
+                type="submit"
+                className="admin-productos-boton-principal"
               >
-                <option>Frutas Frescas</option>
-                <option>Verduras Orgánicas</option>
-                <option>Productos Orgánicos</option>
-                <option>Productos Lácteos</option>
-              </select>
-            </div>
+                {editando
+                  ? 'Guardar cambios'
+                  : 'Agregar producto'}
+              </button>
 
-            <div className="col-md-6">
-              <label htmlFor="producto-unidad" className="form-label">
-                Unidad de venta
-              </label>
-              <input
-                id="producto-unidad"
-                className="form-control"
-                name="unidad"
-                value={formulario.unidad}
-                onChange={cambiarCampo}
-                required
-              />
+              <button
+                type="button"
+                className="admin-productos-boton-secundario"
+                onClick={limpiarFormulario}
+              >
+                Cancelar
+              </button>
             </div>
+          </form>
+        </section>
 
-            <div className="col-md-6">
-              <label htmlFor="producto-precio" className="form-label">
-                Precio (CLP)
-              </label>
-              <input
-                id="producto-precio"
-                type="number"
-                min="1"
-                step="1"
-                className="form-control"
-                name="precio"
-                value={formulario.precio}
-                onChange={cambiarCampo}
-                required
-              />
-            </div>
+        {/* PRODUCTOS REGISTRADOS */}
+        <section className="admin-productos-seccion">
+          <div className="admin-productos-listado-encabezado">
+            <h2>Productos registrados</h2>
 
-            <div className="col-md-6">
-              <label htmlFor="producto-stock" className="form-label">
-                Stock
-              </label>
-              <input
-                id="producto-stock"
-                type="number"
-                min="0"
-                step="1"
-                className="form-control"
-                name="stock"
-                value={formulario.stock}
-                onChange={cambiarCampo}
-                required
-              />
-            </div>
-
-            <div className="col-12">
-              <label htmlFor="producto-imagen" className="form-label">
-                Ruta de imagen
-              </label>
-              <input
-                id="producto-imagen"
-                className="form-control"
-                name="imagen"
-                value={formulario.imagen}
-                onChange={cambiarCampo}
-                placeholder="/imagenes/manzanas.jpg"
-              />
-              <small className="text-muted">
-                Las imágenes deben estar en public/imagenes.
-              </small>
-            </div>
-
-            <div className="col-12">
-              <label htmlFor="producto-descripcion" className="form-label">
-                Descripción
-              </label>
-              <textarea
-                id="producto-descripcion"
-                className="form-control"
-                name="descripcion"
-                rows="3"
-                value={formulario.descripcion}
-                onChange={cambiarCampo}
-              />
-            </div>
+            <span className="admin-productos-total">
+              Total: {productos.length}
+            </span>
           </div>
 
-          <div className="d-flex gap-2 mt-3 flex-wrap">
-            <button type="submit" className="btn btn-success">
-              {editando ? 'Guardar cambios' : 'Agregar producto'}
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={limpiarFormulario}
-            >
-              Cancelar
-            </button>
-          </div>
-        </form>
-      </section>
-
-      {/* TABLA DE PRODUCTOS */}
-      <section>
-        <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-          <h2 className="h4 mb-0">Productos registrados</h2>
-          <span className="badge bg-success">
-            Total: {productos.length}
-          </span>
-        </div>
-
-        <div className="row g-2 mb-3">
-          <div className="col-md-7">
+          {/* BUSCADOR Y FILTROS */}
+          <div className="admin-productos-filtros">
             <input
               type="search"
               className="form-control"
               placeholder="Buscar por código, nombre o categoría"
               aria-label="Buscar productos"
               value={busqueda}
-              onChange={(evento) => setBusqueda(evento.target.value)}
+              onChange={(evento) =>
+                setBusqueda(evento.target.value)
+              }
             />
-          </div>
 
-          <div className="col-md-5">
             <select
               className="form-select"
               aria-label="Filtrar por estado del stock"
               value={filtroStock}
-              onChange={(evento) => setFiltroStock(evento.target.value)}
+              onChange={(evento) =>
+                setFiltroStock(evento.target.value)
+              }
             >
               <option value="todos">Todos los estados</option>
               <option value="disponible">Disponibles</option>
@@ -428,92 +502,103 @@ export default function AdministrarProductos() {
               <option value="sin-definir">Sin definir</option>
             </select>
           </div>
-        </div>
 
-        <div className="table-responsive">
-          <table className="table table-striped table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Imagen</th>
-                <th>Código</th>
-                <th>Producto</th>
-                <th>Categoría</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
+          {/* TABLA */}
+          <div className="admin-productos-tabla-contenedor table-responsive">
+            <table className="table table-hover align-middle admin-productos-tabla">
+              <thead>
+                <tr>
+                  <th scope="col">Imagen</th>
+                  <th scope="col">Código</th>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Categoría</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Stock</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {productosFiltrados.map((producto) => {
-                const estado = obtenerEstadoStock(producto.stock)
+              <tbody>
+                {productosFiltrados.map((producto) => {
+                  const estado = obtenerEstadoStock(
+                    producto.stock
+                  )
 
-                return (
-                  <tr key={producto.id}>
-                    <td>
-                      <img
-                        src={producto.imagen}
-                        alt={producto.nombre}
-                        width="55"
-                        height="55"
-                        style={{
-                          objectFit: 'cover',
-                          borderRadius: '6px'
-                        }}
-                      />
-                    </td>
+                  return (
+                    <tr key={producto.id}>
+                      <td>
+                        <img
+                          src={producto.imagen}
+                          alt={producto.nombre}
+                          className="admin-productos-imagen"
+                        />
+                      </td>
 
-                    <td>{producto.id}</td>
-                    <td>{producto.nombre}</td>
-                    <td>{producto.categoria}</td>
+                      <td>{producto.id}</td>
 
-                    <td>{formatearPrecio(producto.precio)}</td>
+                      <td className="admin-productos-nombre">
+                        {producto.nombre}
+                      </td>
 
-                    <td>
-                      {estado.nivel === 'sin-definir'
-                        ? 'Sin definir'
-                        : producto.stock}
-                    </td>
+                      <td>{producto.categoria}</td>
 
-                    <td>
-                      <span className={`badge ${estado.clase}`}>
-                        {estado.nombre}
-                      </span>
-                    </td>
+                      <td>
+                        {formatearPrecio(producto.precio)}
+                      </td>
 
-                    <td>
-                      <div className="d-flex gap-2">
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-success"
-                          onClick={() => editarProducto(producto)}
+                      <td>
+                        {estado.nivel === 'sin-definir'
+                          ? 'Sin definir'
+                          : producto.stock}
+                      </td>
+
+                      <td>
+                        <span
+                          className={`badge ${estado.clase}`}
                         >
-                          Editar
-                        </button>
+                          {estado.nombre}
+                        </span>
+                      </td>
 
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-danger"
-                          onClick={() => eliminarProducto(producto)}
-                        >
-                          Eliminar
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+                      <td>
+                        <div className="admin-productos-acciones">
+                          <button
+                            type="button"
+                            className="admin-productos-boton-editar"
+                            onClick={() =>
+                              editarProducto(producto)
+                            }
+                          >
+                            Editar
+                          </button>
 
-        {productosFiltrados.length === 0 && (
-          <p className="text-muted">
-            No se encontraron productos.
-          </p>
-        )}
-      </section>
+                          <button
+                            type="button"
+                            className="admin-productos-boton-eliminar"
+                            onClick={() =>
+                              eliminarProducto(producto)
+                            }
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {productosFiltrados.length === 0 && (
+            <p className="admin-productos-sin-resultados">
+              No se encontraron productos.
+            </p>
+          )}
+        </section>
+
+      </div>
     </main>
   )
 }

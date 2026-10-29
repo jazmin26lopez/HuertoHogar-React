@@ -11,49 +11,99 @@ export default function CompraFallida() {
 
   if (!orden || orden.estado !== 'fallida') {
     return (
-      <main className="container py-5 flex-grow-1">
-        <h1>No encontramos ese pago</h1>
+      <main className="pagina-compra-fallida flex-grow-1">
+        <div className="compra-fallida-contenedor">
+          <div className="compra-fallida-vacio">
+            <h1>No encontramos ese pago</h1>
 
-        <p>El pago que buscas no existe o ya fue realizado.</p>
+            <p>
+              El pago que buscas no existe o ya fue realizado.
+            </p>
 
-        <Link to="/" className="btn btn-success">
-          Volver al inicio
-        </Link>
+            <Link to="/" className="compra-fallida-boton">
+              Volver al inicio
+            </Link>
+          </div>
+        </div>
       </main>
     )
   }
 
   return (
-    <main className="container py-4 flex-grow-1">
-      <div className="card shadow-sm text-start">
-        <div className="card-body p-4">
-          <h1 className="h3 text-danger">
-            <span aria-hidden="true">❌ </span>
-            No se pudo realizar el pago. nro #{orden.id}
-          </h1>
+    <main className="pagina-compra-fallida flex-grow-1">
+      <div className="compra-fallida-contenedor">
 
-          <p className="text-muted">
-            Tu tarjeta fue rechazada. Tus productos siguen en el carrito y no se realizó ningún cobro.
+        {/* ENCABEZADO */}
+        <header className="compra-fallida-encabezado">
+          <p className="compra-fallida-etiqueta">
+            HUERTOHOGAR
           </p>
 
-          <div className="text-center mb-4">
+          <h1>No se pudo realizar el pago</h1>
+
+          <p>
+            Tu pago fue rechazado. Tus productos siguen en el
+            carrito y no se realizó ningún cobro.
+          </p>
+        </header>
+
+        {/* DETALLE DEL PAGO */}
+        <article className="compra-fallida-tarjeta">
+
+          <div className="compra-fallida-cabecera">
+            <div>
+              <p className="compra-fallida-estado">
+                <span aria-hidden="true">✕ </span>
+                Pago rechazado
+              </p>
+
+              <h2>Resumen de tu pedido</h2>
+            </div>
+
+            <p className="compra-fallida-numero">
+              Número de orden:
+              <strong>#{orden.id}</strong>
+            </p>
+          </div>
+
+          {/* AVISO */}
+          <div className="compra-fallida-aviso" role="alert">
+            <strong>No se completó la compra.</strong>
+            <p>
+              Puedes revisar tu carrito o volver a intentar
+              el pago. Los productos seleccionados se
+              conservaron.
+            </p>
+          </div>
+
+          {/* DETALLE ORIGINAL DE BRYAM */}
+          <div className="compra-fallida-detalle">
+            <DetalleOrden
+              orden={orden}
+              etiquetaTotal="Total a pagar"
+            />
+          </div>
+
+          {/* ACCIONES */}
+          <div className="compra-fallida-acciones">
             <button
               type="button"
-              className="btn btn-success btn-lg text-uppercase"
+              className="compra-fallida-boton"
               onClick={() => navigate('/checkout')}
             >
               Volver a realizar el pago
             </button>
-          </div>
 
-          <DetalleOrden orden={orden} etiquetaTotal="Total a pagar" />
-
-          <div className="text-center">
-            <Link to="/carrito" className="btn btn-outline-secondary">
+            <Link
+              to="/carrito"
+              className="compra-fallida-boton-secundario"
+            >
               Revisar mi carrito
             </Link>
           </div>
-        </div>
+
+        </article>
+
       </div>
     </main>
   )
