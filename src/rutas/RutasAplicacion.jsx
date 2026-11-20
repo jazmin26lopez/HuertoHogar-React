@@ -31,6 +31,8 @@ import AdministrarUsuarios from '../paginas/administracion-usuarios/AdministrarU
 import EditorUsuario from '../paginas/administracion-usuarios/EditorUsuario'
 import RutaAdministrador from '../componentes/usuarios/RutaAdministrador'
 import RutaProtegida from '../componentes/usuarios/RutaProtegida'
+import AdministrarPedidos from '../paginas/administracion-pedidos/AdministrarPedidos'
+import DetallePedido from '../paginas/administracion-pedidos/DetallePedido'
 import { ROL_ADMINISTRADOR, ROL_VENDEDOR } from '../funciones/roles'
 
 // Páginas informativas - Bryam
@@ -38,11 +40,6 @@ import Nosotros from '../paginas/institucional/Nosotros'
 import Blogs from '../paginas/institucional/Blogs'
 import DetalleBlog from '../paginas/institucional/DetalleBlog'
 import Contacto from '../paginas/institucional/Contacto'
-
-// Rutas reservadas para módulos pendientes (las ven el Administrador y el Vendedor)
-const paginasPendientes = [
-  { ruta: '/admin/pedidos', titulo: 'Administrar pedidos', protegida: true }
-]
 
 export default function RutasAplicacion() {
   return (
@@ -133,22 +130,24 @@ export default function RutasAplicacion() {
         }
       />
 
-      {/* MÓDULOS PENDIENTES */}
-      {paginasPendientes.map(({ ruta, titulo, protegida }) => (
-        <Route
-          key={ruta}
-          path={ruta}
-          element={
-            protegida ? (
-              <RutaProtegida roles={[ROL_ADMINISTRADOR, ROL_VENDEDOR]}>
-                <PaginaPendiente titulo={titulo} />
-              </RutaProtegida>
-            ) : (
-              <PaginaPendiente titulo={titulo} />
-            )
-          }
-        />
-      ))}
+      {/* ÓRDENES (Administrador y Vendedor, solo consulta) */}
+      <Route
+        path="/admin/pedidos"
+        element={
+          <RutaProtegida roles={[ROL_ADMINISTRADOR, ROL_VENDEDOR]}>
+            <AdministrarPedidos />
+          </RutaProtegida>
+        }
+      />
+
+      <Route
+        path="/admin/pedidos/:id"
+        element={
+          <RutaProtegida roles={[ROL_ADMINISTRADOR, ROL_VENDEDOR]}>
+            <DetallePedido />
+          </RutaProtegida>
+        }
+      />
 
       {/* RUTA DESCONOCIDA */}
       <Route

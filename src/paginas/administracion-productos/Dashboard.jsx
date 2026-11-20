@@ -98,10 +98,10 @@ export default function Dashboard() {
     },
     {
       titulo: 'Pedidos',
-      descripcion: 'Pendiente de integración',
+      descripcion: 'Consulta de órdenes y su detalle',
       icono: '🛒',
       ruta: '/admin/pedidos',
-      disponible: false
+      disponible: true
     }
   ]
 

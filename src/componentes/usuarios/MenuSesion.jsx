@@ -43,7 +43,8 @@ export default function MenuSesion({ alNavegar }) {
     <>
       {/* Cada rol ve solo su acceso: el Cliente no ve ninguno */}
       {usuario.rol === 'Administrador' && enlace('/admin/usuarios', 'Administración')}
-      {usuario.rol === 'Vendedor' && enlace('/admin/productos', 'Productos y órdenes')}
+      {usuario.rol === 'Vendedor' && enlace('/admin/productos', 'Productos')}
+      {(usuario.rol === 'Administrador' || usuario.rol === 'Vendedor') && enlace('/admin/pedidos', 'Órdenes')}
 
       <li className="nav-item d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
         <span className="navbar-text text-white">Hola, {usuario.nombre}</span>
