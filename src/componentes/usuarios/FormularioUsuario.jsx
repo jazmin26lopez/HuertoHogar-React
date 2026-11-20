@@ -5,8 +5,14 @@ import CampoFormulario from '../formularios/CampoFormulario'
 import SelectorRegionComuna from '../formularios/SelectorRegionComuna'
 import { validarUsuario } from '../../funciones/validaciones'
 import { formatearRun } from '../../funciones/formato'
+import { ROLES } from '../../funciones/roles'
 
-const ROLES = ['Cliente', 'Administrador']
+// Los datos que vienen de la API pueden traer null en los campos opcionales
+function sinNulos(usuario) {
+  return Object.fromEntries(
+    Object.entries(usuario ?? {}).map(([clave, valor]) => [clave, valor ?? ''])
+  )
+}
 
 const DATOS_VACIOS = {
   run: '',
@@ -36,15 +42,16 @@ export default function FormularioUsuario({
 }) {
   const editando = modo === 'editar'
 
-  const [datos, setDatos] = useState(() => ({ ...DATOS_VACIOS, ...usuarioInicial }))
+  const [datos, setDatos] = useState(() => ({ ...DATOS_VACIOS, ...sinNulos(usuarioInicial) }))
   const [errores, setErrores] = useState({})
   const [mensajeError, setMensajeError] = useState('')
+  const [enviando, setEnviando] = useState(false)
 
   function cambiar(evento) {
     setDatos({ ...datos, [evento.target.name]: evento.target.value })
   }
 
-  function enviar(evento) {
+  async function enviar(evento) {
     evento.preventDefault()
     setMensajeError('')
 
@@ -60,7 +67,10 @@ export default function FormularioUsuario({
     const paraGuardar = { ...datos }
     delete paraGuardar.confirmacion
 
-    const problema = alGuardar({
+    setEnviando(true)
+
+    // alGuardar llama a la API, por eso se espera su respuesta
+    const problema = await alGuardar({
       ...paraGuardar,
       nombre: datos.nombre.trim(),
       apellidos: datos.apellidos.trim(),
@@ -70,6 +80,7 @@ export default function FormularioUsuario({
 
     if (problema) {
       setMensajeError(problema)
+      setEnviando(false)
     }
   }
 
@@ -180,7 +191,7 @@ export default function FormularioUsuario({
               alCambiar={cambiar}
               error={errores.contrasena}
               autoComplete="new-password"
-              ayuda="Entre 4 y 10 caracteres."
+              ayuda="Entre 8 y 72 caracteres."
             />
           </div>
 
@@ -205,7 +216,7 @@ export default function FormularioUsuario({
       )}
 
       <div className="d-flex gap-2 flex-wrap">
-        <button type="submit" className="btn btn-success">
+        <button type="submit" className="btn btn-success" disabled={enviando}>
           {textoBoton}
         </button>
 

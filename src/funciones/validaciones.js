@@ -89,8 +89,9 @@ export function validarCorreo(correo) {
 export function validarContrasena(contrasena) {
   const texto = String(contrasena ?? '')
 
-  if (texto.length < 4 || texto.length > 10) {
-    return 'La contraseña debe tener entre 4 y 10 caracteres.'
+  // Misma regla que el backend (UsuarioService): entre 8 y 72 caracteres
+  if (texto.length < 8 || texto.length > 72) {
+    return 'La contraseña debe tener entre 8 y 72 caracteres.'
   }
 
   return ''

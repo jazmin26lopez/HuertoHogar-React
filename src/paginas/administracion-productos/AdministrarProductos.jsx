@@ -1,6 +1,9 @@
 
 import { useState } from 'react'
 
+import useSesion from '../../contextos/useSesion'
+import { esAdministrador } from '../../funciones/roles'
+
 import {
   obtenerProductos,
   guardarProductos as guardarProductosEnServicio
@@ -25,6 +28,10 @@ const formularioVacio = {
 }
 
 export default function AdministrarProductos() {
+  // El Vendedor solo consulta: ve la lista pero sin formulario ni botones de editar o eliminar
+  const { usuario } = useSesion()
+  const puedeEditar = esAdministrador(usuario)
+
   const [productos, setProductos] = useState(obtenerProductos)
   const [formulario, setFormulario] = useState(formularioVacio)
   const [editando, setEditando] = useState(false)
@@ -274,7 +281,8 @@ export default function AdministrarProductos() {
           </div>
         )}
 
-        {/* FORMULARIO */}
+        {/* FORMULARIO (solo Administrador) */}
+        {puedeEditar && (
         <section className="admin-productos-formulario-tarjeta">
           <h2>
             {editando ? 'Editar producto' : 'Agregar producto'}
@@ -463,6 +471,7 @@ export default function AdministrarProductos() {
             </div>
           </form>
         </section>
+        )}
 
         {/* PRODUCTOS REGISTRADOS */}
         <section className="admin-productos-seccion">
@@ -515,7 +524,7 @@ export default function AdministrarProductos() {
                   <th scope="col">Precio</th>
                   <th scope="col">Stock</th>
                   <th scope="col">Estado</th>
-                  <th scope="col">Acciones</th>
+                  {puedeEditar && <th scope="col">Acciones</th>}
                 </tr>
               </thead>
 
@@ -561,6 +570,7 @@ export default function AdministrarProductos() {
                         </span>
                       </td>
 
+                      {puedeEditar && (
                       <td>
                         <div className="admin-productos-acciones">
                           <button
@@ -584,6 +594,7 @@ export default function AdministrarProductos() {
                           </button>
                         </div>
                       </td>
+                      )}
                     </tr>
                   )
                 })}

@@ -5,6 +5,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import useSesion from '../../contextos/useSesion'
 import CampoFormulario from '../../componentes/formularios/CampoFormulario'
 import { validarInicioSesion } from '../../funciones/validaciones'
+import { paginaInicialPorRol } from '../../funciones/roles'
 
 export default function IniciarSesion() {
   const { usuario, iniciarSesion } = useSesion()
@@ -17,6 +18,7 @@ export default function IniciarSesion() {
 
   const [errores, setErrores] = useState({})
   const [mensajeError, setMensajeError] = useState('')
+  const [enviando, setEnviando] = useState(false)
 
   // Mantener la redirección original de Bryam.
   const [teniaSesion] = useState(() => Boolean(usuario))
@@ -32,7 +34,7 @@ export default function IniciarSesion() {
     })
   }
 
-  function enviar(evento) {
+  async function enviar(evento) {
     evento.preventDefault()
     setMensajeError('')
 
@@ -47,21 +49,25 @@ export default function IniciarSesion() {
       return
     }
 
-    const encontrado = iniciarSesion(
-      datos.correo,
-      datos.contrasena
-    )
+    setEnviando(true)
 
-    if (!encontrado) {
-      setMensajeError('Correo o contraseña incorrectos.')
-      return
+    try {
+      // Llama al backend (POST /auth/login); si todo sale bien queda la sesión guardada
+      const encontrado = await iniciarSesion(
+        datos.correo,
+        datos.contrasena
+      )
+
+      navigate(paginaInicialPorRol(encontrado.rol))
+    } catch (error) {
+      setMensajeError(
+        error.estado === 401
+          ? 'Correo o contraseña incorrectos.'
+          : error.message
+      )
+    } finally {
+      setEnviando(false)
     }
-
-    navigate(
-      encontrado.rol === 'Administrador'
-        ? '/admin/usuarios'
-        : '/'
-    )
   }
 
   return (
@@ -122,6 +128,7 @@ export default function IniciarSesion() {
           <button
             type="submit"
             className="inicio-sesion-boton"
+            disabled={enviando}
           >
             Iniciar sesión
           </button>

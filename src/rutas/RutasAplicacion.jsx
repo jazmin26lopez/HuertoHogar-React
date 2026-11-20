@@ -30,6 +30,8 @@ import Registro from '../paginas/usuarios/Registro'
 import AdministrarUsuarios from '../paginas/administracion-usuarios/AdministrarUsuarios'
 import EditorUsuario from '../paginas/administracion-usuarios/EditorUsuario'
 import RutaAdministrador from '../componentes/usuarios/RutaAdministrador'
+import RutaProtegida from '../componentes/usuarios/RutaProtegida'
+import { ROL_ADMINISTRADOR, ROL_VENDEDOR } from '../funciones/roles'
 
 // Páginas informativas - Bryam
 import Nosotros from '../paginas/institucional/Nosotros'
@@ -37,9 +39,9 @@ import Blogs from '../paginas/institucional/Blogs'
 import DetalleBlog from '../paginas/institucional/DetalleBlog'
 import Contacto from '../paginas/institucional/Contacto'
 
-// Rutas reservadas para módulos pendientes
+// Rutas reservadas para módulos pendientes (las ven el Administrador y el Vendedor)
 const paginasPendientes = [
-  { ruta: '/admin/pedidos', titulo: 'Administrar pedidos' }
+  { ruta: '/admin/pedidos', titulo: 'Administrar pedidos', protegida: true }
 ]
 
 export default function RutasAplicacion() {
@@ -63,12 +65,13 @@ export default function RutasAplicacion() {
         }
       />
 
+      {/* El Vendedor también entra, pero solo para consultar */}
       <Route
         path="/admin/productos"
         element={
-          <RutaAdministrador>
+          <RutaProtegida roles={[ROL_ADMINISTRADOR, ROL_VENDEDOR]}>
             <AdministrarProductos />
-          </RutaAdministrador>
+          </RutaProtegida>
         }
       />
 
@@ -122,7 +125,7 @@ export default function RutasAplicacion() {
       />
 
       <Route
-        path="/admin/usuarios/:run/editar"
+        path="/admin/usuarios/:id/editar"
         element={
           <RutaAdministrador>
             <EditorUsuario />
@@ -131,11 +134,19 @@ export default function RutasAplicacion() {
       />
 
       {/* MÓDULOS PENDIENTES */}
-      {paginasPendientes.map(({ ruta, titulo }) => (
+      {paginasPendientes.map(({ ruta, titulo, protegida }) => (
         <Route
           key={ruta}
           path={ruta}
-          element={<PaginaPendiente titulo={titulo} />}
+          element={
+            protegida ? (
+              <RutaProtegida roles={[ROL_ADMINISTRADOR, ROL_VENDEDOR]}>
+                <PaginaPendiente titulo={titulo} />
+              </RutaProtegida>
+            ) : (
+              <PaginaPendiente titulo={titulo} />
+            )
+          }
         />
       ))}
 

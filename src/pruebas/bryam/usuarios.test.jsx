@@ -1,22 +1,29 @@
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import CampoFormulario from '../../componentes/formularios/CampoFormulario'
 import FormularioUsuario from '../../componentes/usuarios/FormularioUsuario'
 import { renderizarApp } from './utilidades'
-
-import {
-  obtenerUsuarios,
-  obtenerUsuarioPorRun
-} from '../../servicios/usuariosServicio'
+import { instalarApiFalsa } from './apiFalsa'
 
 import {
   obtenerUsuarioActual
 } from '../../servicios/sesionServicio'
 
 describe('10 pruebas de Bryam - HuertoHogar', () => {
+
+  // La API falsa reemplaza a fetch: responde como el backend, sin necesitarlo encendido.
+  let api
+
+  beforeEach(() => {
+    api = instalarApiFalsa()
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
 
   // PRUEBA 1: RENDERIZADO CONDICIONAL
   it('CampoFormulario muestra errores solamente cuando corresponde', () => {
@@ -55,7 +62,7 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
     render(
       <FormularioUsuario
         modo="editar"
-        usuarioInicial={obtenerUsuarioPorRun('111111111')}
+        usuarioInicial={{ ...api.usuarios[1], contrasena: undefined }}
         alGuardar={() => {}}
       />
     )
@@ -118,8 +125,9 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
       screen.getByRole('button', { name: 'Iniciar sesión' })
     )
 
+    // el backend responde 401 y la pantalla muestra el mensaje
     expect(
-      screen.getByRole('alert')
+      await screen.findByRole('alert')
     ).toHaveTextContent('Correo o contraseña incorrectos.')
 
     expect(obtenerUsuarioActual()).toBeNull()
@@ -138,7 +146,7 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
 
     await usuario.type(
       screen.getByLabelText('Contraseña'),
-      'cliente12'
+      'Cliente2026!'
     )
 
     await usuario.click(
@@ -146,11 +154,12 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
     )
 
     expect(
-      screen.getByRole('heading', {
+      await screen.findByRole('heading', {
         name: 'Frescura directamente del campo'
       })
     ).toBeInTheDocument()
 
+    // la sesión guardada (token + usuario) nunca incluye la contraseña
     expect(obtenerUsuarioActual().correo).toBe(
       'cliente@gmail.com'
     )
@@ -173,7 +182,7 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
 
     await usuario.type(
       screen.getByLabelText('Contraseña'),
-      'admin123'
+      'Admin2026!'
     )
 
     await usuario.click(
@@ -181,7 +190,7 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
     )
 
     expect(
-      screen.getByRole('heading', {
+      await screen.findByRole('heading', {
         name: 'Administración de usuarios'
       })
     ).toBeInTheDocument()
@@ -221,23 +230,24 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
 
     await usuario.type(
       screen.getByLabelText('Contraseña'),
-      'clave123'
+      'clave1234'
     )
 
     await usuario.type(
       screen.getByLabelText('Confirmar contraseña'),
-      'clave123'
+      'clave1234'
     )
 
     await usuario.click(
       screen.getByRole('button', { name: 'Crear cuenta' })
     )
 
+    // el backend responde 409 con su mensaje y no se crea ningún usuario
     expect(
-      screen.getByRole('alert')
-    ).toHaveTextContent('Ya existe un usuario con ese correo.')
+      await screen.findByRole('alert')
+    ).toHaveTextContent('Correo ya registrado')
 
-    expect(obtenerUsuarios()).toHaveLength(2)
+    expect(api.usuarios).toHaveLength(3)
   })
 
   // FUNCIÓN AUXILIAR PARA PRUEBAS ADMINISTRATIVAS
@@ -251,12 +261,15 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
 
     await usuario.type(
       screen.getByLabelText('Contraseña'),
-      'admin123'
+      'Admin2026!'
     )
 
     await usuario.click(
       screen.getByRole('button', { name: 'Iniciar sesión' })
     )
+
+    // espera a que el listado termine de cargar desde la API
+    await screen.findByText('cliente@gmail.com')
   }
 
   // PRUEBA 8: CREACIÓN DE USUARIOS
@@ -300,17 +313,21 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
 
     await usuario.type(
       screen.getByLabelText('Contraseña'),
-      'clave123'
+      'clave1234'
     )
 
     await usuario.type(
       screen.getByLabelText('Confirmar contraseña'),
-      'clave123'
+      'clave1234'
     )
 
     await usuario.click(
       screen.getByRole('button', { name: 'Crear usuario' })
     )
+
+    expect(
+      await screen.findByText('22.222.222-2')
+    ).toBeInTheDocument()
 
     expect(
       screen.getByRole('heading', {
@@ -319,11 +336,7 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
     ).toBeInTheDocument()
 
     expect(
-      screen.getByText('22.222.222-2')
-    ).toBeInTheDocument()
-
-    expect(
-      obtenerUsuarioPorRun('222222222').rol
+      api.usuarios.find((u) => u.run === '222222222').rol
     ).toBe('Administrador')
   })
 
@@ -341,7 +354,7 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
       within(fila).getByRole('link', { name: 'Editar' })
     )
 
-    const nombre = screen.getByLabelText('Nombre')
+    const nombre = await screen.findByLabelText('Nombre')
 
     await usuario.clear(nombre)
     await usuario.type(nombre, 'Camila')
@@ -351,16 +364,16 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
     )
 
     expect(
-      screen.getByText('Camila Demostración')
+      await screen.findByText('Camila Demostración')
     ).toBeInTheDocument()
 
     expect(
-      obtenerUsuarioPorRun('111111111').nombre
+      api.usuarios.find((u) => u.run === '111111111').nombre
     ).toBe('Camila')
   })
 
   // PRUEBA 10: PROTECCIÓN DE ADMINISTRADORES
-  it('impide que el administrador elimine su propia cuenta', async () => {
+  it('impide que el administrador desactive su propia cuenta', async () => {
     const usuario = userEvent.setup()
 
     await entrarComoAdmin(usuario)
@@ -371,7 +384,7 @@ describe('10 pruebas de Bryam - HuertoHogar', () => {
 
     expect(
       within(fila).getByRole('button', {
-        name: 'Eliminar'
+        name: 'Desactivar'
       })
     ).toBeDisabled()
   })

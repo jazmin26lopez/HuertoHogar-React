@@ -74,11 +74,11 @@ describe('correo', () => {
 })
 
 describe('contraseña', () => {
-  it('exige entre 4 y 10 caracteres', () => {
-    expect(validarContrasena('abc')).not.toBe('')
-    expect(validarContrasena('abcd')).toBe('')
-    expect(validarContrasena('a'.repeat(10))).toBe('')
-    expect(validarContrasena('a'.repeat(11))).not.toBe('')
+  it('exige entre 8 y 72 caracteres', () => {
+    expect(validarContrasena('abcdefg')).not.toBe('')
+    expect(validarContrasena('abcdefgh')).toBe('')
+    expect(validarContrasena('a'.repeat(72))).toBe('')
+    expect(validarContrasena('a'.repeat(73))).not.toBe('')
   })
 
   it('la confirmación debe coincidir', () => {
@@ -142,7 +142,7 @@ describe('formularios completos', () => {
   })
 
   it('valida el inicio de sesión', () => {
-    expect(validarInicioSesion('a@gmail.com', 'abcd')).toEqual({})
+    expect(validarInicioSesion('a@gmail.com', 'abcd1234')).toEqual({})
     expect(Object.keys(validarInicioSesion('', ''))).toEqual(['correo', 'contrasena'])
   })
 })

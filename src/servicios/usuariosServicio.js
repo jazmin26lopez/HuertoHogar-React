@@ -1,104 +1,53 @@
 
-import { usuariosIniciales } from '../datos/usuarios'
+import { peticion } from './apiCliente'
 import { normalizarRun } from '../funciones/validaciones'
 
-export const CLAVE_USUARIOS = 'huertohogar_usuarios'
+// CRUD de usuarios contra el backend (/api/v1/usuarios). Solo lo puede usar un Administrador.
+// Cada usuario se identifica con "usuarioId" (el número que entrega la base de datos).
 
-// CRUD de usuarios sobre localStorage (simula la base de datos).
-
-export function obtenerUsuarios() {
-  try {
-    const guardados = localStorage.getItem(CLAVE_USUARIOS)
-
-    if (guardados !== null) {
-      const usuarios = JSON.parse(guardados)
-
-      if (Array.isArray(usuarios)) {
-        return usuarios
-      }
-    }
-  } catch (error) {
-    console.error('Error al cargar los usuarios:', error)
+// Convierte lo que escribe el formulario en lo que espera la API.
+// Los campos opcionales vacíos se envían como null; al editar, una contraseña vacía no se cambia.
+function paraApi(datos) {
+  const cuerpo = {
+    run: normalizarRun(datos.run),
+    nombre: datos.nombre,
+    apellidos: datos.apellidos,
+    correo: datos.correo,
+    fechaNacimiento: datos.fechaNacimiento || null,
+    region: datos.region || null,
+    comuna: datos.comuna || null,
+    direccion: datos.direccion || null,
+    rol: datos.rol
   }
 
-  return usuariosIniciales
-}
-
-export function guardarUsuarios(usuarios) {
-  try {
-    localStorage.setItem(CLAVE_USUARIOS, JSON.stringify(usuarios))
-    return true
-  } catch (error) {
-    console.error('Error al guardar los usuarios:', error)
-    return false
+  if (datos.contrasena) {
+    cuerpo.contrasena = datos.contrasena
   }
+
+  return cuerpo
 }
 
-export function obtenerUsuarioPorRun(run) {
-  const buscado = normalizarRun(run)
-
-  return obtenerUsuarios().find((usuario) => usuario.run === buscado)
+// READ: todos los usuarios
+export function listarUsuarios() {
+  return peticion('/usuarios')
 }
 
-// CREATE: lanza un Error con mensaje legible si el RUN o el correo ya existen
+// READ: un usuario por su id
+export function obtenerUsuario(id) {
+  return peticion(`/usuarios/${id}`)
+}
+
+// CREATE: el backend responde 409 si el RUN o el correo ya existen
 export function crearUsuario(datos) {
-  const usuarios = obtenerUsuarios()
-  const nuevo = { rol: 'Cliente', ...datos, run: normalizarRun(datos.run) }
-
-  if (usuarios.some((u) => u.run === nuevo.run)) {
-    throw new Error('Ya existe un usuario con ese RUN.')
-  }
-
-  if (usuarios.some((u) => u.correo.toLowerCase() === nuevo.correo.toLowerCase())) {
-    throw new Error('Ya existe un usuario con ese correo.')
-  }
-
-  guardarUsuarios([...usuarios, nuevo])
-
-  return nuevo
+  return peticion('/usuarios', { metodo: 'POST', cuerpo: paraApi(datos) })
 }
 
-// UPDATE: devuelve el usuario actualizado o null si no existe
-export function actualizarUsuario(run, cambios) {
-  const usuarios = obtenerUsuarios()
-  const objetivo = normalizarRun(run)
-  const existente = usuarios.find((u) => u.run === objetivo)
-
-  if (!existente) {
-    return null
-  }
-
-  const correoNuevo = cambios.correo?.toLowerCase()
-
-  if (
-    correoNuevo &&
-    usuarios.some((u) => u.run !== objetivo && u.correo.toLowerCase() === correoNuevo)
-  ) {
-    throw new Error('Ya existe un usuario con ese correo.')
-  }
-
-  // El RUN identifica al usuario: no se modifica
-  const actualizado = { ...existente, ...cambios, run: existente.run }
-
-  guardarUsuarios(usuarios.map((u) => (u.run === objetivo ? actualizado : u)))
-
-  return actualizado
+// UPDATE: el RUN no se puede cambiar
+export function actualizarUsuario(id, datos) {
+  return peticion(`/usuarios/${id}`, { metodo: 'PUT', cuerpo: paraApi(datos) })
 }
 
-// DELETE: devuelve true si se eliminó
-export function eliminarUsuario(run) {
-  const usuarios = obtenerUsuarios()
-  const objetivo = normalizarRun(run)
-  const restantes = usuarios.filter((u) => u.run !== objetivo)
-
-  guardarUsuarios(restantes)
-
-  return restantes.length !== usuarios.length
-}
-
-// Login simulado: devuelve el usuario o undefined
-export function autenticar(correo, contrasena) {
-  return obtenerUsuarios().find(
-    (u) => u.correo.toLowerCase() === String(correo).trim().toLowerCase() && u.contrasena === contrasena
-  )
+// DELETE: el backend no borra al usuario, lo desactiva (activo = "N") y ya no puede iniciar sesión
+export function desactivarUsuario(id) {
+  return peticion(`/usuarios/${id}`, { metodo: 'DELETE' })
 }
