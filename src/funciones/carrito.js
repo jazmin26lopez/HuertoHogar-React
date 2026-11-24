@@ -46,6 +46,7 @@ export function agregarItem(items, producto, cantidad = 1) {
     ...items,
     {
       id: producto.id,
+      productoId: producto.productoId,
       nombre: producto.nombre,
       imagen: producto.imagen,
       unidad: producto.unidad,

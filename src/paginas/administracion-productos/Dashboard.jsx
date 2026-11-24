@@ -83,6 +83,13 @@ export default function Dashboard() {
       disponible: true
     },
     {
+      titulo: 'Categorías',
+      descripcion: 'Administrar categorías del catálogo',
+      icono: '🏷️',
+      ruta: '/admin/categorias',
+      disponible: true
+    },
+    {
       titulo: 'Reportes',
       descripcion: 'Consultar existencias',
       icono: '📊',
@@ -91,18 +98,19 @@ export default function Dashboard() {
     },
     {
       titulo: 'Usuarios',
-      descripcion: 'Módulo de Bryam',
+      descripcion: 'Administrar usuarios y sus roles',
       icono: '👥',
       ruta: '/admin/usuarios',
       disponible: true
     },
     {
       titulo: 'Pedidos',
-      descripcion: 'Pendiente de integración',
+      descripcion: 'Consulta de órdenes y su detalle',
       icono: '🛒',
       ruta: '/admin/pedidos',
-      disponible: false
+      disponible: true
     }
+    
   ]
 
   return (

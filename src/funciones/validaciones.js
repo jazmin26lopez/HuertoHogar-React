@@ -43,8 +43,13 @@ export function validarRun(run) {
   const cuerpo = limpio.slice(0, -1)
   const digito = limpio.slice(-1)
 
-  if (!/^\d+$/.test(cuerpo) || calcularDigitoVerificador(cuerpo) !== digito) {
-    return 'El RUN ingresado no es válido.'
+  if (!/^\d+$/.test(cuerpo)) {
+    return 'El RUN solo puede tener números y, al final, el dígito verificador (0 al 9 o K).'
+  }
+
+  // El último dígito se calcula a partir del resto del RUN (módulo 11): si no coincide, hay un error de tipeo
+  if (calcularDigitoVerificador(cuerpo) !== digito) {
+    return `El dígito verificador (${digito}) no corresponde al número ingresado. Revisa que esté bien escrito.`
   }
 
   return ''
@@ -89,8 +94,9 @@ export function validarCorreo(correo) {
 export function validarContrasena(contrasena) {
   const texto = String(contrasena ?? '')
 
-  if (texto.length < 4 || texto.length > 10) {
-    return 'La contraseña debe tener entre 4 y 10 caracteres.'
+  // Misma regla que el backend (UsuarioService): entre 8 y 72 caracteres
+  if (texto.length < 8 || texto.length > 72) {
+    return 'La contraseña debe tener entre 8 y 72 caracteres.'
   }
 
   return ''

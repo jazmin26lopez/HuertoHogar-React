@@ -1,6 +1,7 @@
 
-// Descuentos vigentes: código de producto -> porcentaje de descuento.
-// Si luego el catálogo guarda sus propias ofertas, solo hay que cambiar esta tabla.
+// Descuentos de respaldo: código de producto -> porcentaje.
+// El descuento real viene del backend (campo descuentoOferta de cada producto, que el catálogo
+// entrega como producto.descuento); esta tabla solo se usa si el producto no trae ese dato.
 export const DESCUENTOS_OFERTA = {
   FR001: 20,
   VR001: 15,
@@ -9,7 +10,7 @@ export const DESCUENTOS_OFERTA = {
 }
 
 export function porcentajeOferta(producto) {
-  return DESCUENTOS_OFERTA[producto?.id] ?? 0
+  return producto?.descuento ?? DESCUENTOS_OFERTA[producto?.id] ?? 0
 }
 
 export function esOferta(producto) {

@@ -4,10 +4,9 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 import useSesion from '../../contextos/useSesion'
 import FormularioUsuario from '../../componentes/usuarios/FormularioUsuario'
-import { crearUsuario } from '../../servicios/usuariosServicio'
 
 export default function Registro() {
-  const { usuario, iniciarSesionConUsuario } = useSesion()
+  const { usuario, registrarse } = useSesion()
   const navigate = useNavigate()
 
   // Redirigir solamente si ya tenía una sesión al ingresar.
@@ -17,15 +16,11 @@ export default function Registro() {
     return <Navigate to="/" replace />
   }
 
-  function registrar(datos) {
+  async function registrar(datos) {
     try {
-      // El registro público siempre crea usuarios clientes.
-      const nuevo = crearUsuario({
-        ...datos,
-        rol: 'Cliente'
-      })
-
-      iniciarSesionConUsuario(nuevo)
+      // POST /auth/registro: el backend siempre crea un Cliente y entrega el token,
+      // así que la sesión queda iniciada apenas se crea la cuenta.
+      await registrarse(datos)
       navigate('/')
     } catch (error) {
       return error.message

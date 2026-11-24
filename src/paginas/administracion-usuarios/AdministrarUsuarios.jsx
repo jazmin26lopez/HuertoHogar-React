@@ -1,30 +1,86 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import useSesion from '../../contextos/useSesion'
 import {
-  obtenerUsuarios,
-  eliminarUsuario
+  listarUsuarios,
+  desactivarUsuario
 } from '../../servicios/usuariosServicio'
 import { formatearRun } from '../../funciones/formato'
+
+// Clase de color de la etiqueta según el rol
+function claseRol(rol) {
+  if (rol === 'Administrador') {
+    return 'admin-usuarios-rol admin-usuarios-rol-admin'
+  }
+
+  if (rol === 'Vendedor') {
+    return 'admin-usuarios-rol admin-usuarios-rol-vendedor'
+  }
+
+  return 'admin-usuarios-rol admin-usuarios-rol-cliente'
+}
 
 export default function AdministrarUsuarios() {
   const { usuario: sesion } = useSesion()
 
-  const [usuarios, setUsuarios] = useState(obtenerUsuarios)
+  const [usuarios, setUsuarios] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [errorCarga, setErrorCarga] = useState('')
   const [pendiente, setPendiente] = useState(null)
   const [mensaje, setMensaje] = useState('')
+  const [errorAccion, setErrorAccion] = useState('')
 
-  function confirmarEliminacion() {
-    eliminarUsuario(pendiente.run)
-    setUsuarios(obtenerUsuarios())
+  // GET /usuarios al abrir la página
+  useEffect(() => {
+    let activo = true
 
-    setMensaje(
-      `Se eliminó a ${pendiente.nombre} ${pendiente.apellidos}.`
-    )
+    listarUsuarios()
+      .then((lista) => {
+        if (activo) {
+          setUsuarios(lista)
+        }
+      })
+      .catch((error) => {
+        if (activo) {
+          setErrorCarga(error.message)
+        }
+      })
+      .finally(() => {
+        if (activo) {
+          setCargando(false)
+        }
+      })
 
+    return () => {
+      activo = false
+    }
+  }, [])
+
+  async function confirmarDesactivacion() {
+    const objetivo = pendiente
+
+    setErrorAccion('')
+    setMensaje('')
     setPendiente(null)
+
+    try {
+      // DELETE /usuarios/{id}: el backend lo deja inactivo, no lo borra
+      await desactivarUsuario(objetivo.usuarioId)
+
+      setUsuarios((actuales) =>
+        actuales.map((u) =>
+          u.usuarioId === objetivo.usuarioId ? { ...u, activo: 'N' } : u
+        )
+      )
+
+      setMensaje(
+        `Se desactivó a ${objetivo.nombre} ${objetivo.apellidos}.`
+      )
+    } catch (error) {
+      setErrorAccion(error.message)
+    }
   }
 
   return (
@@ -40,12 +96,14 @@ export default function AdministrarUsuarios() {
 
             <h1>Administración de usuarios</h1>
 
-            <p>
-              {usuarios.length}{' '}
-              {usuarios.length === 1
-                ? 'usuario registrado'
-                : 'usuarios registrados'}
-            </p>
+            {!cargando && !errorCarga && (
+              <p>
+                {usuarios.length}{' '}
+                {usuarios.length === 1
+                  ? 'usuario registrado'
+                  : 'usuarios registrados'}
+              </p>
+            )}
           </div>
 
           <Link
@@ -56,34 +114,40 @@ export default function AdministrarUsuarios() {
           </Link>
         </header>
 
-        {/* MENSAJE DE ÉXITO */}
+        {/* MENSAJES */}
         {mensaje && (
           <div className="alert alert-success" role="status">
             {mensaje}
           </div>
         )}
 
-        {/* CONFIRMACIÓN DE ELIMINACIÓN */}
+        {errorAccion && (
+          <div className="alert alert-danger" role="alert">
+            {errorAccion}
+          </div>
+        )}
+
+        {/* CONFIRMACIÓN DE DESACTIVACIÓN */}
         {pendiente && (
           <div
             className="admin-usuarios-confirmacion"
             role="alert"
           >
             <p>
-              ¿Eliminar a{' '}
+              ¿Desactivar a{' '}
               <strong>
                 {pendiente.nombre} {pendiente.apellidos}
               </strong>
-              ? Esta acción no se puede deshacer.
+              ? Ya no podrá iniciar sesión.
             </p>
 
             <div className="admin-usuarios-confirmacion-botones">
               <button
                 type="button"
                 className="admin-usuarios-boton-eliminar"
-                onClick={confirmarEliminacion}
+                onClick={confirmarDesactivacion}
               >
-                Sí, eliminar
+                Sí, desactivar
               </button>
 
               <button
@@ -97,83 +161,98 @@ export default function AdministrarUsuarios() {
           </div>
         )}
 
+        {cargando && (
+          <p className="admin-usuarios-sin-datos" role="status">
+            Cargando usuarios...
+          </p>
+        )}
+
+        {errorCarga && (
+          <div className="alert alert-danger" role="alert">
+            No se pudieron cargar los usuarios. {errorCarga}
+          </div>
+        )}
+
         {/* LISTADO DE USUARIOS */}
-        <div className="admin-usuarios-tabla-contenedor table-responsive">
-          <table className="table table-hover align-middle admin-usuarios-tabla">
-            <caption className="visually-hidden">
-              Listado de usuarios
-            </caption>
+        {!cargando && !errorCarga && (
+          <div className="admin-usuarios-tabla-contenedor table-responsive">
+            <table className="table table-hover align-middle admin-usuarios-tabla">
+              <caption className="visually-hidden">
+                Listado de usuarios
+              </caption>
 
-            <thead>
-              <tr>
-                <th scope="col">RUN</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Comuna</th>
-                <th scope="col">Rol</th>
-                <th scope="col">Acciones</th>
-              </tr>
-            </thead>
+              <thead>
+                <tr>
+                  <th scope="col">RUN</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Correo</th>
+                  <th scope="col">Comuna</th>
+                  <th scope="col">Rol</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {usuarios.map((u) => {
-                const esElMismo = sesion?.run === u.run
+              <tbody>
+                {usuarios.map((u) => {
+                  const esElMismo = sesion?.usuarioId === u.usuarioId
+                  const inactivo = u.activo === 'N'
 
-                return (
-                  <tr key={u.run}>
-                    <td>{formatearRun(u.run)}</td>
+                  return (
+                    <tr key={u.usuarioId}>
+                      <td>{formatearRun(u.run)}</td>
 
-                    <td className="admin-usuarios-nombre">
-                      {u.nombre} {u.apellidos}
-                    </td>
+                      <td className="admin-usuarios-nombre">
+                        {u.nombre} {u.apellidos}
+                      </td>
 
-                    <td>{u.correo}</td>
-                    <td>{u.comuna}</td>
+                      <td>{u.correo}</td>
+                      <td>{u.comuna}</td>
 
-                    <td>
-                      <span
-                        className={
-                          u.rol === 'Administrador'
-                            ? 'admin-usuarios-rol admin-usuarios-rol-admin'
-                            : 'admin-usuarios-rol admin-usuarios-rol-cliente'
-                        }
-                      >
-                        {u.rol}
-                      </span>
-                    </td>
+                      <td>
+                        <span className={claseRol(u.rol)}>
+                          {u.rol}
+                        </span>
 
-                    <td>
-                      <div className="admin-usuarios-acciones">
-                        <Link
-                          to={`/admin/usuarios/${u.run}/editar`}
-                          className="admin-usuarios-boton-editar"
-                        >
-                          Editar
-                        </Link>
+                        {inactivo && (
+                          <span className="admin-usuarios-rol admin-usuarios-rol-inactivo">
+                            Inactivo
+                          </span>
+                        )}
+                      </td>
 
-                        <button
-                          type="button"
-                          className="admin-usuarios-boton-eliminar"
-                          disabled={esElMismo}
-                          title={
-                            esElMismo
-                              ? 'No puedes eliminar tu propia cuenta'
-                              : undefined
-                          }
-                          onClick={() => setPendiente(u)}
-                        >
-                          Eliminar
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+                      <td>
+                        <div className="admin-usuarios-acciones">
+                          <Link
+                            to={`/admin/usuarios/${u.usuarioId}/editar`}
+                            className="admin-usuarios-boton-editar"
+                          >
+                            Editar
+                          </Link>
 
-        {usuarios.length === 0 && (
+                          <button
+                            type="button"
+                            className="admin-usuarios-boton-eliminar"
+                            disabled={esElMismo || inactivo}
+                            title={
+                              esElMismo
+                                ? 'No puedes desactivar tu propia cuenta'
+                                : undefined
+                            }
+                            onClick={() => setPendiente(u)}
+                          >
+                            Desactivar
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {!cargando && !errorCarga && usuarios.length === 0 && (
           <p className="admin-usuarios-sin-datos">
             No hay usuarios registrados.
           </p>

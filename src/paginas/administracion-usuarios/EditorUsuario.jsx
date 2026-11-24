@@ -1,33 +1,77 @@
 
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import FormularioUsuario from '../../componentes/usuarios/FormularioUsuario'
 import {
   crearUsuario,
   actualizarUsuario,
-  obtenerUsuarioPorRun
+  obtenerUsuario
 } from '../../servicios/usuariosServicio'
 
 // Permite crear usuarios y editar usuarios existentes.
 export default function EditorUsuario() {
-  const { run } = useParams()
+  const { id } = useParams()
   const navigate = useNavigate()
 
-  const editando = Boolean(run)
-  const existente = editando ? obtenerUsuarioPorRun(run) : null
+  const editando = Boolean(id)
 
-  function guardar(datos) {
+  const [existente, setExistente] = useState(null)
+  const [cargando, setCargando] = useState(editando)
+  const [errorCarga, setErrorCarga] = useState('')
+
+  // Al editar: GET /usuarios/{id} para llenar el formulario
+  useEffect(() => {
+    if (!id) {
+      return undefined
+    }
+
+    let activo = true
+
+    obtenerUsuario(id)
+      .then((usuario) => {
+        if (activo) {
+          setExistente(usuario)
+        }
+      })
+      .catch((error) => {
+        if (activo) {
+          setErrorCarga(error.message)
+        }
+      })
+      .finally(() => {
+        if (activo) {
+          setCargando(false)
+        }
+      })
+
+    return () => {
+      activo = false
+    }
+  }, [id])
+
+  async function guardar(datos) {
     try {
       if (editando) {
-        actualizarUsuario(run, datos)
+        await actualizarUsuario(id, datos)
       } else {
-        crearUsuario(datos)
+        await crearUsuario(datos)
       }
 
       navigate('/admin/usuarios')
     } catch (error) {
       return error.message
     }
+  }
+
+  if (cargando) {
+    return (
+      <main className="pagina-editor-usuario flex-grow-1">
+        <div className="editor-usuario-contenedor">
+          <p role="status">Cargando usuario...</p>
+        </div>
+      </main>
+    )
   }
 
   if (editando && !existente) {
@@ -38,7 +82,7 @@ export default function EditorUsuario() {
             <h1>Usuario no encontrado</h1>
 
             <p>
-              El usuario que intentas editar no existe.
+              {errorCarga || 'El usuario que intentas editar no existe.'}
             </p>
 
             <Link

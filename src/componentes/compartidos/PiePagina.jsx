@@ -1,8 +1,11 @@
 
 import { Link } from 'react-router-dom'
 import { DATOS_CONTACTO } from '../../datos/contacto'
+import useSesion from '../../contextos/useSesion'
 
 export default function PiePagina() {
+  const { usuario } = useSesion()
+
   return (
     <footer>
       <div className="footer-contenido">
@@ -44,8 +47,14 @@ export default function PiePagina() {
         <div className="footer-seccion">
           <h3>Mi cuenta y ayuda</h3>
           <Link to="/contacto">Contacto</Link>
-          <Link to="/iniciar-sesion">Iniciar sesión</Link>
-          <Link to="/registro">Registrarse</Link>
+
+          {/* Con la sesión iniciada no tiene sentido ofrecer iniciar sesión ni registrarse */}
+          {!usuario && (
+            <>
+              <Link to="/iniciar-sesion">Iniciar sesión</Link>
+              <Link to="/registro">Registrarse</Link>
+            </>
+          )}
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 
 import {
   obtenerProductoPorId,
+  estadoCatalogo,
   suscribirseAProductos
 } from '../../servicios/productosServicio'
 
@@ -20,6 +21,9 @@ export default function DetalleProducto() {
     () => obtenerProductoPorId(id)
   )
 
+  // Sirve para volver a dibujar cuando termina la descarga del catálogo, aunque el producto no exista
+  const [, actualizarVista] = useState(0)
+
   const [cantidad, setCantidad] = useState(1)
   const [mensaje, setMensaje] = useState('')
   const { agregar } = useCarrito()
@@ -28,12 +32,22 @@ export default function DetalleProducto() {
   useEffect(() => {
     const actualizarProducto = () => {
       setProducto(obtenerProductoPorId(id))
+      actualizarVista((n) => n + 1)
     }
 
     actualizarProducto()
 
     return suscribirseAProductos(actualizarProducto)
   }, [id])
+
+  // Al abrir la página directamente, el catálogo puede estar todavía descargándose
+  if (!producto && !estadoCatalogo().cargado) {
+    return (
+      <main className="container py-5 flex-grow-1">
+        <p role="status">Cargando producto...</p>
+      </main>
+    )
+  }
 
   if (!producto) {
     return (

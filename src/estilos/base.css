@@ -3239,6 +3239,17 @@ footer .footer-inferior p {
   color: #256b45;
 }
 
+.pagina-admin-usuarios .admin-usuarios-rol-vendedor {
+  background-color: #fdf0d5;
+  color: #7a5200;
+}
+
+.pagina-admin-usuarios .admin-usuarios-rol-inactivo {
+  background-color: #eceff1;
+  color: #5f6b72;
+  margin-left: 6px;
+}
+
 /* BOTONES DE LA TABLA */
 
 .pagina-admin-usuarios .admin-usuarios-acciones {

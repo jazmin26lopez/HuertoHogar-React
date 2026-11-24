@@ -1,9 +1,16 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import useSesion from '../../contextos/useSesion'
+import { esAdministrador } from '../../funciones/roles'
 
 import {
   obtenerProductos,
-  guardarProductos as guardarProductosEnServicio
+  obtenerCategorias,
+  suscribirseAProductos,
+  crearProducto,
+  actualizarProducto,
+  desactivarProducto
 } from '../../servicios/productosServicio'
 
 import {
@@ -25,6 +32,10 @@ const formularioVacio = {
 }
 
 export default function AdministrarProductos() {
+  // El Vendedor solo consulta: ve la lista pero sin formulario ni botones de editar o eliminar
+  const { usuario } = useSesion()
+  const puedeEditar = esAdministrador(usuario)
+
   const [productos, setProductos] = useState(obtenerProductos)
   const [formulario, setFormulario] = useState(formularioVacio)
   const [editando, setEditando] = useState(false)
@@ -32,18 +43,16 @@ export default function AdministrarProductos() {
   const [busqueda, setBusqueda] = useState('')
   const [filtroStock, setFiltroStock] = useState('todos')
 
-  // GUARDAR PRODUCTOS
-  function guardarLista(lista) {
-    const guardado = guardarProductosEnServicio(lista)
+  // El catálogo viene de la API: se actualiza cuando termina de cargar o cambia
+  useEffect(() => {
+    const actualizar = () => setProductos(obtenerProductos())
 
-    if (guardado) {
-      setProductos(lista)
-      return true
-    }
+    actualizar()
 
-    setMensaje('No se pudieron guardar los cambios.')
-    return false
-  }
+    return suscribirseAProductos(actualizar)
+  }, [])
+
+  const categorias = obtenerCategorias()
 
   // ACTUALIZAR CAMPOS
   function cambiarCampo(evento) {
@@ -61,8 +70,8 @@ export default function AdministrarProductos() {
     setEditando(false)
   }
 
-  // AGREGAR O EDITAR PRODUCTO
-  function guardarFormulario(evento) {
+  // AGREGAR O EDITAR PRODUCTO (POST o PUT a la API)
+  async function guardarFormulario(evento) {
     evento.preventDefault()
 
     const id = formulario.id.trim()
@@ -96,13 +105,23 @@ export default function AdministrarProductos() {
       return
     }
 
+    const categoria = categorias.find(
+      (c) => c.nombre === formulario.categoria.trim()
+    )
+
+    if (!categoria) {
+      setMensaje('Elige una categoría válida.')
+      return
+    }
+
     const producto = {
       ...formulario,
       id,
       nombre,
       precio,
       stock,
-      categoria: formulario.categoria.trim(),
+      categoria: categoria.nombre,
+      categoriaId: categoria.categoriaId,
       unidad: formulario.unidad.trim(),
       imagen:
         formulario.imagen.trim() ||
@@ -110,17 +129,23 @@ export default function AdministrarProductos() {
       descripcion: formulario.descripcion.trim()
     }
 
-    const actualizados = editando
-      ? productos.map((p) => (p.id === id ? producto : p))
-      : [...productos, producto]
+    try {
+      if (editando) {
+        const existente = productos.find((p) => p.id === id)
 
-    if (guardarLista(actualizados)) {
+        await actualizarProducto(existente.productoId, producto)
+      } else {
+        await crearProducto(producto)
+      }
+
       setMensaje(
         editando
           ? 'Producto actualizado correctamente.'
           : 'Producto agregado correctamente.'
       )
       limpiarFormulario()
+    } catch (error) {
+      setMensaje(error.message)
     }
   }
 
@@ -140,22 +165,22 @@ export default function AdministrarProductos() {
     })
   }
 
-  // ELIMINAR PRODUCTO
-  function eliminarProducto(producto) {
-    if (!window.confirm(`¿Eliminar "${producto.nombre}"?`)) {
+  // DESACTIVAR PRODUCTO (DELETE a la API: deja de aparecer en la tienda)
+  async function eliminarProducto(producto) {
+    if (!window.confirm(`¿Desactivar "${producto.nombre}"? Dejará de aparecer en la tienda.`)) {
       return
     }
 
-    const actualizados = productos.filter(
-      (p) => p.id !== producto.id
-    )
+    try {
+      await desactivarProducto(producto.productoId)
 
-    if (guardarLista(actualizados)) {
-      setMensaje('Producto eliminado correctamente.')
+      setMensaje('Producto desactivado correctamente.')
 
       if (formulario.id === producto.id) {
         limpiarFormulario()
       }
+    } catch (error) {
+      setMensaje(error.message)
     }
   }
 
@@ -274,7 +299,8 @@ export default function AdministrarProductos() {
           </div>
         )}
 
-        {/* FORMULARIO */}
+        {/* FORMULARIO (solo Administrador) */}
+        {puedeEditar && (
         <section className="admin-productos-formulario-tarjeta">
           <h2>
             {editando ? 'Editar producto' : 'Agregar producto'}
@@ -335,10 +361,11 @@ export default function AdministrarProductos() {
                   value={formulario.categoria}
                   onChange={cambiarCampo}
                 >
-                  <option>Frutas Frescas</option>
-                  <option>Verduras Orgánicas</option>
-                  <option>Productos Orgánicos</option>
-                  <option>Productos Lácteos</option>
+                  {categorias.map((c) => (
+                    <option key={c.categoriaId} value={c.nombre}>
+                      {c.nombre}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -463,6 +490,7 @@ export default function AdministrarProductos() {
             </div>
           </form>
         </section>
+        )}
 
         {/* PRODUCTOS REGISTRADOS */}
         <section className="admin-productos-seccion">
@@ -515,7 +543,7 @@ export default function AdministrarProductos() {
                   <th scope="col">Precio</th>
                   <th scope="col">Stock</th>
                   <th scope="col">Estado</th>
-                  <th scope="col">Acciones</th>
+                  {puedeEditar && <th scope="col">Acciones</th>}
                 </tr>
               </thead>
 
@@ -561,6 +589,7 @@ export default function AdministrarProductos() {
                         </span>
                       </td>
 
+                      {puedeEditar && (
                       <td>
                         <div className="admin-productos-acciones">
                           <button
@@ -580,10 +609,11 @@ export default function AdministrarProductos() {
                               eliminarProducto(producto)
                             }
                           >
-                            Eliminar
+                            Desactivar
                           </button>
                         </div>
                       </td>
+                      )}
                     </tr>
                   )
                 })}

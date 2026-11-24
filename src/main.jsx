@@ -8,6 +8,7 @@ import App from './App.jsx'
 import './estilos/base.css'
 import SesionProvider from './contextos/SesionProvider.jsx'
 import CarritoProvider from './contextos/CarritoProvider.jsx'
+import CatalogoProvider from './contextos/CatalogoProvider.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <SesionProvider>
         <CarritoProvider>
-          <App />
+          <CatalogoProvider>
+            <App />
+          </CatalogoProvider>
         </CarritoProvider>
       </SesionProvider>
     </BrowserRouter>

@@ -25,6 +25,7 @@ import {
   obtenerBorrador,
   borrarBorrador
 } from '../../servicios/ordenesServicio'
+import { cargarProductos } from '../../servicios/productosServicio'
 
 function crearDatosIniciales(usuario) {
   const borrador = obtenerBorrador()
@@ -54,6 +55,8 @@ export default function Checkout() {
 
   const [datos, setDatos] = useState(() => crearDatosIniciales(usuario))
   const [errores, setErrores] = useState({})
+  const [errorCompra, setErrorCompra] = useState('')
+  const [enviando, setEnviando] = useState(false)
 
   const entrega = OPCIONES_ENTREGA.find(
     (opcion) => opcion.id === datos.entrega
@@ -68,8 +71,9 @@ export default function Checkout() {
     })
   }
 
-  function enviar(evento) {
+  async function enviar(evento) {
     evento.preventDefault()
+    setErrorCompra('')
 
     const erroresEncontrados = validarCheckout(datos)
     setErrores(erroresEncontrados)
@@ -80,29 +84,42 @@ export default function Checkout() {
 
     const pago = simularPago(datos.metodoPago)
 
-    const orden = registrarOrden({
-      cliente: {
-        nombre: datos.nombre.trim(),
-        apellidos: datos.apellidos.trim(),
-        correo: datos.correo.trim()
-      },
-      direccion: {
-        calle: datos.calle.trim(),
-        departamento: datos.departamento.trim(),
-        region: datos.region,
-        comuna: datos.comuna,
-        indicaciones: datos.indicaciones.trim()
-      },
-      entrega: {
-        id: entrega.id,
-        nombre: entrega.nombre,
-        costo: entrega.costo
-      },
-      metodoPago: datos.metodoPago,
-      items,
-      estado: pago.aprobado ? 'pagada' : 'fallida',
-      usuarioRun: usuario?.run ?? null
-    })
+    setEnviando(true)
+
+    let orden
+
+    try {
+      // POST /boletas: el backend calcula los precios, descuenta el stock y guarda la boleta
+      orden = await registrarOrden({
+        cliente: {
+          nombre: datos.nombre.trim(),
+          apellidos: datos.apellidos.trim(),
+          correo: datos.correo.trim()
+        },
+        direccion: {
+          calle: datos.calle.trim(),
+          departamento: datos.departamento.trim(),
+          region: datos.region,
+          comuna: datos.comuna,
+          indicaciones: datos.indicaciones.trim()
+        },
+        entrega: {
+          id: entrega.id,
+          nombre: entrega.nombre,
+          costo: entrega.costo
+        },
+        metodoPago: datos.metodoPago,
+        items,
+        estado: pago.aprobado ? 'pagada' : 'fallida'
+      })
+    } catch (error) {
+      setErrorCompra(error.message)
+      setEnviando(false)
+      return
+    }
+
+    // El stock cambió en la base de datos: se vuelve a pedir el catálogo
+    cargarProductos()
 
     if (pago.aprobado) {
       borrarBorrador()
@@ -136,6 +153,33 @@ export default function Checkout() {
             <Link to="/productos" className="checkout-boton-principal">
               Ir al catálogo
             </Link>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  // Comprar requiere haber iniciado sesión: la boleta queda a nombre del usuario
+  if (!usuario) {
+    return (
+      <main className="pagina-checkout flex-grow-1">
+        <div className="checkout-contenedor">
+          <header className="checkout-encabezado">
+            <p className="checkout-etiqueta">HUERTOHOGAR</p>
+            <h1>Finalizar compra</h1>
+          </header>
+
+          <div className="checkout-vacio" role="status">
+            <h2>Inicia sesión para pagar</h2>
+            <p>Necesitas una cuenta para completar tu compra. Tu carrito se mantiene.</p>
+
+            <Link to="/iniciar-sesion" className="checkout-boton-principal">
+              Iniciar sesión
+            </Link>
+
+            <p className="mt-3">
+              ¿No tienes cuenta? <Link to="/registro">Regístrate aquí</Link>
+            </p>
           </div>
         </div>
       </main>
@@ -373,9 +417,16 @@ export default function Checkout() {
                   : formatearPrecio(totales.envio)}
               </p>
 
+              {errorCompra && (
+                <div className="alert alert-danger" role="alert">
+                  {errorCompra}
+                </div>
+              )}
+
               <button
                 type="submit"
                 className="checkout-boton-principal"
+                disabled={enviando}
               >
                 Pagar ahora {formatearPrecio(totales.total)}
               </button>
