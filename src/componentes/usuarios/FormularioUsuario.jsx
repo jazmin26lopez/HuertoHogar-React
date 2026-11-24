@@ -94,7 +94,11 @@ export default function FormularioUsuario({
         error={errores.run}
         placeholder="Ej: 12345678-5"
         disabled={editando}
-        ayuda={editando ? 'El RUN identifica al usuario y no se puede cambiar.' : ''}
+        ayuda={
+          editando
+            ? 'El RUN identifica al usuario y no se puede cambiar.'
+            : 'Con su dígito verificador, que debe corresponder al número (por ejemplo 3.333.333-1).'
+        }
         maxLength={12}
       />
 

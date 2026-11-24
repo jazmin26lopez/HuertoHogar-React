@@ -24,7 +24,9 @@ describe('Pruebas unitarias - HuertoHogar', () => {
   it('Rechaza un RUN incorrecto', () => {
     const resultado = validarRun('12.345.678-0')
 
-    expect(resultado).toBe('El RUN ingresado no es válido.')
+    expect(resultado).toBe(
+      'El dígito verificador (0) no corresponde al número ingresado. Revisa que esté bien escrito.'
+    )
   })
 
   // PRUEBA 2

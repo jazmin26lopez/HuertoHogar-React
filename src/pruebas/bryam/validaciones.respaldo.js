@@ -50,8 +50,8 @@ describe('RUN', () => {
   it('rechaza RUN vacío, corto o con dígito verificador incorrecto', () => {
     expect(validarRun('')).toMatch(/Ingresa/)
     expect(validarRun('123')).toMatch(/entre 7 y 8/)
-    expect(validarRun('12345678-9')).toMatch(/no es válido/)
-    expect(validarRun('K2345678K')).toMatch(/no es válido/)
+    expect(validarRun('12345678-9')).toMatch(/dígito verificador/)
+    expect(validarRun('K2345678K')).toMatch(/solo puede tener números/)
   })
 })
 
