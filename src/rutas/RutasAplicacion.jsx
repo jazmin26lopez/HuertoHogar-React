@@ -41,6 +41,8 @@ import Blogs from '../paginas/institucional/Blogs'
 import DetalleBlog from '../paginas/institucional/DetalleBlog'
 import Contacto from '../paginas/institucional/Contacto'
 
+import AdministrarCategorias from '../paginas/administracion-categorias/AdministrarCategorias'
+
 export default function RutasAplicacion() {
   return (
     <Routes>
@@ -58,6 +60,14 @@ export default function RutasAplicacion() {
         element={
           <RutaAdministrador>
             <Dashboard />
+          </RutaAdministrador>
+        }
+      />
+      <Route
+        path="/admin/categorias"
+        element={
+          <RutaAdministrador>
+            <AdministrarCategorias />
           </RutaAdministrador>
         }
       />

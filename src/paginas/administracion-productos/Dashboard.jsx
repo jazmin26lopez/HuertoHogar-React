@@ -83,6 +83,13 @@ export default function Dashboard() {
       disponible: true
     },
     {
+      titulo: 'Categorías',
+      descripcion: 'Administrar categorías del catálogo',
+      icono: '🏷️',
+      ruta: '/admin/categorias',
+      disponible: true
+    },
+    {
       titulo: 'Reportes',
       descripcion: 'Consultar existencias',
       icono: '📊',
@@ -103,6 +110,7 @@ export default function Dashboard() {
       ruta: '/admin/pedidos',
       disponible: true
     }
+    
   ]
 
   return (
