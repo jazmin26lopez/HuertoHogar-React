@@ -42,7 +42,7 @@ export default function MenuSesion({ alNavegar }) {
   return (
     <>
       {/* Cada rol ve solo su acceso: el Cliente no ve ninguno */}
-      {usuario.rol === 'Administrador' && enlace('/admin/usuarios', 'Administración')}
+      {usuario.rol === 'Administrador' && enlace('/admin', 'Administración')}
       {usuario.rol === 'Vendedor' && enlace('/admin/productos', 'Productos')}
       {(usuario.rol === 'Administrador' || usuario.rol === 'Vendedor') && enlace('/admin/pedidos', 'Órdenes')}
 

@@ -46,7 +46,7 @@ export default function DetallePedido() {
   }
 
   const volver = (
-    <Link to="/admin/pedidos" className="editor-usuario-volver">
+    <Link to="/admin/pedidos" className="btn btn-outline-success btn-sm">
       ← Volver a las órdenes
     </Link>
   )

@@ -98,7 +98,7 @@ export default function Dashboard() {
     },
     {
       titulo: 'Usuarios',
-      descripcion: 'Módulo de Bryam',
+      descripcion: 'Administrar usuarios y sus roles',
       icono: '👥',
       ruta: '/admin/usuarios',
       disponible: true
