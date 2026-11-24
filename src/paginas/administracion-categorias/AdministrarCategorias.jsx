@@ -38,8 +38,24 @@ export default function AdministrarCategorias() {
     }
   }
 
+  // Carga inicial: "cargando" ya empieza en true, así que no hace falta cambiar el estado aquí
   useEffect(() => {
-    cargar()
+    let activo = true
+
+    listarCategorias()
+      .then((datos) => {
+        if (activo) setCategorias(datos)
+      })
+      .catch((err) => {
+        if (activo) setError(err.message)
+      })
+      .finally(() => {
+        if (activo) setCargando(false)
+      })
+
+    return () => {
+      activo = false
+    }
   }, [])
 
   function cambiarCampo(evento) {
