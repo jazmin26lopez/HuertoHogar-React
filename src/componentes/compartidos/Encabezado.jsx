@@ -4,12 +4,18 @@ import { Link, useLocation } from 'react-router-dom'
 
 import EnlaceCarrito from '../compras/EnlaceCarrito'
 import MenuSesion from '../usuarios/MenuSesion'
+import useSesion from '../../contextos/useSesion'
+import { esVendedor } from '../../funciones/roles'
 
 export default function Encabezado() {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const ubicacion = useLocation()
+  const { usuario } = useSesion()
 
-  const enlaces = [
+  // El Vendedor solo ve productos y órdenes (su menú lo arma MenuSesion): sin enlaces de tienda ni carrito
+  const vendedor = esVendedor(usuario)
+
+  const enlacesTienda = [
     { ruta: '/', texto: 'Inicio' },
     { ruta: '/productos', texto: 'Productos' },
     { ruta: '/categorias', texto: 'Categorías' },
@@ -19,6 +25,8 @@ export default function Encabezado() {
     { ruta: '/contacto', texto: 'Contacto' }
   ]
 
+  const enlaces = vendedor ? [] : enlacesTienda
+
   return (
     <header
       className="navbar navbar-expand-lg navbar-dark"
@@ -27,7 +35,7 @@ export default function Encabezado() {
       <div className="container-fluid px-3 px-lg-4">
         <Link
           className="navbar-brand fw-bold"
-          to="/"
+          to={vendedor ? '/admin/productos' : '/'}
           onClick={() => setMenuAbierto(false)}
         >
           🥑 HuertoHogar
@@ -65,7 +73,7 @@ export default function Encabezado() {
               </li>
             ))}
 
-            <EnlaceCarrito alNavegar={() => setMenuAbierto(false)} />
+            {!vendedor && <EnlaceCarrito alNavegar={() => setMenuAbierto(false)} />}
             <MenuSesion alNavegar={() => setMenuAbierto(false)} />
           </ul>
         </nav>
