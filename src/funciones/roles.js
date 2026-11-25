@@ -27,6 +27,11 @@ export function esPersonalInterno(usuario) {
   return usuario?.rol === ROL_ADMINISTRADOR || usuario?.rol === ROL_VENDEDOR
 }
 
+// El Vendedor solo ve productos y órdenes: no ve la tienda ni el carrito
+export function esVendedor(usuario) {
+  return usuario?.rol === ROL_VENDEDOR
+}
+
 export function esAdministrador(usuario) {
   return usuario?.rol === ROL_ADMINISTRADOR
 }

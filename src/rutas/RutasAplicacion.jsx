@@ -1,5 +1,5 @@
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useParams } from 'react-router-dom'
 
 // Componente compartido
 import PaginaPendiente from '../componentes/compartidos/PaginaPendiente'
@@ -31,6 +31,8 @@ import AdministrarUsuarios from '../paginas/administracion-usuarios/AdministrarU
 import EditorUsuario from '../paginas/administracion-usuarios/EditorUsuario'
 import RutaAdministrador from '../componentes/usuarios/RutaAdministrador'
 import RutaProtegida from '../componentes/usuarios/RutaProtegida'
+import RutaTienda from '../componentes/usuarios/RutaTienda'
+import DetalleProductoPanel from '../paginas/administracion-productos/DetalleProductoPanel'
 import AdministrarPedidos from '../paginas/administracion-pedidos/AdministrarPedidos'
 import DetallePedido from '../paginas/administracion-pedidos/DetallePedido'
 import { ROL_ADMINISTRADOR, ROL_VENDEDOR } from '../funciones/roles'
@@ -43,16 +45,30 @@ import Contacto from '../paginas/institucional/Contacto'
 
 import AdministrarCategorias from '../paginas/administracion-categorias/AdministrarCategorias'
 
+// Páginas de la tienda: el Vendedor no las ve (lo llevamos a su panel de productos)
+const tienda = (pagina) => <RutaTienda>{pagina}</RutaTienda>
+
+// El detalle de producto de la tienda tiene botón de compra: el Vendedor va al detalle de solo consulta del panel
+function DetalleTienda() {
+  const { id } = useParams()
+
+  return (
+    <RutaTienda destinoVendedor={`/admin/productos/${id}`}>
+      <DetalleProducto />
+    </RutaTienda>
+  )
+}
+
 export default function RutasAplicacion() {
   return (
     <Routes>
       {/* INICIO */}
-      <Route path="/" element={<Inicio />} />
+      <Route path="/" element={tienda(<Inicio />)} />
 
       {/* TIENDA */}
-      <Route path="/productos" element={<Productos />} />
-      <Route path="/productos/:id" element={<DetalleProducto />} />
-      <Route path="/categorias" element={<Categorias />} />
+      <Route path="/productos" element={tienda(<Productos />)} />
+      <Route path="/productos/:id" element={<DetalleTienda />} />
+      <Route path="/categorias" element={tienda(<Categorias />)} />
 
       {/* ADMINISTRACIÓN (solo administradores) */}
       <Route
@@ -82,6 +98,16 @@ export default function RutasAplicacion() {
         }
       />
 
+      {/* Detalle de producto de solo consulta (Administrador y Vendedor) */}
+      <Route
+        path="/admin/productos/:id"
+        element={
+          <RutaProtegida roles={[ROL_ADMINISTRADOR, ROL_VENDEDOR]}>
+            <DetalleProductoPanel />
+          </RutaProtegida>
+        }
+      />
+
       <Route
         path="/admin/reportes"
         element={
@@ -93,18 +119,18 @@ export default function RutasAplicacion() {
 
       {/* COMPRAS - BRYAM */}
 
-      <Route path="/carrito" element={<Carrito />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/compra-exitosa" element={<CompraExitosa />} />
-      <Route path="/compra-fallida" element={<CompraFallida />} />
-      <Route path="/ofertas" element={<Ofertas />} />
+      <Route path="/carrito" element={tienda(<Carrito />)} />
+      <Route path="/checkout" element={tienda(<Checkout />)} />
+      <Route path="/compra-exitosa" element={tienda(<CompraExitosa />)} />
+      <Route path="/compra-fallida" element={tienda(<CompraFallida />)} />
+      <Route path="/ofertas" element={tienda(<Ofertas />)} />
 
       {/* PÁGINAS INFORMATIVAS - BRYAM */}
 
-      <Route path="/nosotros" element={<Nosotros />} />
-      <Route path="/blogs" element={<Blogs />} />
-      <Route path="/blogs/:id" element={<DetalleBlog />} />
-      <Route path="/contacto" element={<Contacto />} />
+      <Route path="/nosotros" element={tienda(<Nosotros />)} />
+      <Route path="/blogs" element={tienda(<Blogs />)} />
+      <Route path="/blogs/:id" element={tienda(<DetalleBlog />)} />
+      <Route path="/contacto" element={tienda(<Contacto />)} />
 
       {/* USUARIOS Y SESIÓN - BRYAM */}
 

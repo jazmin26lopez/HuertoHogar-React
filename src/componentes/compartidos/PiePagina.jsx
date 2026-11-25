@@ -2,13 +2,17 @@
 import { Link } from 'react-router-dom'
 import { DATOS_CONTACTO } from '../../datos/contacto'
 import useSesion from '../../contextos/useSesion'
+import { esVendedor } from '../../funciones/roles'
 
 export default function PiePagina() {
   const { usuario } = useSesion()
 
+  // El Vendedor solo ve productos y órdenes: el pie no le ofrece enlaces a otras páginas
+  const vendedor = esVendedor(usuario)
+
   return (
     <footer>
-      <div className="footer-contenido">
+      <div className={`footer-contenido ${vendedor ? 'footer-contenido-reducido' : ''}`}>
         <div className="footer-marca">
           <h2>🌱 HuertoHogar</h2>
           <p>
@@ -17,13 +21,15 @@ export default function PiePagina() {
           </p>
         </div>
 
-        <div className="footer-seccion">
-          <h3>Enlaces</h3>
-          <Link to="/">Inicio</Link>
-          <Link to="/productos">Productos</Link>
-          <Link to="/nosotros">Nosotros</Link>
-          <Link to="/blogs">Blogs</Link>
-        </div>
+        {!vendedor && (
+          <div className="footer-seccion">
+            <h3>Enlaces</h3>
+            <Link to="/">Inicio</Link>
+            <Link to="/productos">Productos</Link>
+            <Link to="/nosotros">Nosotros</Link>
+            <Link to="/blogs">Blogs</Link>
+          </div>
+        )}
 
         <div className="footer-seccion">
           <h3>Contacto</h3>
@@ -44,18 +50,20 @@ export default function PiePagina() {
           </a>
         </div>
 
-        <div className="footer-seccion">
-          <h3>Mi cuenta y ayuda</h3>
-          <Link to="/contacto">Contacto</Link>
+        {!vendedor && (
+          <div className="footer-seccion">
+            <h3>Mi cuenta y ayuda</h3>
+            <Link to="/contacto">Contacto</Link>
 
-          {/* Con la sesión iniciada no tiene sentido ofrecer iniciar sesión ni registrarse */}
-          {!usuario && (
-            <>
-              <Link to="/iniciar-sesion">Iniciar sesión</Link>
-              <Link to="/registro">Registrarse</Link>
-            </>
-          )}
-        </div>
+            {/* Con la sesión iniciada no tiene sentido ofrecer iniciar sesión ni registrarse */}
+            {!usuario && (
+              <>
+                <Link to="/iniciar-sesion">Iniciar sesión</Link>
+                <Link to="/registro">Registrarse</Link>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="footer-inferior">

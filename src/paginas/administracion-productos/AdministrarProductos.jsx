@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import useSesion from '../../contextos/useSesion'
 import { esAdministrador } from '../../funciones/roles'
@@ -543,6 +544,7 @@ export default function AdministrarProductos() {
                   <th scope="col">Precio</th>
                   <th scope="col">Stock</th>
                   <th scope="col">Estado</th>
+                  <th scope="col">Detalle</th>
                   {puedeEditar && <th scope="col">Acciones</th>}
                 </tr>
               </thead>
@@ -587,6 +589,15 @@ export default function AdministrarProductos() {
                         >
                           {estado.nombre}
                         </span>
+                      </td>
+
+                      <td>
+                        <Link
+                          to={`/admin/productos/${producto.id}`}
+                          className="admin-productos-boton-editar"
+                        >
+                          Ver
+                        </Link>
                       </td>
 
                       {puedeEditar && (

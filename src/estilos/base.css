@@ -4502,3 +4502,14 @@ footer .footer-inferior p {
     font-size: 30px;
   }
 }
+
+/* Pie de página con solo 2 secciones (lo ve el Vendedor): usa 2 columnas en vez de 4 */
+footer .footer-contenido.footer-contenido-reducido {
+  grid-template-columns: 1.5fr 1.4fr;
+}
+
+@media (max-width: 768px) {
+  footer .footer-contenido.footer-contenido-reducido {
+    grid-template-columns: 1fr;
+  }
+}
